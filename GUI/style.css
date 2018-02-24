@@ -1,0 +1,33 @@
+html, body {
+	height: 100%;
+	background-color: lightgray;
+}
+html {
+	background-color:lightgray;
+}
+
+.container-fluid {
+	height: 100%;
+	width: 100%;
+	padding-left: 0px !important;
+	padding-right: 0px !important;
+}
+
+.row {
+	height: 100%;
+}
+.col-lg-2 {
+	background-color: lightgray;
+	border: black solid 1px;
+}
+
+.col-lg-10 {
+	border: black solid 1px;
+}
+
+#mapid {
+	height: 100%;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+}
