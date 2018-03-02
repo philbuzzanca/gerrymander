@@ -192,10 +192,13 @@
 
 
 						function getColor(d) {
-							return 	d % 3 == 2 ? '#FF0000' :
-									d % 3 == 1 ? '#00FF00' :
-									d % 3 == 0 ? '#0000FF' :
-									            '#FFFFFF'
+							return 	d % 7 == 6 ? '#00FFFF' :
+									d % 7 == 5 ? '#660066' :
+									d % 7 == 4 ? '#FF66FF' :
+									d % 7 == 3 ? '#FFFF66' :
+									d % 7 == 2 ? '#FF0000' :
+									d % 7 == 1 ? '#00FF00' :
+									d % 7 == 0 ? '#0000FF' : '#FFFFFF'
 						}
 						//Colors precinct map based on county
 						function precinctStyle(feature) {
