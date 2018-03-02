@@ -1,9 +1,16 @@
-html, body {
+body {
 	height: 100%;
 	background-color: lightgray;
+	font-family: 'Lato', sans-serif !important;
 }
 html {
-	background-color:lightgray;
+	height: 100%;
+}
+
+.navbar{
+	background-color: #f8f8f8;
+	border-color: #e7e7e7;
+	border: 1px solid;
 }
 
 .container-fluid {
@@ -11,6 +18,32 @@ html {
 	width: 100%;
 	padding-left: 0px !important;
 	padding-right: 0px !important;
+}
+
+.sidebar {
+	height: 100%;
+	padding: 12px;
+}
+
+.form-group {
+	margin: auto;
+}
+
+#registerBox {
+	border-right: 1px solid lightgray;
+	padding-right: 30px;
+}
+
+#loginBox {
+	text-align: right;
+}
+
+#loginBox > h2 {
+	padding-bottom: 20px;
+}
+
+#registerBox > h2 {
+	padding-bottom: 20px;
 }
 
 .row {
