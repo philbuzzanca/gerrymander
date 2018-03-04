@@ -237,7 +237,10 @@
 							onEachFeature: onEachFeature,
 							style : precinctStyle
 						}).addTo(mymap);
-
+					</script>
+					<script>
+					// Prevent buttons from submitting forms for now.
+					$("[type=submit]").click((e) => e.preventDefault());
 					</script>
 				</div>
 			</div>
