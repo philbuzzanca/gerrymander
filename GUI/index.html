@@ -24,6 +24,7 @@
 	<!--Bootstrap-->
 	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js" integrity="sha384-feJI7QwhOS+hwpX2zkaeJQjeiwlhOP+SdQDqhgvvo1DsjtiSQByFdThsxO669S2D" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.0.0/bootstrap-slider.js"></script>
 
 	<!--State data-->
 	<script src="../Virginia/vaprecincts2013.js"></script>
@@ -173,26 +174,98 @@
 							<div class="form-check">
 								<input class="form-check-input" type="checkbox" id="compactnessCheck">
 								<label class="form-check-label" for="compactnessCheck">Compactness</label>
+								<div class="slidecontainer">
+									<input type="range" min="1" max="10" value="1" class="slider" id="compactnessSlider">
+									<span id="compactOut"></span>
+									<script>
+										var compactSlider = document.getElementById("compactnessSlider");
+										var compactOut = document.getElementById("compactOut");
+										compactOut.innerHTML = compactSlider.value;
+										compactSlider.oninput = function() {
+											compactOut.innerHTML = this.value;
+										}
+									</script>
+								</div>
 							</div>
 							<div class="form-check">
 								<input class="form-check-input" type="checkbox" id="contiguityCheck">
 								<label class="form-check-label" for="contiguityCheck">Contiguity</label>
+								<div class="slidecontainer">
+									<input type="range" min="1" max="10" value="1" class="slider" id="contiguitySlider">
+									<span id="contiguityOut"></span>
+									<script>
+										var contigSlider = document.getElementById("contiguitySlider");
+										var contiguityOut = document.getElementById("contiguityOut");
+										contiguityOut.innerHTML = contigSlider.value;
+										contigSlider.oninput = function() {
+											contiguityOut.innerHTML = this.value;
+										}
+									</script>
+								</div>
 							</div>							
 							<div class="form-check">
 								<input class="form-check-input" type="checkbox" id="equalPopulationCheck">
 								<label class="form-check-label" for="equalPopulationCheck">Equal population</label>
+								<div class="slidecontainer">
+									<input type="range" min="1" max="10" value="1" class="slider" id="equalPopSlider">
+									<span id="equalOut"></span>
+									<script>
+										var equalSlider = document.getElementById("equalPopSlider");
+										var equalOut = document.getElementById("equalOut");
+										equalOut.innerHTML = equalSlider.value;
+										equalSlider.oninput = function() {
+											equalOut.innerHTML = this.value;
+										}
+									</script>
+								</div>
 							</div>
 							<div class="form-check">
 								<input class="form-check-input" type="checkbox" id="partisanFairnessCheck">
 								<label class="form-check-label" for="partisanFairnessCheck">Partisan fairness</label>
+								<div class="slidecontainer">
+									<input type="range" min="1" max="10" value="1" class="slider" id="partisanSlider">
+									<span id="partisanOut"></span>
+									<script>
+										var partisanSlider = document.getElementById("partisanSlider");
+										var partisanOut = document.getElementById("partisanOut");
+										partisanOut.innerHTML = partisanSlider.value;
+										partisanSlider.oninput = function() {
+											partisanOut.innerHTML = this.value;
+										}
+									</script>
+								</div>
 							</div>
 							<div class="form-check">
 								<input class="form-check-input" type="checkbox" id="racialFairnessCheck">
 								<label class="form-check-label" for="racialFairnessCheck">Racial fairness</label>
+								<div class="slidecontainer">
+									<input type="range" min="1" max="10" value="1" class="slider" id="racialSlider">
+									<span id="racialOut"></span>
+									<script>
+										var racialSlider = document.getElementById("racialSlider");
+										var racialOut = document.getElementById("racialOut");
+										racialOut.innerHTML = racialSlider.value;
+										racialSlider.oninput = function() {
+											racialOut.innerHTML = this.value;
+										}
+									</script>
+								</div>
 							</div>
 							<div class="form-check">
 								<input class="form-check-input" type="checkbox" id="preserveExistingCommunitiesCheck">
 								<label class="form-check-label" for="preserveExistingCommunitiesCheck">Preserve existing communities</label>
+								<div class="slidecontainer">
+									<input type="range" min="1" max="10" value="1" class="slider" id="preserveSlider">
+									<span id="preserveOut"></span>
+									<script>
+										var preserveSlider = document.getElementById("preserveSlider");
+										var preserveOut = document.getElementById("preserveOut");
+										preserveOut.innerHTML = preserveSlider.value;
+										preserveSlider.oninput = function() {
+											preserveOut.innerHTML = this.value;
+										}
+									</script>
+								</div>
 							</div>
 						</div>
 						<button type="submit" class="btn btn-primary" style="width:100%">Build</button>
@@ -218,12 +291,12 @@
 
 						function getColor(d) {
 							return 	d % 7 == 6 ? '#00FFFF' :
-									d % 7 == 5 ? '#660066' :
-									d % 7 == 4 ? '#FF66FF' :
-									d % 7 == 3 ? '#FFFF66' :
-									d % 7 == 2 ? '#FF0000' :
-									d % 7 == 1 ? '#00FF00' :
-									d % 7 == 0 ? '#0000FF' : '#FFFFFF'
+							d % 7 == 5 ? '#660066' :
+							d % 7 == 4 ? '#FF66FF' :
+							d % 7 == 3 ? '#FFFF66' :
+							d % 7 == 2 ? '#FF0000' :
+							d % 7 == 1 ? '#00FF00' :
+							d % 7 == 0 ? '#0000FF' : '#FFFFFF'
 						}
 						//Colors precinct map based on county
 						function precinctStyle(feature) {
@@ -241,10 +314,10 @@
 					<script>
 					// Prevent buttons from submitting forms for now.
 					$("[type=submit]").click((e) => e.preventDefault());
-					</script>
-				</div>
+				</script>
 			</div>
 		</div>
 	</div>
+</div>
 </body>
 </html>
