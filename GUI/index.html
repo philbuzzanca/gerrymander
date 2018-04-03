@@ -148,8 +148,8 @@
 					<form>
 						<div class="form-group">
 							<h4 for="stateSelect">Target state</h4>
-							<select id="stateSelect" class="form-control">
-								<option value="mn">Virginia</option>
+							<select id="stateSelect" class="form-control" onchange="mapFocus(this.value)">
+								<option value="va">Virginia</option>
 								<option value="nm">New Mexico</option>
 								<option value="ut">Utah</option>
 							</select>
@@ -288,6 +288,17 @@
 							}
 						}
 
+						function mapFocus(state) {
+							if(state=="nm"){
+								mymap.setView(new L.LatLng(34, -105.87), 7);
+							}
+							else if(state=="va"){
+								mymap.setView(new L.LatLng(37.7, -79.5), 8);
+							}
+							else if(state=="ut"){
+								mymap.setView(new L.LatLng(39.3, -111.1), 7);
+							}
+						}
 
 						function getColor(d) {
 							return 	d % 7 == 6 ? '#00FFFF' :
