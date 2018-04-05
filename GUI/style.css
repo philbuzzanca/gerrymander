@@ -10,11 +10,17 @@ html {
 .slider {
     -webkit-appearance: none;
     height: 6px;
+    width: 90%;
     background: gray !important;
     outline: none;
     opacity: 0.7;
     -webkit-transition: .2s;
     transition: opacity .2s;
+}
+
+.measuresOut {
+	float: right;
+	margin-right: 33%;
 }
 
 

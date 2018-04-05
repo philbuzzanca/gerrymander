@@ -172,100 +172,75 @@
 						<div class="form-group">
 							<h4>Constraints</h4>
 							<div class="form-check">
-								<input class="form-check-input" type="checkbox" id="compactnessCheck">
-								<label class="form-check-label" for="compactnessCheck">Compactness</label>
-								<div class="slidecontainer">
-									<input type="range" min="1" max="10" value="1" class="slider" id="compactnessSlider">
-									<span id="compactOut"></span>
-									<script>
-										var compactSlider = document.getElementById("compactnessSlider");
-										var compactOut = document.getElementById("compactOut");
-										compactOut.innerHTML = compactSlider.value;
-										compactSlider.oninput = function() {
-											compactOut.innerHTML = this.value;
-										}
-									</script>
-								</div>
-							</div>
-							<div class="form-check">
-								<input class="form-check-input" type="checkbox" id="contiguityCheck">
-								<label class="form-check-label" for="contiguityCheck">Contiguity</label>
-								<div class="slidecontainer">
-									<input type="range" min="1" max="10" value="1" class="slider" id="contiguitySlider">
-									<span id="contiguityOut"></span>
-									<script>
-										var contigSlider = document.getElementById("contiguitySlider");
-										var contiguityOut = document.getElementById("contiguityOut");
-										contiguityOut.innerHTML = contigSlider.value;
-										contigSlider.oninput = function() {
-											contiguityOut.innerHTML = this.value;
-										}
-									</script>
-								</div>
-							</div>							
-							<div class="form-check">
-								<input class="form-check-input" type="checkbox" id="equalPopulationCheck">
-								<label class="form-check-label" for="equalPopulationCheck">Equal population</label>
-								<div class="slidecontainer">
-									<input type="range" min="1" max="10" value="1" class="slider" id="equalPopSlider">
-									<span id="equalOut"></span>
-									<script>
-										var equalSlider = document.getElementById("equalPopSlider");
-										var equalOut = document.getElementById("equalOut");
-										equalOut.innerHTML = equalSlider.value;
-										equalSlider.oninput = function() {
-											equalOut.innerHTML = this.value;
-										}
-									</script>
-								</div>
-							</div>
-							<div class="form-check">
-								<input class="form-check-input" type="checkbox" id="partisanFairnessCheck">
-								<label class="form-check-label" for="partisanFairnessCheck">Partisan fairness</label>
-								<div class="slidecontainer">
-									<input type="range" min="1" max="10" value="1" class="slider" id="partisanSlider">
-									<span id="partisanOut"></span>
-									<script>
-										var partisanSlider = document.getElementById("partisanSlider");
-										var partisanOut = document.getElementById("partisanOut");
-										partisanOut.innerHTML = partisanSlider.value;
-										partisanSlider.oninput = function() {
-											partisanOut.innerHTML = this.value;
-										}
-									</script>
-								</div>
-							</div>
-							<div class="form-check">
-								<input class="form-check-input" type="checkbox" id="racialFairnessCheck">
-								<label class="form-check-label" for="racialFairnessCheck">Racial fairness</label>
-								<div class="slidecontainer">
-									<input type="range" min="1" max="10" value="1" class="slider" id="racialSlider">
-									<span id="racialOut"></span>
-									<script>
-										var racialSlider = document.getElementById("racialSlider");
-										var racialOut = document.getElementById("racialOut");
-										racialOut.innerHTML = racialSlider.value;
-										racialSlider.oninput = function() {
-											racialOut.innerHTML = this.value;
-										}
-									</script>
-								</div>
-							</div>
-							<div class="form-check">
 								<input class="form-check-input" type="checkbox" id="preserveExistingCommunitiesCheck">
 								<label class="form-check-label" for="preserveExistingCommunitiesCheck">Preserve existing communities</label>
-								<div class="slidecontainer">
-									<input type="range" min="1" max="10" value="1" class="slider" id="preserveSlider">
-									<span id="preserveOut"></span>
-									<script>
-										var preserveSlider = document.getElementById("preserveSlider");
-										var preserveOut = document.getElementById("preserveOut");
-										preserveOut.innerHTML = preserveSlider.value;
-										preserveSlider.oninput = function() {
-											preserveOut.innerHTML = this.value;
-										}
-									</script>
-								</div>
+							</div>
+							<h4>Measures</h4>
+							<label class="form-check-label" for="compactnessCheck">Compactness</label>
+							<span id="compactOut" class="measuresOut"></span>
+							<div class="slidecontainer">
+								<input type="range" min="0" max="100" value="0" class="slider" id="compactnessSlider">
+								<script>
+									var compactSlider = document.getElementById("compactnessSlider");
+									var compactOut = document.getElementById("compactOut");
+									compactOut.innerHTML = compactSlider.value;
+									compactSlider.oninput = function() {
+										compactOut.innerHTML = this.value;
+									}
+								</script>
+							</div>
+							<label class="form-check-label" for="contiguityCheck">Contiguity</label>
+							<span id="contiguityOut" class="measuresOut"></span>
+							<div class="slidecontainer">
+								<input type="range" min="0" max="100" value="0" class="slider" id="contiguitySlider">
+								<script>
+									var contigSlider = document.getElementById("contiguitySlider");
+									var contiguityOut = document.getElementById("contiguityOut");
+									contiguityOut.innerHTML = contigSlider.value;
+									contigSlider.oninput = function() {
+										contiguityOut.innerHTML = this.value;
+									}
+								</script>
+							</div>
+							<label class="form-check-label" for="equalPopulationCheck">Equal population</label>
+							<span id="equalOut" class="measuresOut"></span>
+							<div class="slidecontainer">
+								<input type="range" min="0" max="100" value="0" class="slider" id="equalPopSlider">
+								<script>
+									var equalSlider = document.getElementById("equalPopSlider");
+									var equalOut = document.getElementById("equalOut");
+									equalOut.innerHTML = equalSlider.value;
+									equalSlider.oninput = function() {
+										equalOut.innerHTML = this.value;
+									}
+								</script>
+							</div>
+							<label class="form-check-label" for="partisanFairnessCheck">Partisan fairness</label>
+							<span id="partisanOut" class="measuresOut"></span>
+							<div class="slidecontainer">
+								<input type="range" min="0" max="100" value="0" class="slider" id="partisanSlider">
+								<script>
+									var partisanSlider = document.getElementById("partisanSlider");
+									var partisanOut = document.getElementById("partisanOut");
+									partisanOut.innerHTML = partisanSlider.value;
+									partisanSlider.oninput = function() {
+										partisanOut.innerHTML = this.value;
+									}
+								</script>
+							</div>
+							<label class="form-check-label" for="racialFairnessCheck">Racial fairness</label>
+							<span id="racialOut" class="measuresOut"></span>
+							<div class="slidecontainer">
+								<input type="range" min="0" max="100" value="0" class="slider" id="racialSlider">
+								<span id="racialOut"></span>
+								<script>
+									var racialSlider = document.getElementById("racialSlider");
+									var racialOut = document.getElementById("racialOut");
+									racialOut.innerHTML = racialSlider.value;
+									racialSlider.oninput = function() {
+										racialOut.innerHTML = this.value;
+									}
+								</script>
 							</div>
 						</div>
 						<button type="submit" class="btn btn-primary" style="width:100%">Build</button>
