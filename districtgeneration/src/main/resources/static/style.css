@@ -1,0 +1,103 @@
+body {
+	height: 100%;
+	background-color: lightgray;
+	font-family: 'Lato', sans-serif !important;
+}
+html {
+	height: 100%;
+}
+
+.slider {
+    -webkit-appearance: none;
+    height: 6px;
+    width: 90%;
+    background: gray !important;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+}
+
+.measuresOut {
+	float: right;
+	margin-right: 33%;
+}
+
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    background: blue;
+    cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    background: blue;
+    cursor: pointer;
+}
+
+
+
+.navbar{
+	background-color: #f8f8f8;
+	border-color: #e7e7e7;
+	border: 1px solid;
+}
+
+.container-fluid {
+	height: 100%;
+	width: 100%;
+	padding-left: 0px !important;
+	padding-right: 0px !important;
+}
+
+.sidebar {
+	height: 100%;
+	padding: 12px;
+}
+
+.form-group {
+	margin: auto;
+}
+
+#registerBox {
+	border-right: 1px solid lightgray;
+	padding-right: 30px;
+}
+
+#loginBox {
+	text-align: right;
+}
+
+#loginBox > h2 {
+	padding-bottom: 20px;
+}
+
+#registerBox > h2 {
+	padding-bottom: 20px;
+}
+
+.row {
+	height: 100%;
+}
+.col-lg-2 {
+	background-color: lightgray;
+	border: black solid 1px;
+}
+
+.col-lg-10 {
+	border: black solid 1px;
+}
+
+#mapid {
+	height: 100%;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+}
