@@ -1,3 +1,4 @@
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -45,8 +46,8 @@
 			</ul>
 			<ul class="navbar-nav ml-auto">
 				<li class="nav-item">
-					<a class="nav-link" href="" data-toggle="modal" data-target="#registerLoginModal">Register/Login <i class="fas fa-sign-in-alt"></i></a>
-				</li>
+                                    <a class="nav-link" href="" data-toggle="modal" data-target="#registerLoginModal">Register/Login <i class="fas fa-sign-in-alt"></i></a>
+                                </li>
 			</ul>
 		</div>
 	</nav>
@@ -62,7 +63,7 @@
 					</button>
 				</div>
 				<div class="modal-body">
-					<p>"A Gerrymander is a voting district that is designed to serve some political purpose. The name refers to both a salamander and Eldridge Gerry, whose newly created voting district about 200 years ago was said to resemble a salamander. Within the past 10 years, databases for voter characterization as well as tools for precise map drawing have made it possible to create congressional districts that favor the party responsible for the creation of the districts. Redistricting is done in states where census data requires a change in the number of delegates in the state, and the 2010 census triggered redistricting in a number of states. Many of these redistricting efforts resulted in a shift in the political representation in the states. As the realization of the impact of these changes has grown, various technical approaches to the issue have been proposed, some as quantitative measures of the presence of Gerrymandering, others as legal challenges to redistricting, and yet others as draft bills in Congress to minimize the effect of future redistricting. The system to be developed in this project will allow for the generation of congressional district boundaries without any political influence."</p>
+                                    ${aboutText}
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -82,17 +83,15 @@
 					</button>
 				</div>
 				<div class="modal-body">
-					<p>To begin using this tool, select a state either by clicking on the state on the map or by selecting it from the dropdown menu.</p>
-					<p>Once a state has been selected, specify any constraints that the district generation should adhere to by toggling the checkboxes on the sidebar. After selecting the constraints, you can generate congressional districts by clicking on the <strong>Build</strong> button.</p>
-
+					${helpText}
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 				</div>
 			</div>
 		</div>
-	</div>
-
+    	</div>
+        
 	<!-- registerLoginModal -->
 	<div class="modal fade" id="registerLoginModal" tabindex="-1" role="dialog">
 		<div class="modal-dialog modal-lg" role="document">
@@ -250,58 +249,7 @@
 			</div>
 			<div class="col-sm-10 col-lg-10">
 				<div id="mapid">
-					<script>
-						var mymap = L.map('mapid').setView([37.7, -79.5], 8);
-
-						L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoicGhpbGJ1enphbmNhIiwiYSI6ImNqZTB1eGIzYzY0YWsyeHFoaDRwamlxcXoifQ.EzbAaOMVsKV5_OIks8_67w',
-						{
-							id: 'mapbox.light'
-						}).addTo(mymap);
-
-						function onEachFeature(feature, layer) {
-							if (feature.properties && feature.properties.PRECINCT && feature.properties.COUNTY && feature.properties.NAME ) {
-								layer.bindPopup("Precinct: " + feature.properties.PRECINCT + "<br></br>County: " + feature.properties.COUNTY + "<br></br>Name: " + feature.properties.NAME);
-							}
-						}
-
-						function mapFocus(state) {
-							if(state=="nm"){
-								mymap.setView(new L.LatLng(34, -105.87), 7);
-							}
-							else if(state=="va"){
-								mymap.setView(new L.LatLng(37.7, -79.5), 8);
-							}
-							else if(state=="ut"){
-								mymap.setView(new L.LatLng(39.3, -111.1), 7);
-							}
-						}
-
-						function getColor(d) {
-							return 	d % 7 == 6 ? '#00FFFF' :
-							d % 7 == 5 ? '#660066' :
-							d % 7 == 4 ? '#FF66FF' :
-							d % 7 == 3 ? '#FFFF66' :
-							d % 7 == 2 ? '#FF0000' :
-							d % 7 == 1 ? '#00FF00' :
-							d % 7 == 0 ? '#0000FF' : '#FFFFFF'
-						}
-						//Colors precinct map based on county
-						function precinctStyle(feature) {
-							return {
-								fillColor : getColor(feature.properties.COUNTY || feature.properties.uscong_dis),
-								weight : 0.4
-							};
-						}
-
-						L.geoJSON(vaGeoData, {
-							onEachFeature: onEachFeature,
-							style : precinctStyle
-						}).addTo(mymap);
-                        L.geoJSON(nm, {
-                            onEachFeature: onEachFeature,
-                            style : precinctStyle
-                        }).addTo(mymap);
-					</script>
+					<script src="script.js"></script>
 					<script>
 					// Prevent buttons from submitting forms for now.
 					$("[type=submit]").click((e) => e.preventDefault());
