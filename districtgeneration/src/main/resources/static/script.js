@@ -8,7 +8,7 @@ function onEachFeature(feature, layer) {
     'use strict';
     let properties = [];
     for (let property of Object.keys(feature.properties)) {
-        properties.push(`${property}: ${feature.properties[property]}`)
+        properties.push(`${property}: ${feature.properties[property]}`);
     }
     layer.bindPopup(properties.join("<br />"));
 }
