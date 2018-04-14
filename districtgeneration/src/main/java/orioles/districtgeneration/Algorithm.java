@@ -14,8 +14,9 @@ public class Algorithm {
     }
     
     public void startAlgorithm(){
+        state.setStartingGoodness(measures);
     	int maxIterations = state.getNumPrecincts();
-    	for(iterations; iterations<maxIterations; iterations++){
+    	for(;iterations<maxIterations; iterations++){
     		step();
     	}
     	
@@ -91,7 +92,6 @@ public class Algorithm {
     
     public void movePrecinct(Precinct precinct){
     }
-    
     
     
 }
