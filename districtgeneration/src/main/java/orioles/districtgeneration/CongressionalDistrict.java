@@ -54,5 +54,19 @@ class CongressionalDistrict implements Cloneable {
         this.oldGoodness = oldGoodness;
     }
     
+    public int getNumPrecincts(){
+    	return precicnts.size();
+    }
+    
+    public Precinct getRandomPrecinct(){
+    	int random = (int)(Math.random()*precincts.size());
+    	return precincts.get(random);
+    }
+    
+    public void removeFromDistrict(Precinct precinct){
+    }
+    
+    public void addToDistrict(Precinct precinct){
+    }
     
 }

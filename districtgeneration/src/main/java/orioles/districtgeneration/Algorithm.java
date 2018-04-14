@@ -14,6 +14,11 @@ public class Algorithm {
     }
     
     public void startAlgorithm(){
+    	int maxIterations = state.getNumPrecincts();
+    	for(iterations; iterations<maxIterations; iterations++){
+    		step();
+    	}
+    	
     }
     
     public void addConstraint(Constraint constraint){
@@ -79,4 +84,10 @@ public class Algorithm {
     public CongressionalDistrict getStartingDistrict(){
         return null;
     }
+    
+    public void step(){	
+    }
+    
+    
+    
 }
