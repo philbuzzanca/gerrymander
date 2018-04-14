@@ -50,6 +50,14 @@ public class State implements Cloneable {
     public void setOriginalState(String originalState) {
         this.originalState = originalState;
     }
+   
+    public int getNumPrecincts(){
+    	return 0;
+    }
+    
+    public CongressionalDistrict getStartingDistrict(){
+    	return null;
+    }
     
     
 }
