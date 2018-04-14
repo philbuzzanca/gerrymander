@@ -86,6 +86,10 @@ public class Algorithm {
     }
     
     public void step(){	
+    	
+    }
+    
+    public void movePrecinct(Precinct precinct){
     }
     
     
