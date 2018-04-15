@@ -15,4 +15,5 @@ public class MainController {
         model.addAttribute("aboutText", aboutText);
         return "index";
     }
+    
 }
