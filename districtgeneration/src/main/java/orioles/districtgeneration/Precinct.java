@@ -10,10 +10,6 @@ public class Precinct implements Cloneable {
     private Stats stats;
     private boolean locked;
     
-    public boolean isOnBorder(){
-        return false;
-    }
-
     public String getName() {
         return name;
     }
@@ -61,5 +57,8 @@ public class Precinct implements Cloneable {
     public void setLocked(boolean locked) {
         this.locked = locked;
     }
-    
+
+    public boolean isOnBorder(){
+        return false;
+    }
 }
