@@ -1,5 +1,7 @@
 package orioles.districtgeneration;
 
+import java.awt.geom.Point2D;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Precinct implements Cloneable {
@@ -7,6 +9,7 @@ public class Precinct implements Cloneable {
     private int identifier;
     private CongressionalDistrict district;
     private List<Precinct> adjacentPrecincts;
+    private ArrayList<Point2D.Double> coordinates;
     private Stats stats;
     private boolean locked;
     
@@ -60,6 +63,14 @@ public class Precinct implements Cloneable {
 
     public void setLocked(boolean locked) {
         this.locked = locked;
+    }
+    
+    public void setCoordinates(ArrayList<Point2D.Double> coordinates){
+        this.coordinates = coordinates;
+    }
+    
+    public ArrayList<Point2D.Double> getCoordinates(){
+        return coordinates;
     }
  
     
