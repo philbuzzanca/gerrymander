@@ -3,11 +3,7 @@
 <html>
     <head>
         <title>CSE 308</title>
-        
         <meta charset="utf-8"/>
-        
-        
-        
         <link rel="stylesheet" type="text/css" href="style.css">
         
         <link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet">
@@ -42,7 +38,16 @@
                 xhttp.send(fd);
             }
         </script>
-        
+        <script>
+            function login(email, password){
+                var xhttp = new XMLHttpRequest();
+                var fd = new FormData();
+                fd.append("email", email);
+                fd.append("password", password);
+                xhttp.open("POST", "/login", false);
+                xhttp.send(fd);
+            }
+        </script>
     </head>
     <body>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -112,7 +117,7 @@
                         <div class="col-md-6 col-lg-6">
                             <div id="registerBox">
                                 <h2>Register <i class="fa fa-user-plus"></i></h2>
-                                    <form id="registerForm" onsubmit="register(registerEmail.value, registerUsername.value, registerPassword.value)">
+                                <form id="registerForm" onsubmit="register(registerUsername.value, registerEmail.value, registerPassword.value)">
                                     <div class="form-group">
                                         <label for="registerEmail">Email address</label>
                                         <input type="email" id="registerEmail" class="form-control" placeholder="your.email@stonybrook.edu">
@@ -136,7 +141,7 @@
                         <div class="col-md-6 col-lg-6">
                             <div id="loginBox">
                                 <h2>Log in <i class="fas fa-sign-in-alt"></i></h2>
-                                <form>
+                                <form id="loginForm" onsubmit="login(loginEmail.value, loginPassword.value)">
                                     <div class="form-group">
                                         <label for="loginEmail">Email address</label>
                                         <input type="email" id="loginEmail" class="form-control" placeholder="your.email@stonybrook.edu">
