@@ -3,13 +3,8 @@
 <html>
 <head>
 	<title>CSE 308</title>
-
 	<meta charset="utf-8"/>
-
-
-
 	<link rel="stylesheet" type="text/css" href="style.css">
-
 	<link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet">
 
 	<!-- FontAwesome -->
@@ -29,7 +24,7 @@
 
 	<!--State data-->
 	<script src="vaprecincts2013.js"></script>
-    <script src="nm.js"></script>
+	<script src="nm.js"></script>
 
 </head>
 <body>
@@ -46,12 +41,12 @@
 			</ul>
 			<ul class="navbar-nav ml-auto">
 				<li class="nav-item">
-                                    <a class="nav-link" href="" data-toggle="modal" data-target="#registerLoginModal">Register/Login <i class="fas fa-sign-in-alt"></i></a>
-                                </li>
+				<a class="nav-link" href="" data-toggle="modal" data-target="#registerLoginModal">Register/Login <i class="fas fa-sign-in-alt"></i></a>
+			</li>
 			</ul>
 		</div>
 	</nav>
-	
+
 	<!-- aboutModal -->
 	<div class="modal fade" id="aboutModal" tabindex="-1" role="dialog">
 		<div class="modal-dialog" role="document">
@@ -63,7 +58,7 @@
 					</button>
 				</div>
 				<div class="modal-body">
-                                    ${aboutText}
+					${aboutText}
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -90,8 +85,8 @@
 				</div>
 			</div>
 		</div>
-    	</div>
-        
+		</div>
+
 	<!-- registerLoginModal -->
 	<div class="modal fade" id="registerLoginModal" tabindex="-1" role="dialog">
 		<div class="modal-dialog modal-lg" role="document">
@@ -140,7 +135,7 @@
 			</div>
 		</div>
 	</div>
-	
+
 	<div class="container-fluid fill">
 		<div class="row no-gutters">
 			<div class="col-sm-2 col-lg-2">
@@ -251,7 +246,7 @@
 				<div id="mapid">
 					<script src="script.js"></script>
 					<script>
-					// Prevent buttons from submitting forms for now.
+
 					$("[type=submit]").click((e) => e.preventDefault());
 				</script>
 			</div>
