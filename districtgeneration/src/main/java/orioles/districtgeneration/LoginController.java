@@ -19,9 +19,4 @@ public class LoginController {
         session.invalidate();
         return "OK";
     }
-    
-    @PostMapping("/register")
-    public String register(){
-        return "OK";
-    }
 }
