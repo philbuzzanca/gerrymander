@@ -14,23 +14,23 @@ function onEachFeature(feature, layer) {
 }
 
 function mapFocus(state) {
-    if (state == "nm") {
+    if (state === "nm") {
         mymap.setView(new L.LatLng(34, -105.87), 7);
-    } else if (state == "va") {
+    } else if (state === "va") {
         mymap.setView(new L.LatLng(37.7, -79.5), 8);
-    } else if (state == "ut") {
+    } else if (state === "ut") {
         mymap.setView(new L.LatLng(39.3, -111.1), 7);
     }
 }
 
 function getColor(d) {
-    return 	d % 7 == 6 ? '#00FFFF' :
-            d % 7 == 5 ? '#660066' :
-            d % 7 == 4 ? '#FF66FF' :
-            d % 7 == 3 ? '#FFFF66' :
-            d % 7 == 2 ? '#FF0000' :
-            d % 7 == 1 ? '#00FF00' :
-            d % 7 == 0 ? '#0000FF' : '#FFFFFF'
+    return 	d % 7 === 6 ? '#00FFFF' :
+            d % 7 === 5 ? '#660066' :
+            d % 7 === 4 ? '#FF66FF' :
+            d % 7 === 3 ? '#FFFF66' :
+            d % 7 === 2 ? '#FF0000' :
+            d % 7 === 1 ? '#00FF00' :
+            d % 7 === 0 ? '#0000FF' : '#FFFFFF'
 }
 //Colors precinct map based on county
 function precinctStyle(feature) {
