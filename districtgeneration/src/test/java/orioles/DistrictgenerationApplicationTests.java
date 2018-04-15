@@ -1,4 +1,4 @@
-package orioles.districtgeneration;
+package orioles;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
