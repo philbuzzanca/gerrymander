@@ -64,10 +64,10 @@ class CongressionalDistrict implements Cloneable {
     }
     
     public double calculateArea(){
-        return 0;
+        return 100;
     }
     
     public double calculatePerimeter(){
-        return 0;
+        return 50;
     }
 }
