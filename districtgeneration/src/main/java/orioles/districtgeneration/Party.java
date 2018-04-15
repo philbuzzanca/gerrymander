@@ -1,10 +1,9 @@
 package orioles.districtgeneration;
 
-
 public enum Party {
-    REPUBLICAN,
-    DEMOCRAT,
-    GREEN,
-    LIBERTARIAN,
-    OTHER
+  REPUBLICAN,
+  DEMOCRAT,
+  GREEN,
+  LIBERTARIAN,
+  OTHER
 }
