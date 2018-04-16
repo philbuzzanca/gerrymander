@@ -9,6 +9,12 @@ public class State implements Cloneable {
     private String name;
     private String originalState;
     
+    public State(){
+        congressionalDistricts = new ArrayList<>();
+        name = "";
+        originalState = "";
+    }
+    
     public Stats summarize(){
         return null;
     }
@@ -18,6 +24,11 @@ public class State implements Cloneable {
     }
     
     public CongressionalDistrict getDistrict(String districtName){
+        for (CongressionalDistrict district : congressionalDistricts) {
+            if(district.getName().equals(districtName)){
+                return district;
+            }
+        }
         return null;
     }
     
@@ -64,7 +75,7 @@ public class State implements Cloneable {
     public void setStartingGoodness(Map<Measure, Double> measures){
         for(int i=0; i<congressionalDistricts.size(); i++){
             
-            ArrayList<Double> goodnessVals = new ArrayList<Double>();
+            ArrayList<Double> goodnessVals = new ArrayList<>();
             for ( Measure key : measures.keySet()) {
                 goodnessVals.add(key.calculateGoodness(congressionalDistricts.get(i))*measures.get(key));
             }
@@ -77,6 +88,11 @@ public class State implements Cloneable {
             congressionalDistricts.get(i).setOldGoodness(goodness);
         }
     }
+    
+    public void addDistrict(CongressionalDistrict district){
+        congressionalDistricts.add(district);
+    }
+    
     
     
 }
