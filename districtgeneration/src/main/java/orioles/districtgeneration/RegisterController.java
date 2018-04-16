@@ -1,5 +1,6 @@
 package orioles.districtgeneration;
 
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -13,7 +14,10 @@ public class RegisterController {
   
   @PostMapping("/register")
   public String register(@RequestParam String username, @RequestParam String email, @RequestParam String password){
-    System.out.println("received username " + username);
+    List<User> users = userRepository.findByEmail(email);
+    if(!users.isEmpty()){
+      return null;
+    }
     User user = new User();
     user.setUsername(username);
     user.setEmail(email);
