@@ -1,19 +1,32 @@
-
 package orioles.model;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import orioles.constants.Party;
 
+@Entity
 public class User {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int id;
     private String username;
-    private byte[] password;
+    private String password;
     private String email;
     private boolean isActivated;
     private Party party;
-    
-    public User(String username){
-        this.username = username;
-    }
 
+    public User(String username, String email, String password) {
+        this.username = username;
+        this.email = email;
+        this.party = Party.OTHER;
+
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        this.password = encoder.encode(password);
+    }
+    
     public String getUsername() {
         return username;
     }
@@ -22,11 +35,11 @@ public class User {
         this.username = username;
     }
 
-    public byte[] getPassword() {
+    public String getPassword() {
         return password;
     }
 
-    public void setPassword(byte[] password) {
+    public void setPassword(String password) {
         this.password = password;
     }
 
