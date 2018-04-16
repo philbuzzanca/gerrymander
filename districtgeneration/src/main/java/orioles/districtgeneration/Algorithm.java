@@ -15,10 +15,6 @@ public class Algorithm {
     
     public void startAlgorithm(){
         state.setStartingGoodness(measures);
-    	int maxIterations = 50;
-    	for(;iterations<maxIterations; iterations++){
-    		step();
-    	}
     	
     }
     
@@ -83,14 +79,17 @@ public class Algorithm {
     }
     
     public CongressionalDistrict getStartingDistrict(){
-        return null;
+        return state.getStartingDistrict();
     }
     
     public void step(){	
-    	
     }
     
     public void movePrecinct(Precinct precinct){
+    }
+    
+    public double calcGoodness(){
+        return 0;
     }
     
     
