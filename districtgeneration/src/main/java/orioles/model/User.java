@@ -1,6 +1,8 @@
 
 package orioles.model;
 
+import orioles.constants.Party;
+
 public class User {
     private String username;
     private byte[] password;

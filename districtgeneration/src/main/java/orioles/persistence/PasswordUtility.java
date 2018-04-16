@@ -1,6 +1,6 @@
 package orioles.persistence;
 
-import orioles.model.Constants;
+import orioles.constants.Constants;
 
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
