@@ -1,6 +1,8 @@
 
 package orioles.districtgeneration;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,8 +18,13 @@ public class User {
   private String username;
   private Party party;
   
-  public User() {
-    
+  public User(String username, String email, String password) {
+    this.username = username;
+    this.email = email;
+    this.party = Party.OTHER;
+
+    BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+    this.password = encoder.encode(password);
   }
   
   public int getId(){
