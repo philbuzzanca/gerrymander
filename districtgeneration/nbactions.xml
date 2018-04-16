@@ -10,7 +10,7 @@
             <goal>org.codehaus.mojo:exec-maven-plugin:1.2.1:spring-boot:run</goal>
         </goals>
         <properties>
-            <exec.args>-classpath %classpath orioles.controller.DistrictGenerationApplication</exec.args>
+            <exec.args>-classpath %classpath orioles.controller.DistrictGeneration</exec.args>
             <exec.executable>java</exec.executable>
         </properties>
     </action>
