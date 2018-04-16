@@ -1,5 +1,7 @@
 package orioles.model;
 
+import orioles.constants.Constraint;
+
 import java.util.List;
 import java.util.Map;
 
@@ -8,37 +10,6 @@ public class Algorithm {
     private Map<Measure, Double> measures;
     private List<Constraint> constraints;
     private int iterations;
-    
-    public Precinct getMove(){
-        return null;
-    }
-    
-    public void startAlgorithm(){
-    }
-    
-    public void addConstraint(Constraint constraint){
-        constraints.add(constraint);
-    }
-    
-    public void removeConstraint(Constraint constraint){
-        constraints.remove(constraint);
-    }
-    
-    public Map<Measure, Double> normalize(Map<Measure, Double> measures){
-        return null;
-    }
-    
-    public boolean isImprovement(int goodness, int oldGoodness){
-        return false;
-    }
-    
-    public List<Precinct> getCandidates(List<Precinct> precincts){
-        return null;
-    }
-    
-    public double calculateImprovement(double goodness, double oldGoodness){
-        return 0;
-    }
 
     public State getState() {
         return state;
@@ -72,6 +43,33 @@ public class Algorithm {
         this.iterations = iterations;
     }
     
+    public Precinct getMove(){
+        return null;
+    }
+    
+    public void startAlgorithm(){
+    }
+    
+    public void addConstraint(Constraint constraint){
+        constraints.add(constraint);
+    }
+    
+    public void removeConstraint(Constraint constraint){
+        constraints.remove(constraint);
+    }
+    
+    public boolean isImprovement(int goodness, int oldGoodness){
+        return goodness > oldGoodness;
+    }
+    
+    public List<Precinct> getCandidates(List<Precinct> precincts){
+        return null;
+    }
+    
+    public double calculateImprovement(double goodness, double oldGoodness){
+        return goodness - oldGoodness;
+    }
+
     public boolean checkIterations(){
         return false;
     }
