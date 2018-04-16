@@ -12,10 +12,14 @@ class CongressionalDistrict implements Cloneable {
     private String name;
     private double oldGoodness;
 
+    private boolean hasUpdated;
+    private Stats stat;
+
 	public CongressionalDistrict(List<Precinct> precincts, String name) {
 		this.precincts = precincts;
 		this.name = name;
 		this.oldGoodness = -1;
+		this.hasUpdated = false;
 	}
 
 	public List<Precinct> getPrecincts() {
@@ -42,40 +46,38 @@ class CongressionalDistrict implements Cloneable {
 		this.oldGoodness = oldGoodness;
 	}
 
-	public Stats summarize(){
+	public Stats summarize() {
+		if (!hasUpdated)
+			return stat;
+
 		Map<Race, Long> conDistRace = new HashMap<>();
 		Map<Party, Long> conDistParty = new HashMap<>();
-		Stats CdStats = new Stats(conDistRace, conDistParty, 0);
+		stat = new Stats(conDistRace, conDistParty, 0);
 
-        precincts.stream().map(Precinct::getStats).forEach(precinctStat -> {
-			for (Race r : Race.values()) {
-				conDistRace.put(r, conDistRace.get(r) + precinctStat.getRaces().get(r));
-			}
+        precincts.stream()
+				.map(Precinct::getStats)
+				.forEach(precinctStat -> Summary.summarize(conDistRace, conDistParty, precinctStat, stat));
 
-			for (Party p : Party.values()) {
-				conDistParty.put(p, conDistParty.get(p) + precinctStat.getParties().get(p));
-			}
-
-			CdStats.setPopulation(CdStats.getPopulation() + precinctStat.getPopulation());
-		});
-
-        return CdStats;
-    }
-    
-    public Precinct choosePrecinct(){
-        return null;
+        hasUpdated = true;
+        return stat;
     }
     
     public Precinct getStartingPrecinct(){
         return null;
     }
+
+	public Precinct choosePrecinct(){
+		return null;
+	}
     
     public Precinct removeFromDistrict(Precinct precinct){
+		hasUpdated = false;
         precincts.remove(precinct);
         return precinct;
     }
     
     public void addToDistrict(Precinct precinct){
+		hasUpdated = false;
 		precincts.add(precinct);
     }
     
