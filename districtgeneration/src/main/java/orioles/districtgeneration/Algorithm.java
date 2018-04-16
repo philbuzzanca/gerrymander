@@ -15,7 +15,7 @@ public class Algorithm {
     
     public void startAlgorithm(){
         state.setStartingGoodness(measures);
-    	int maxIterations = state.getNumPrecincts();
+    	int maxIterations = 50;
     	for(;iterations<maxIterations; iterations++){
     		step();
     	}

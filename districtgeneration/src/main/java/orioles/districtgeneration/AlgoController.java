@@ -50,10 +50,9 @@ public class AlgoController {
     @RequestMapping("/algorithm")
     public String startAlgo() throws IOException, ParseException{
         State state = loadTestJSON();
-        System.out.println(state.getCongressionalDistricts().get(0).getPrecincts().get(0).getCoordinates());
+        //System.out.println(state.getCongressionalDistricts().get(0).getPrecincts().size());
         Algorithm algo = new Algorithm();
-        CongressionalDistrict district1 = new CongressionalDistrict();
-        CongressionalDistrict district2 = new CongressionalDistrict();
+        algo.setState(state);
         return "OK";
     }
     
@@ -159,6 +158,9 @@ public class AlgoController {
             
                 JSONObject properties = (JSONObject) precinct.get("properties");
                 Long districtnum = (Long)properties.get("CD");
+                Long identifier = (Long)properties.get("CODE");
+                newPrecinct.setIdentifier((int)(double)identifier);
+                
                 CongressionalDistrict district = loadedState.getDistrict(districtnum.toString());
                 district.addToDistrict(newPrecinct);
             }
