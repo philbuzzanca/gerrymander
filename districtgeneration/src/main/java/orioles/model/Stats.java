@@ -16,27 +16,27 @@ public class Stats {
 		this.population = population;
 	}
 
-	public Map<Race, Long> getRaces() {
+	Map<Race, Long> getRaces() {
         return races;
     }
 
-    public void setRaces(Map<Race, Long> races) {
+    void setRaces(Map<Race, Long> races) {
         this.races = races;
     }
 
-    public Map<Party, Long> getParties() {
+    Map<Party, Long> getParties() {
         return parties;
     }
 
-    public void setParties(Map<Party, Long> parties) {
+    void setParties(Map<Party, Long> parties) {
         this.parties = parties;
     }
 
-    public long getPopulation() {
+    long getPopulation() {
         return population;
     }
 
-    public void setPopulation(long population) {
+    void setPopulation(long population) {
         this.population = population;
     }    
 }
