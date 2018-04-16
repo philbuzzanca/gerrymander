@@ -21,13 +21,16 @@ public class AlgoController {
     @RequestMapping("/perimeter")
     public Double perimeter(){
         //Stubbed district info
-        ArrayList<Point2D.Double> coordinates1 = new ArrayList<Point2D.Double>();
-        coordinates1 = setTestValues1();
+        ArrayList<Point2D.Double> coordinates1 = setTestValues1();
+        ArrayList<Point2D.Double> coordinates2 = setTestValues2();
         Precinct precinct1 = new Precinct();
         precinct1.setCoordinates(coordinates1);
+        Precinct precinct2 = new Precinct();
+        precinct2.setCoordinates(coordinates2);
         
         CongressionalDistrict district = new CongressionalDistrict();
         district.addToDistrict(precinct1);
+        district.addToDistrict(precinct2);
         
         
         double perimeter = district.calculatePerimeter();
@@ -80,6 +83,28 @@ public class AlgoController {
         values.add(new Point2D.Double(-77.924340753474468, 39.188333689258108));
         values.add(new Point2D.Double(-77.919381539481677, 39.191192369034653));
         values.add(new Point2D.Double(-77.860192445970085, 39.153000129599988));
+       
+        return values;
+    }
+    
+    public ArrayList<Point2D.Double> setTestValues2(){
+        ArrayList<Point2D.Double> values = new ArrayList<Point2D.Double>();
+        values.add(new Point2D.Double(-77.860192445970085, 39.15300012959998));
+        values.add(new Point2D.Double(-77.828292998532064, 39.132416754148437));
+        values.add(new Point2D.Double(-77.828280321518847, 39.132408574203538));
+        values.add(new Point2D.Double(-77.828326223685181, 39.132356344616042));
+        values.add(new Point2D.Double(-77.83892474321199, 39.121858421492973));
+        values.add(new Point2D.Double(-77.843815393037019, 39.119740053307041));
+        values.add(new Point2D.Double(-77.845776346796839, 39.116067635459622));
+        values.add(new Point2D.Double(-77.858832613282118, 39.117259691604616));
+        values.add(new Point2D.Double(-77.879907874368911, 39.122431127549511));
+        values.add(new Point2D.Double(-77.890680842089836, 39.124104499358367));
+        values.add(new Point2D.Double(-77.882493430145587, 39.13126749010371));
+        values.add(new Point2D.Double(-77.873346649637909, 39.135546360339532));
+        values.add(new Point2D.Double(-77.862840901004034, 39.145148506742501));
+        values.add(new Point2D.Double(-77.860192445970085, 39.153000129599988));
+        
+        
        
         return values;
     }

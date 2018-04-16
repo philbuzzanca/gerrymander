@@ -80,25 +80,45 @@ class CongressionalDistrict implements Cloneable {
     public double calculatePerimeter(){
         //return 50;
         double perimeter = 0;
-        HashMap<Double, Double> edges1 = new HashMap<>();
-        //HashMap<Double, Double> edges2 = new HashMap<Double, Double>(); add when doing more than one precinct
+        ArrayList<Edge> edges1 = new ArrayList<>();
+        ArrayList<Edge> edges2 = new ArrayList<>();
         for(int i=0; i<precincts.size();i++){
-            
             Precinct currentPrecinct = precincts.get(i);
             ArrayList<Point2D.Double> coordinates = currentPrecinct.getCoordinates();
-            System.out.println(coordinates.size());
             for(int j=0; j<coordinates.size()-1; j++){
-                Point2D.Double point1 = coordinates.get(j);
-                Point2D.Double point2 = coordinates.get(j+1);
-                double distance = calculateDistance(point1, point2);
-                perimeter+=distance;
+                Point2D.Double p1 = coordinates.get(j);
+                Point2D.Double p2 = coordinates.get(j+1);
+                Edge edge = new Edge(p1, p2);
+                Boolean found = false;
+                for (Edge checkedge : edges1) {
+                    if(checkedge.equals(edge))
+                        found = true;
+                }
+                if(found==true){
+                    System.out.println("here");
+                    Boolean found2 = false;
+                    for (Edge checkedge : edges2) {
+                        if(checkedge.equals(edge))
+                            found2 = true;
+                    }
+                    if(found2==false)
+                        edges2.add(edge);
+                }
+                else{
+                    edges1.add(edge);
+                }
             }
-            //add one more edge after loop (edge from last coordinate to first
-            Point2D.Double point1 = coordinates.get(coordinates.size()-1);
-            Point2D.Double point2 = coordinates.get(0);
-            double distance = Math.hypot(point1.getX()-point2.getX(), point1.getY()-point2.getY());
-            perimeter+=distance;
         }
+        for (Edge edge : edges2) {
+            edges1.remove(edge);
+        }
+        for (Edge edge : edges1) {
+            Point2D.Double point1 = edge.getP1();
+            Point2D.Double point2 = edge.getP2();
+            double distance = calculateDistance(point1, point2);
+            perimeter+=distance;
+         }
+        
         return perimeter;
     }
     
