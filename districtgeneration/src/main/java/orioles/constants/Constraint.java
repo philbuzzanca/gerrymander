@@ -1,4 +1,4 @@
-package orioles.model;
+package orioles.constants;
 
 public enum Constraint {
     NATURAL_BOUNDARIES,
