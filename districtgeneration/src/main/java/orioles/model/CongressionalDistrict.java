@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-class CongressionalDistrict implements Cloneable {
+public class CongressionalDistrict implements Cloneable {
     private List<Precinct> precincts;
     private String name;
     private double oldGoodness;
@@ -46,7 +46,15 @@ class CongressionalDistrict implements Cloneable {
 		this.oldGoodness = oldGoodness;
 	}
 
-	public Stats summarize() {
+	public double getArea() {
+		return 0;
+	}
+
+	public double getPerimeter() {
+		return 0;
+	}
+
+	public Stats summarize(){
 		if (!hasUpdated)
 			return stat;
 
@@ -86,4 +94,9 @@ class CongressionalDistrict implements Cloneable {
 				.filter(precinct -> precinct.getIdentifier() == precinctId)
 				.findFirst().orElse(null);
     }
+
+	public Precinct getRandomPrecinct(){
+		int random = (int)(Math.random()*precincts.size());
+		return precincts.get(random);
+	}
 }

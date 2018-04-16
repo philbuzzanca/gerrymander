@@ -48,6 +48,11 @@ public class Algorithm {
     }
     
     public void startAlgorithm(){
+        state.setStartingGoodness(measures);
+        int maxIterations = state.getNumPrecincts();
+        for( ; iterations < maxIterations; iterations++){
+            step();
+        }
     }
     
     public void addConstraint(Constraint constraint){
@@ -76,5 +81,9 @@ public class Algorithm {
     
     public CongressionalDistrict getStartingDistrict(){
         return null;
+    }
+
+    public void step(){
+
     }
 }
