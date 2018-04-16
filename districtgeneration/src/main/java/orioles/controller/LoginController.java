@@ -20,18 +20,21 @@ public class LoginController {
   
   @PostMapping("/login")
   public User login(@RequestParam String email, @RequestParam String password){
-    if(httpSession.getAttribute("user") != null){
+    User user = (User) httpSession.getAttribute("user");
+    if(user != null){
+      return user;
+    }
+
+    List<User> users = userRepository.findByEmail(email);
+    if(users.isEmpty()) {
       return null;
     }
-    List<User> users = userRepository.findByEmail(email);
-    if(!users.isEmpty()){
-      BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-      User user = users.get(0);
-      if(encoder.matches(password, user.getPassword())){
-        httpSession.setAttribute("user", user);
-        return user;
-      }
-      return null;
+
+    BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+    user = users.get(0);
+    if(encoder.matches(password, user.getPassword())){
+      httpSession.setAttribute("user", user);
+      return user;
     }
     return null;
   }
