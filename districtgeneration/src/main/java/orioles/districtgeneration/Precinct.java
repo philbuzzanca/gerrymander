@@ -13,6 +13,17 @@ public class Precinct implements Cloneable {
     private Stats stats;
     private boolean locked;
     
+    public Precinct(){
+        name = "";
+        identifier = -1;
+        district = null;
+        adjacentPrecincts = new ArrayList<>();
+        coordinates = new ArrayList<>();
+        stats = null;
+        locked = false;
+        
+    }
+    
     public boolean isOnBorder(){
         return false;
     }
