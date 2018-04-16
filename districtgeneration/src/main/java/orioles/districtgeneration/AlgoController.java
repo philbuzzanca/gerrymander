@@ -6,6 +6,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -49,10 +51,15 @@ public class AlgoController {
     
     @RequestMapping("/algorithm")
     public String startAlgo() throws IOException, ParseException{
-        State state = loadTestJSON();
+        State state = loadTestJSON();                       //this is for testing until the database is working
         //System.out.println(state.getCongressionalDistricts().get(0).getPrecincts().size());
         Algorithm algo = new Algorithm();
+        Map<Measure,Double> measures = new HashMap<>();
+        Compactness compactness = new Compactness();
+        measures.put(compactness, 1.0);
+        algo.setMeasures(measures);
         algo.setState(state);
+        //algo.startAlgorithm();
         return "OK";
     }
     
@@ -118,8 +125,6 @@ public class AlgoController {
     public State loadTestJSON() throws IOException, ParseException{
         State loadedState = new State();
         try {
-            
-          
             JSONParser parser = new JSONParser();
             JSONObject state = (JSONObject) parser.parse(new FileReader("..\\virginia\\vaprecincts2013-cds.geojson"));
             String name = "Virginia";
@@ -171,7 +176,6 @@ public class AlgoController {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        
         
         return loadedState;
     }

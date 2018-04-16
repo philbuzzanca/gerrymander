@@ -69,7 +69,8 @@ public class State implements Cloneable {
     }
     
     public CongressionalDistrict getStartingDistrict(){
-    	return null;
+    	int random = (int)(Math.random()*congressionalDistricts.size());
+    	return congressionalDistricts.get(random);
     }
     
     public void setStartingGoodness(Map<Measure, Double> measures){
