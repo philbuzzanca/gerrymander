@@ -1,4 +1,4 @@
-package orioles.model;
+package orioles.constants;
 
 public class Constants {
 	// STATES

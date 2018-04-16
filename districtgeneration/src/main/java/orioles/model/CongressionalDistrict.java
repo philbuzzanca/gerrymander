@@ -1,5 +1,8 @@
 package orioles.model;
 
+import orioles.constants.Party;
+import orioles.constants.Race;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

@@ -1,5 +1,8 @@
 package orioles.model;
 
+import orioles.constants.Party;
+import orioles.constants.Race;
+
 import java.util.Map;
 
 public class Stats {
