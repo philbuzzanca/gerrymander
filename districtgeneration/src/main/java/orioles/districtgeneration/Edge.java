@@ -2,13 +2,10 @@ package orioles.districtgeneration;
 
 import java.awt.geom.Point2D;
 
-
 public class Edge {
-    
     private Point2D.Double p1;
     private Point2D.Double p2;
-    
-    
+
     public Edge(Point2D.Double point1, Point2D.Double point2){
         this.p1 = point1;
         this.p2 = point2;
@@ -33,12 +30,6 @@ public class Edge {
     public boolean equals(Edge edge){
         if(getP1().equals(edge.getP1()) && getP2().equals(edge.getP2())){
             return true;
-        }
-        else if(getP1().equals(edge.getP2()) && getP2().equals(edge.getP1())){
-            return true;
-        }
-        else{
-            return false;
-        }
+        } else return getP1().equals(edge.getP2()) && getP2().equals(edge.getP1());
     }
 }
