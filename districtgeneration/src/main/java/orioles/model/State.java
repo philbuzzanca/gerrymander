@@ -34,6 +34,10 @@ public class State implements Cloneable {
 	public int getNumPrecincts() {
 		return congressionalDistricts.size();
 	}
+
+	public void addDistrict(CongressionalDistrict cd) {
+		congressionalDistricts.add(cd);
+	}
     
     public Stats summarize() {
 		if (!hasUpdated)
