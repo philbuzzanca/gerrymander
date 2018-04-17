@@ -1,14 +1,20 @@
 package orioles.controller;
 
 import java.awt.geom.Point2D;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import orioles.districtgeneration.Compactness;
-import orioles.model.Algorithm;
-import orioles.model.CongressionalDistrict;
-import orioles.model.Measure;
-import orioles.model.Precinct;
+import orioles.model.*;
+
+import org.json.simple.JSONObject;
+import org.json.simple.JSONArray;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 @RestController
 public class AlgoController {
@@ -16,12 +22,11 @@ public class AlgoController {
     public Double compactnessTest(){
        CongressionalDistrict district = new CongressionalDistrict();
        Measure measure = new Compactness();
-       double goodness = measure.calculateGoodness(district);
-       return goodness;
+		return measure.calculateGoodness(district);
     }
     
     @RequestMapping("/perimeter")
-    public Double perimeter(){
+    public Double perimetertest(){
         //Stubbed district info
         ArrayList<Point2D.Double> coordinates1 = setTestValues1();
         ArrayList<Point2D.Double> coordinates2 = setTestValues2();
@@ -37,16 +42,17 @@ public class AlgoController {
         return district.calculatePerimeter();
     }
     
-    @RequestMapping("/area")
-    public String area(){
-        return "OK";
-    }
-    
     @RequestMapping("/algorithm")
-    public String startAlgo(){
+    public String startAlgo() throws IOException, ParseException{
+        State state = loadTestJSON();                       //this is for testing until the database is working
+        //System.out.println(state.getCongressionalDistricts().get(0).getPrecincts().size());
         Algorithm algo = new Algorithm();
-        CongressionalDistrict district1 = new CongressionalDistrict();
-        CongressionalDistrict district2 = new CongressionalDistrict();
+        Map<Measure,Double> measures = new HashMap<>();
+        Compactness compactness = new Compactness();
+        measures.put(compactness, 1.0);
+        algo.setMeasures(measures);
+        algo.setState(state);
+        //algo.startAlgorithm();
         return "OK";
     }
     
@@ -104,6 +110,60 @@ public class AlgoController {
         values.add(new Point2D.Double(-77.862840901004034, 39.145148506742501));
         values.add(new Point2D.Double(-77.860192445970085, 39.153000129599988));
         return values;
+    }
+    
+    public State loadTestJSON() throws IOException, ParseException{
+        State loadedState = new State();
+        try {
+            JSONParser parser = new JSONParser();
+            JSONObject state = (JSONObject) parser.parse(new FileReader("..\\virginia\\vaprecincts2013-cds.geojson"));
+            String name = "Virginia";
+            JSONArray precincts = (JSONArray) state.get("features");
+            loadedState.setName(name);
+            
+            ArrayList<Long> districtList = new ArrayList<>();
+            for(int i=0;i<precincts.size();i++){
+                JSONObject precinct = (JSONObject) precincts.get(i);
+                JSONObject properties = (JSONObject) precinct.get("properties");
+                Long districtnum = (Long)properties.get("CD");
+                if(!districtList.contains(districtnum)){
+                    districtList.add(districtnum);
+                }
+                
+            }
+            for(int i=0; i<districtList.size();i++){
+                CongressionalDistrict newDistrict = new CongressionalDistrict();
+                newDistrict.setName(districtList.get(i).toString());
+                loadedState.addDistrict(newDistrict);
+            }
+            for(int i=0;i<precincts.size();i++){
+                JSONObject precinct = (JSONObject) precincts.get(i);
+                JSONObject geometry = (JSONObject) precinct.get("geometry");
+                JSONArray coordinatesouter = (JSONArray) geometry.get("coordinates");
+                JSONArray coordinatesmiddle = (JSONArray) coordinatesouter.get(0);
+                JSONArray coordinatesinner = (JSONArray) coordinatesmiddle.get(0);
+                ArrayList<Point2D.Double> coordinates = new ArrayList<>();
+                for (Object coordinatesinner1 : coordinatesinner) {
+                    JSONArray coordinate = (JSONArray) coordinatesinner1;
+                    Point2D.Double point = new Point2D.Double((double)coordinate.get(0), (double)coordinate.get(1));
+                    coordinates.add(point);
+                }
+                Precinct newPrecinct = new Precinct();
+                newPrecinct.setCoordinates(coordinates);
+            
+                JSONObject properties = (JSONObject) precinct.get("properties");
+                Long districtnum = (Long)properties.get("CD");
+                Long identifier = (Long)properties.get("CODE");
+                newPrecinct.setIdentifier((int)(double)identifier);
+                
+                CongressionalDistrict district = loadedState.getDistrictByName(districtnum.toString());
+                district.addToDistrict(newPrecinct);
+            }
+        } catch (IOException | ParseException e) {
+            e.printStackTrace();
+        }
+
+		return loadedState;
     }
 }
 
