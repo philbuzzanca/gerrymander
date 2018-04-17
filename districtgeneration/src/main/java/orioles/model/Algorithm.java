@@ -49,10 +49,10 @@ public class Algorithm {
     
     public void startAlgorithm(){
         state.setStartingGoodness(measures);
-        int maxIterations = state.getNumPrecincts();
-        for( ; iterations < maxIterations; iterations++){
-            step();
-        }
+//        int maxIterations = state.getNumPrecincts();
+//        for( ; iterations < maxIterations; iterations++){
+//            step();
+//        }
     }
     
     public void addConstraint(Constraint constraint){
@@ -83,7 +83,5 @@ public class Algorithm {
         return null;
     }
 
-    public void step(){
-
-    }
+    public void step(){}
 }
