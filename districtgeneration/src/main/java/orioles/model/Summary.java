@@ -5,8 +5,8 @@ import orioles.constants.Race;
 
 import java.util.Map;
 
-public class Summary {
-	public static void summarize(Map<Race, Long> races, Map<Party, Long> parties, Stats eachStat, Stats overallStats) {
+class Summary {
+	static void summarize(Map<Race, Long> races, Map<Party, Long> parties, Stats eachStat, Stats overallStats) {
 		for (Race r : Race.values()) {
 			races.put(r, races.get(r) + eachStat.getRaces().get(r));
 		}
