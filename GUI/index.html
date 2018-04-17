@@ -24,9 +24,11 @@
 	<!--Bootstrap-->
 	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js" integrity="sha384-feJI7QwhOS+hwpX2zkaeJQjeiwlhOP+SdQDqhgvvo1DsjtiSQByFdThsxO669S2D" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.0.0/bootstrap-slider.js"></script>
 
 	<!--State data-->
 	<script src="../Virginia/vaprecincts2013.js"></script>
+    <script src="../New Mexico/nm.js"></script>
 
 </head>
 <body>
@@ -147,8 +149,8 @@
 					<form>
 						<div class="form-group">
 							<h4 for="stateSelect">Target state</h4>
-							<select id="stateSelect" class="form-control">
-								<option value="mn">Virginia</option>
+							<select id="stateSelect" class="form-control" onchange="mapFocus(this.value)">
+								<option value="va">Virginia</option>
 								<option value="nm">New Mexico</option>
 								<option value="ut">Utah</option>
 							</select>
@@ -171,28 +173,75 @@
 						<div class="form-group">
 							<h4>Constraints</h4>
 							<div class="form-check">
-								<input class="form-check-input" type="checkbox" id="compactnessCheck">
-								<label class="form-check-label" for="compactnessCheck">Compactness</label>
-							</div>
-							<div class="form-check">
-								<input class="form-check-input" type="checkbox" id="contiguityCheck">
-								<label class="form-check-label" for="contiguityCheck">Contiguity</label>
-							</div>							
-							<div class="form-check">
-								<input class="form-check-input" type="checkbox" id="equalPopulationCheck">
-								<label class="form-check-label" for="equalPopulationCheck">Equal population</label>
-							</div>
-							<div class="form-check">
-								<input class="form-check-input" type="checkbox" id="partisanFairnessCheck">
-								<label class="form-check-label" for="partisanFairnessCheck">Partisan fairness</label>
-							</div>
-							<div class="form-check">
-								<input class="form-check-input" type="checkbox" id="racialFairnessCheck">
-								<label class="form-check-label" for="racialFairnessCheck">Racial fairness</label>
-							</div>
-							<div class="form-check">
 								<input class="form-check-input" type="checkbox" id="preserveExistingCommunitiesCheck">
 								<label class="form-check-label" for="preserveExistingCommunitiesCheck">Preserve existing communities</label>
+							</div>
+							<h4>Measures</h4>
+							<label class="form-check-label" for="compactnessCheck">Compactness</label>
+							<span id="compactOut" class="measuresOut"></span>
+							<div class="slidecontainer">
+								<input type="range" min="0" max="100" value="0" class="slider" id="compactnessSlider">
+								<script>
+									var compactSlider = document.getElementById("compactnessSlider");
+									var compactOut = document.getElementById("compactOut");
+									compactOut.innerHTML = compactSlider.value;
+									compactSlider.oninput = function() {
+										compactOut.innerHTML = this.value;
+									}
+								</script>
+							</div>
+							<label class="form-check-label" for="contiguityCheck">Contiguity</label>
+							<span id="contiguityOut" class="measuresOut"></span>
+							<div class="slidecontainer">
+								<input type="range" min="0" max="100" value="0" class="slider" id="contiguitySlider">
+								<script>
+									var contigSlider = document.getElementById("contiguitySlider");
+									var contiguityOut = document.getElementById("contiguityOut");
+									contiguityOut.innerHTML = contigSlider.value;
+									contigSlider.oninput = function() {
+										contiguityOut.innerHTML = this.value;
+									}
+								</script>
+							</div>
+							<label class="form-check-label" for="equalPopulationCheck">Equal population</label>
+							<span id="equalOut" class="measuresOut"></span>
+							<div class="slidecontainer">
+								<input type="range" min="0" max="100" value="0" class="slider" id="equalPopSlider">
+								<script>
+									var equalSlider = document.getElementById("equalPopSlider");
+									var equalOut = document.getElementById("equalOut");
+									equalOut.innerHTML = equalSlider.value;
+									equalSlider.oninput = function() {
+										equalOut.innerHTML = this.value;
+									}
+								</script>
+							</div>
+							<label class="form-check-label" for="partisanFairnessCheck">Partisan fairness</label>
+							<span id="partisanOut" class="measuresOut"></span>
+							<div class="slidecontainer">
+								<input type="range" min="0" max="100" value="0" class="slider" id="partisanSlider">
+								<script>
+									var partisanSlider = document.getElementById("partisanSlider");
+									var partisanOut = document.getElementById("partisanOut");
+									partisanOut.innerHTML = partisanSlider.value;
+									partisanSlider.oninput = function() {
+										partisanOut.innerHTML = this.value;
+									}
+								</script>
+							</div>
+							<label class="form-check-label" for="racialFairnessCheck">Racial fairness</label>
+							<span id="racialOut" class="measuresOut"></span>
+							<div class="slidecontainer">
+								<input type="range" min="0" max="100" value="0" class="slider" id="racialSlider">
+								<span id="racialOut"></span>
+								<script>
+									var racialSlider = document.getElementById("racialSlider");
+									var racialOut = document.getElementById("racialOut");
+									racialOut.innerHTML = racialSlider.value;
+									racialSlider.oninput = function() {
+										racialOut.innerHTML = this.value;
+									}
+								</script>
 							</div>
 						</div>
 						<button type="submit" class="btn btn-primary" style="width:100%">Build</button>
@@ -215,20 +264,31 @@
 							}
 						}
 
+						function mapFocus(state) {
+							if(state=="nm"){
+								mymap.setView(new L.LatLng(34, -105.87), 7);
+							}
+							else if(state=="va"){
+								mymap.setView(new L.LatLng(37.7, -79.5), 8);
+							}
+							else if(state=="ut"){
+								mymap.setView(new L.LatLng(39.3, -111.1), 7);
+							}
+						}
 
 						function getColor(d) {
 							return 	d % 7 == 6 ? '#00FFFF' :
-									d % 7 == 5 ? '#660066' :
-									d % 7 == 4 ? '#FF66FF' :
-									d % 7 == 3 ? '#FFFF66' :
-									d % 7 == 2 ? '#FF0000' :
-									d % 7 == 1 ? '#00FF00' :
-									d % 7 == 0 ? '#0000FF' : '#FFFFFF'
+							d % 7 == 5 ? '#660066' :
+							d % 7 == 4 ? '#FF66FF' :
+							d % 7 == 3 ? '#FFFF66' :
+							d % 7 == 2 ? '#FF0000' :
+							d % 7 == 1 ? '#00FF00' :
+							d % 7 == 0 ? '#0000FF' : '#FFFFFF'
 						}
 						//Colors precinct map based on county
 						function precinctStyle(feature) {
 							return {
-								fillColor : getColor(feature.properties.COUNTY),
+								fillColor : getColor(feature.properties.COUNTY || feature.properties.uscong_dis),
 								weight : 0.4
 							};
 						}
@@ -237,14 +297,18 @@
 							onEachFeature: onEachFeature,
 							style : precinctStyle
 						}).addTo(mymap);
+                        L.geoJSON(json_precincts20120, {
+                            onEachFeature: onEachFeature,
+                            style : precinctStyle
+                        }).addTo(mymap);
 					</script>
 					<script>
 					// Prevent buttons from submitting forms for now.
 					$("[type=submit]").click((e) => e.preventDefault());
-					</script>
-				</div>
+				</script>
 			</div>
 		</div>
 	</div>
+</div>
 </body>
 </html>
