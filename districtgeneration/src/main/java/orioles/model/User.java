@@ -1,10 +1,9 @@
 package orioles.model;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+
+import javax.persistence.*;
+
 import orioles.constants.Party;
 
 @Entity
@@ -15,8 +14,12 @@ public class User {
     private String username;
     private String password;
     private String email;
-    private boolean isActivated;
+
+    //@Column(name="is_activated")
+    //private boolean isActivated;
     private Party party;
+
+    public User() {}
 
     public User(String username, String email, String password) {
         this.username = username;
@@ -51,13 +54,13 @@ public class User {
         this.email = email;
     }
 
-    public boolean isIsActivated() {
+    /*public boolean isIsActivated() {
         return isActivated;
-    }
+    }*/
 
-    public void setIsActivated(boolean isActivated) {
+    /*public void setIsActivated(boolean isActivated) {
         this.isActivated = isActivated;
-    }
+    }*/
 
     public Party getParty() {
         return party;
