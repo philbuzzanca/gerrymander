@@ -1,6 +1,7 @@
 package orioles.model;
 
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Precinct implements Cloneable {
@@ -11,6 +12,17 @@ public class Precinct implements Cloneable {
 	private List<Point2D.Double> coordinates;
     private Stats stats;
     private boolean locked;
+
+    public Precinct(){
+        name = "";
+        identifier = -1;
+        district = null;
+        adjacentPrecincts = new ArrayList<>();
+        coordinates = new ArrayList<>();
+        stats = null;
+        locked = false;
+
+    }
     
     public String getName() {
         return name;
