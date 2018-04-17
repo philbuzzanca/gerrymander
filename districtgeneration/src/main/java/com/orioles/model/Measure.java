@@ -1,4 +1,4 @@
-package orioles.model;
+package com.orioles.model;
 
 public interface Measure {
     double calculateGoodness(State state);
