@@ -1,11 +1,11 @@
-package orioles.controller;
+package com.orioles.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import orioles.persistence.UserRepository;
-import orioles.model.User;
+import com.orioles.persistence.UserRepository;
+import com.orioles.model.User;
 
 @Controller
 public class RegisterController {

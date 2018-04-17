@@ -1,10 +1,9 @@
-package orioles.model;
+package com.orioles.model;
 
+import com.orioles.constants.Party;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.*;
-
-import orioles.constants.Party;
 
 @Entity
 public class User {

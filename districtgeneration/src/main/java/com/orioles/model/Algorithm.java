@@ -1,7 +1,6 @@
-package orioles.model;
+package com.orioles.model;
 
-import orioles.constants.Constraint;
-
+import com.orioles.constants.Constraint;
 import java.util.List;
 import java.util.Map;
 

@@ -1,4 +1,4 @@
-package orioles.controller;
+package com.orioles.controller;
 
 import java.util.List;
 import javax.servlet.http.HttpSession;
@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import orioles.model.User;
-import orioles.persistence.UserRepository;
+import com.orioles.model.User;
+import com.orioles.persistence.UserRepository;
 
 @RestController
 public class LoginController {
