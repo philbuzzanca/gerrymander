@@ -68,6 +68,9 @@ public class User {
     public void setParty(Party party) {
         this.party = party;
     }
-    
-    
+
+    @Override
+    public String toString() {
+        return String.format("User: {name: %s, password: %s, party: %s}", username, password, party);
+    }
 }

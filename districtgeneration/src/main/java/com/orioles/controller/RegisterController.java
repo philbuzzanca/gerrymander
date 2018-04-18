@@ -6,8 +6,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import com.orioles.persistence.UserRepository;
 import com.orioles.model.User;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
 public class RegisterController {
   @Autowired
   private UserRepository userRepository;
@@ -15,9 +16,10 @@ public class RegisterController {
   @PostMapping("/register")
   public String register(@RequestParam String username, @RequestParam String email, @RequestParam String password){
     if(!userRepository.findByEmail(email).isEmpty()){
-      return null;
+      return "Duplicate Email";
     }
+    System.out.printf("New User: %s", username);
     userRepository.save(new User(username, email, password));
-    return "OK";
+    return "New User: " + username;
   }
 }
