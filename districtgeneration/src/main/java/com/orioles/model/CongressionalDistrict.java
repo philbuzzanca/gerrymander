@@ -15,7 +15,7 @@ public class CongressionalDistrict implements Cloneable {
 	private int ID;
 	private List<Precinct> precincts;
 	private double goodness;
-	private boolean hasUpdated;
+	private boolean isDirty;
 	private Stats stat;
 
 	public CongressionalDistrict() {
@@ -25,7 +25,7 @@ public class CongressionalDistrict implements Cloneable {
 		this.ID = ID;
 		this.precincts = precincts;
 		this.goodness = -1;
-		this.hasUpdated = false;
+		this.isDirty = false;
 	}
 
 	public List<Precinct> getPrecincts() {
@@ -52,16 +52,8 @@ public class CongressionalDistrict implements Cloneable {
 		this.goodness = goodness;
 	}
 
-	public double getArea() {
-		return 0;
-	}
-
-	public double getPerimeter() {
-		return 0;
-	}
-
 	public Stats summarize() {
-		if (!hasUpdated)
+		if (!isDirty)
 			return stat;
 
 		Map<Race, Long> conDistRace = new HashMap<>();
@@ -71,7 +63,7 @@ public class CongressionalDistrict implements Cloneable {
 		precincts.stream().map(Precinct::getStats)
 				.forEach(precinctStat -> Stats.summarize(conDistRace, conDistParty, precinctStat, stat));
 
-		hasUpdated = true;
+		isDirty = false;
 		return stat;
 	}
 
@@ -84,12 +76,12 @@ public class CongressionalDistrict implements Cloneable {
 	}
 
 	public void removeFromDistrict(Precinct precinct) {
-		hasUpdated = false;
+		isDirty = true;
 		precincts.remove(precinct);
 	}
 
 	public void addToDistrict(Precinct precinct) {
-		hasUpdated = false;
+		isDirty = true;
 		precincts.add(precinct);
 	}
 
@@ -103,7 +95,7 @@ public class CongressionalDistrict implements Cloneable {
 		return precincts.get((int) (Math.random() * precincts.size()));
 	}
 
-	public double calculateArea() {
+	public double getArea() {
 		return 100;
 	}
 
@@ -114,14 +106,15 @@ public class CongressionalDistrict implements Cloneable {
 			movingPrecinct = getRandomPrecinct();
 			List<Precinct> adjacentPrecincts = movingPrecinct.getAdjacentPrecincts();
 			for (Precinct adjacentPrecinct : adjacentPrecincts) {
-				if (movingPrecinct.getDistrict().getID() != adjacentPrecinct.getDistrict().getID())
+				if (movingPrecinct.getDistrict().getID() != adjacentPrecinct.getDistrict().getID()) {
 					isBorderPrecinct = true;
+				}
 			}
 		} while (isBorderPrecinct);
 		return movingPrecinct;
 	}
 
-	public double calculatePerimeter() {
+	public double getPerimeter() {
 		List<Edge> allEdges = new ArrayList<>();
 		List<Edge> repeatedEdges = new ArrayList<>();
 		for (Precinct currentPrecinct : precincts) {
@@ -137,20 +130,6 @@ public class CongressionalDistrict implements Cloneable {
 			}
 		}
 		allEdges.removeAll(repeatedEdges);
-		return allEdges.stream().mapToDouble(this::calculateDistance).sum();
-	}
-
-	private double calculateDistance(Edge edge) {
-		Coordinate point1 = edge.getP1();
-		Coordinate point2 = edge.getP2();
-		//calculates distance using haversine formula
-		double radius = Constants.EARTH_RADIUS;
-		double latDistance = Math.toRadians(point2.getY() - point1.getY());
-		double lonDistance = Math.toRadians(point2.getX() - point1.getX());
-
-		double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2)
-				+ Math.cos(Math.toRadians(point1.getY())) * Math.cos(Math.toRadians(point2.getY()))
-				* Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
-		return radius * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+		return allEdges.stream().mapToDouble(Edge::calculateDistance).sum();
 	}
 }

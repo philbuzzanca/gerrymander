@@ -1,5 +1,6 @@
-package com.orioles.districtgeneration;
+package com.orioles.test;
 
+import com.orioles.districtgeneration.Measure;
 import com.orioles.model.CongressionalDistrict;
 import com.orioles.model.State;
 import java.util.List;

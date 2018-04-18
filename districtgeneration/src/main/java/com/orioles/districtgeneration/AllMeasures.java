@@ -2,7 +2,6 @@ package com.orioles.districtgeneration;
 
 import com.orioles.model.CongressionalDistrict;
 import com.orioles.model.State;
-
 import java.util.List;
 import java.util.OptionalDouble;
 

@@ -2,29 +2,32 @@ package com.orioles.model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import com.orioles.constants.Constants;
-import com.orioles.constants.Constraint;
-import com.orioles.districtgeneration.Measure;
-
 import java.util.List;
 import java.util.Map;
-
+import com.orioles.constants.Constants;
+import com.orioles.constants.Constraint;
+import com.orioles.districtgeneration.AllMeasures;
+import javax.persistence.Transient;
 
 public class Algorithm {
 	private State state;
-	private Map<Measure, Double> measures;
+	private Map<AllMeasures, Double> measures;
 	private List<Constraint> constraints;
+
+	@Transient
 	private ArrayList<Move> moves;
-	private int iterations;
-	private boolean paused;
 
 	public Algorithm() {
 		measures = new HashMap<>();
 		state = new State();
-		iterations = 0;
 		constraints = new ArrayList<>();
-		paused = false;
 		moves = new ArrayList<>();
+	}
+
+	public Algorithm(State state, Map<AllMeasures, Double> measures, List<Constraint> constraints) {
+		this.state = state;
+		this.measures = measures;
+		this.constraints = constraints;
 	}
 
 	public State getState() {
@@ -35,11 +38,11 @@ public class Algorithm {
 		this.state = state;
 	}
 
-	public Map<Measure, Double> getMeasures() {
+	public Map<AllMeasures, Double> getMeasures() {
 		return measures;
 	}
 
-	public void setMeasures(Map<Measure, Double> measures) {
+	public void setMeasures(Map<AllMeasures, Double> measures) {
 		this.measures = measures;
 	}
 
@@ -51,28 +54,12 @@ public class Algorithm {
 		this.constraints = constraints;
 	}
 
-	public int getIterations() {
-		return iterations;
-	}
-
-	public void setIterations(int iterations) {
-		this.iterations = iterations;
-	}
-
-	public Precinct getMoves() {
-		return null;
+	public List<Move> getMoves() {
+		return moves;
 	}
 
 	public void setMoves(ArrayList<Move> moves) {
 		this.moves = moves;
-	}
-
-	public boolean getPaused() {
-		return this.paused;
-	}
-
-	public void setPaused(boolean pause) {
-		this.paused = pause;
 	}
 
 	public void addConstraint(Constraint constraint) {
@@ -95,18 +82,18 @@ public class Algorithm {
 		return goodness - oldGoodness;
 	}
 
-	public boolean checkIterations() {
-		return false;
+	public List<Precinct> getValidMoves() {
+		return null;
 	}
 
 	public void startAlgorithm() {
 		state.calculateDistrictGoodness(measures);
-		for (this.iterations = 0; this.iterations < Constants.MAX_ITERATIONS; this.iterations++) {
+		for (int iterations = 0; iterations < Constants.MAX_ITERATIONS; iterations++) {
 			step();
 		}
 	}
 
-	public void step() {
+	private void step() {
 		double oldGoodness = state.getGoodness();
 		CongressionalDistrict sourceDistrict = state.getStartingDistrict();
 		Precinct movingPrecinct = sourceDistrict.getMovingPrecinct();
@@ -132,8 +119,7 @@ public class Algorithm {
 	public void addMove(CongressionalDistrict sourceDistrict, CongressionalDistrict destDistrict,
 						Precinct movingPrecinct) {
 
-		Move newMove = new Move(movingPrecinct.getIdentifier(), sourceDistrict.getID(),
-				destDistrict.getID());
+		Move newMove = new Move(movingPrecinct.getIdentifier(), sourceDistrict.getID(), destDistrict.getID());
 		moves.add(newMove);
 		movingPrecinct.setDistrict(destDistrict);
 	}
