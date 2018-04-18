@@ -2,26 +2,27 @@ package com.orioles.model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-
 import com.orioles.constants.Constants;
 import com.orioles.constants.Constraint;
-
 import java.util.List;
 import java.util.Map;
+
 
 public class Algorithm {
 	private State state;
 	private Map<Measure, Double> measures;
 	private List<Constraint> constraints;
-	private List<Move> moves;
+	private ArrayList<Move> moves;
 	private int iterations;
+	private boolean paused;
 
 	public Algorithm() {
-		measures = new HashMap<Measure, Double>();
+		measures = new HashMap<>();
 		state = new State();
 		iterations = 0;
-		constraints = new ArrayList<Constraint>();
-		moves = new ArrayList<>();
+		constraints = new ArrayList<>();
+		paused = false;
+		moves = new ArrayList<Move>();
 	}
 
 	public State getState() {
@@ -64,11 +65,12 @@ public class Algorithm {
 		this.moves = moves;
 	}
 
-	public void startAlgorithm() {
-		state.setGoodness(measures);
-		while (this.iterations < Constants.MAX_ITERATIONS) {
-			step();
-		}
+	public boolean getPaused() {
+		return this.paused;
+	}
+
+	public void setPaused(boolean pause) {
+		this.paused = pause;
 	}
 
 	public void addConstraint(Constraint constraint) {
@@ -83,7 +85,7 @@ public class Algorithm {
 		return goodness > oldGoodness;
 	}
 
-	public List<Precinct> getCandidates(List<Precinct> precincts) {
+	public ArrayList<Precinct> getCandidates(ArrayList<Precinct> precincts) {
 		return null;
 	}
 
@@ -95,37 +97,33 @@ public class Algorithm {
 		return false;
 	}
 
-	public CongressionalDistrict getStartingDistrict() {
-		return null;
+	public void startAlgorithm() {
+		state.setDistrictGoodness(measures);
+		while (this.iterations < Constants.MAX_ITERATIONS) {
+			step();
+		}
 	}
 
 	public void step() {
 		double oldGoodness = state.getGoodness();
-		CongressionalDistrict fromDistrict = getStartingDistrict();
-		Precinct movingPrecinct = fromDistrict.getRandomPrecinct();
-		List<Precinct> adjacentPrecincts = movingPrecinct.getAdjacentPrecincts();
-		boolean foundMove = false;
+		CongressionalDistrict sourceDistrict = state.getStartingDistrict();
+		Precinct movingPrecinct = sourceDistrict.getMovingPrecinct();
+		ArrayList<Precinct> adjacentPrecincts = movingPrecinct.getAdjacentPrecincts();
+
 		for (Precinct adjacentPrecinct : adjacentPrecincts) {
-			CongressionalDistrict toDistrict = adjacentPrecinct.getDistrict();
-			if (fromDistrict.getID() != toDistrict.getID()) {
-				fromDistrict.removeFromDistrict(movingPrecinct);
-				toDistrict.addToDistrict(movingPrecinct);
-				state.setGoodness(measures);
+			CongressionalDistrict destDistrict = adjacentPrecinct.getDistrict();
+			if (sourceDistrict.getID() != destDistrict.getID()) {
+				makeMove(sourceDistrict, destDistrict, movingPrecinct);
+				state.setDistrictGoodness(measures);
 				double newGoodness = state.getGoodness();
 				if (oldGoodness >= newGoodness) {
-					toDistrict.removeFromDistrict(movingPrecinct);
-					fromDistrict.addToDistrict(movingPrecinct);
-					state.setGoodness(measures);
-					//            if move is improvement then we need to change CD in precinct,
-					//            also need to change border precicnt in all adjacent precincts to represent the moving
-					//            precincts new CD
+					makeMove(destDistrict, sourceDistrict, movingPrecinct);
+					state.setDistrictGoodness(measures);
 				} else {
-					foundMove = true;
-					addMove(fromDistrict, toDistrict, movingPrecinct);
+					addMove(sourceDistrict, destDistrict, movingPrecinct);
+					break;
 				}
 			}
-			if (foundMove)
-				break;
 		}
 	}
 
@@ -135,5 +133,14 @@ public class Algorithm {
 		Move newMove = new Move(movingPrecinct.getIdentifier(), sourceDistrict.getID(),
 				destDistrict.getID());
 		moves.add(newMove);
+		movingPrecinct.setDistrict(destDistrict);
+	}
+
+	public void makeMove(CongressionalDistrict sourceDistrict, CongressionalDistrict destDistrict,
+						 Precinct movingPrecinct) {
+
+		sourceDistrict.removeFromDistrict(movingPrecinct);
+		destDistrict.addToDistrict(movingPrecinct);
+
 	}
 }

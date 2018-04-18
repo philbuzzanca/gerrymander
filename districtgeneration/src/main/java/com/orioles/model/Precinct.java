@@ -7,8 +7,8 @@ public class Precinct implements Cloneable {
     private String name;
     private int identifier;
     private CongressionalDistrict district;
-    private List<Precinct> adjacentPrecincts;
-    private List<Coordinate> coordinates;
+    private ArrayList<Precinct> adjacentPrecincts;
+    private ArrayList<Coordinate> coordinates;
     private Stats stats;
     private boolean locked;
 
@@ -46,11 +46,11 @@ public class Precinct implements Cloneable {
         this.district = district;
     }
 
-    public List<Precinct> getAdjacentPrecincts() {
+    public ArrayList<Precinct> getAdjacentPrecincts() {
         return adjacentPrecincts;
     }
 
-    public void setAdjacentPrecincts(List<Precinct> adjacentPrecincts) {
+    public void setAdjacentPrecincts(ArrayList<Precinct> adjacentPrecincts) {
         this.adjacentPrecincts = adjacentPrecincts;
     }
 
@@ -74,11 +74,11 @@ public class Precinct implements Cloneable {
         return false;
     }
 
-	public void setCoordinates(List<Coordinate> coordinates){
-		this.coordinates = coordinates;
-	}
+    public void setCoordinates(ArrayList<Coordinate> coordinates){
+            this.coordinates = coordinates;
+    }
 
-	public List<Coordinate> getCoordinates(){
-		return coordinates;
-	}
+    public ArrayList<Coordinate> getCoordinates(){
+            return coordinates;
+    }
 }
