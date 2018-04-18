@@ -1,5 +1,3 @@
-<%--@elvariable id="helpText" type="String"--%>
-<%--@elvariable id="aboutText" type="String"--%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
@@ -49,15 +47,11 @@
           <li class="nav-item">
             <a class="nav-link" href="" data-toggle="modal" data-target="#accountModal">${sessionScope.user.getUsername()}</i></a>
           </li>
-          <%
-            if (session.getAttribute("user")==null){
-            %>
+          <c:if test="${empty sessionScope.user}">
           <li class="nav-item">
             <a class="nav-link" href="" data-toggle="modal" data-target="#registerLoginModal">Register/Login <i class="fas fa-sign-in-alt"></i></a>
           </li>
-          <%
-            }
-            %>
+          </c:if>
         </ul>
       </div>
     </nav>
@@ -154,11 +148,7 @@
             <div class="col-md-6 col-lg-6">
               <div id="registerBox">
                 <h2>Register <i class="fa fa-user-plus"></i></h2>
-                <form id="registerForm" onsubmit="register(registerUsername.value, registerEmail.value, registerPassword.value)">
-                  <div class="form-group">
-                    <label for="registerEmail">Email address</label>
-                    <input type="email" id="registerEmail" class="form-control" placeholder="your.email@stonybrook.edu">
-                  </div>
+                <form id="registerForm" onsubmit="register(registerUsername.value, registerPassword.value)">
                   <div class="form-group">
                     <label for="registerEmail">Username</label>
                     <input type="text" id="registerUsername" class="form-control" placeholder="username">
@@ -174,16 +164,16 @@
             <div class="col-md-6 col-lg-6">
               <div id="loginBox">
                 <h2>Log in <i class="fas fa-sign-in-alt"></i></h2>
-                <form id="loginForm" onsubmit="login(loginEmail.value, loginPassword.value)">
+                <form id="loginForm">
                   <div class="form-group">
-                    <label for="loginEmail">Email address</label>
-                    <input type="email" id="loginEmail" class="form-control" placeholder="your.email@stonybrook.edu">
+                    <label for="loginUsername">Username</label>
+                    <input type="text" id="loginUsername" class="form-control" placeholder="username">
                   </div>
                   <div class="form-group">
                     <label for="loginPassword">Password</label>
                     <input type="password" id="loginPassword" class="form-control" placeholder="********">
                   </div>
-                  <input class="btn btn-primary" type="submit" value="Log in">
+                  <input id="loginButton" class="btn btn-primary" type="submit" value="Log in">
                 </form>
               </div>
             </div>
