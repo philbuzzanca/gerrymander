@@ -12,6 +12,7 @@ public class Algorithm {
     private State state;
     private Map<Measure, Double> measures;
     private List<Constraint> constraints;
+    private ArrayList<Move> moves;
     private int iterations;
     private boolean paused;
 
@@ -21,6 +22,7 @@ public class Algorithm {
         iterations = 0;
         constraints = new ArrayList<Constraint>();
         paused = false;
+        moves = new ArrayList<Move>();
     }
     
     public State getState() {
@@ -55,8 +57,20 @@ public class Algorithm {
         this.iterations = iterations;
     }
     
-    public Precinct getMove(){
+    public Precinct getMoves(){
         return null;
+    }
+    
+    public void setMoves(ArrayList<Move> moves){
+        this.moves = moves;
+    }
+    
+    public boolean getPaused(){
+        return this.paused;
+    }
+    
+    public void setPaused(boolean pause){
+        this.paused = pause;
     }
     
     public void startAlgorithm(){
@@ -99,6 +113,7 @@ public class Algorithm {
         CongressionalDistrict fromDistrict = getStartingDistrict();
         Precinct movingPrecinct = fromDistrict.getRandomPrecinct();
         ArrayList<Precinct> adjacentPrecincts = (ArrayList)movingPrecinct.getAdjacentPrecincts();
+        boolean foundMove = false;
         for(Precinct adjacentPrecinct : adjacentPrecincts) {
             CongressionalDistrict toDistrict = adjacentPrecinct.getDistrict();
             if(fromDistrict.getID() != toDistrict.getID()){
@@ -115,9 +130,20 @@ public class Algorithm {
                   //            precincts new CD
                 }
                 else{
-                    //add a move to the changes list
+                    foundMove = true;
+                    addMove(fromDistrict, toDistrict, movingPrecinct);
                 }
             }
+            if(foundMove)
+                break;
         }
+    }
+    
+    public void addMove(CongressionalDistrict sourceDistrict, CongressionalDistrict destDistrict,
+            Precinct movingPrecinct){
+        
+        Move newMove = new Move(movingPrecinct.getIdentifier(), sourceDistrict.getID(),
+            destDistrict.getID());
+        moves.add(newMove);
     }
 }

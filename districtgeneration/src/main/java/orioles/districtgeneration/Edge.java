@@ -1,32 +1,29 @@
 package orioles.districtgeneration;
 
-import java.awt.geom.Point2D;
-
-
 public class Edge {
     
-    private Point2D.Double p1;
-    private Point2D.Double p2;
+    private Coordinate p1;
+    private Coordinate p2;
     
     
-    public Edge(Point2D.Double point1, Point2D.Double point2){
+    public Edge(Coordinate point1, Coordinate point2){
         this.p1 = point1;
         this.p2 = point2;
     }
     
-    public Point2D.Double getP1(){
+    public Coordinate getP1(){
         return p1;
     }
     
-    public Point2D.Double getP2(){
+    public Coordinate getP2(){
         return p2;
     }
     
-    public void setP1(Point2D.Double point){
+    public void setP1(Coordinate point){
         this.p1 = point;
     }
     
-    public void setP2(Point2D.Double point){
+    public void setP2(Coordinate point){
         this.p2 = point;
     }
     

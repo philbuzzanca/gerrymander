@@ -4,11 +4,12 @@ import orioles.constants.Party;
 import orioles.constants.Race;
 import orioles.districtgeneration.Edge;
 
-import java.awt.geom.Point2D;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import orioles.districtgeneration.Coordinate;
 
 public class CongressionalDistrict implements Cloneable {
     private List<Precinct> precincts;
@@ -114,10 +115,10 @@ public class CongressionalDistrict implements Cloneable {
 		ArrayList<Edge> edges2 = new ArrayList<>();
 		for(int i=0; i<precincts.size();i++){
 			Precinct currentPrecinct = precincts.get(i);
-			List<Point2D.Double> coordinates = currentPrecinct.getCoordinates();
+			List<Coordinate> coordinates = currentPrecinct.getCoordinates();
 			for(int j=0; j<coordinates.size()-1; j++){
-				Point2D.Double p1 = coordinates.get(j);
-				Point2D.Double p2 = coordinates.get(j+1);
+				Coordinate p1 = coordinates.get(j);
+				Coordinate p2 = coordinates.get(j+1);
 				Edge edge = new Edge(p1, p2);
 				Boolean found = false;
 				for (Edge checkedge : edges1) {
@@ -143,8 +144,8 @@ public class CongressionalDistrict implements Cloneable {
 			edges1.remove(edge);
 		}
 		for (Edge edge : edges1) {
-			Point2D.Double point1 = edge.getP1();
-			Point2D.Double point2 = edge.getP2();
+			Coordinate point1 = edge.getP1();
+			Coordinate point2 = edge.getP2();
 			double distance = calculateDistance(point1, point2);
 			perimeter+=distance;
 		}
@@ -152,12 +153,12 @@ public class CongressionalDistrict implements Cloneable {
 		return perimeter;
 	}
 
-	public double calculateDistance(Point2D.Double point1, Point2D.Double point2){
+	public double calculateDistance(Coordinate point1, Coordinate point2){
 		//calculates distance useing haversine formula
 		double radius = 6371.01;
 
-		Point2D.Double p1 = new Point2D.Double(-77.860192445970085, 39.153000129599988);
-		Point2D.Double p2 = new Point2D.Double(-77.862840901004034, 39.145148506742501);
+		Coordinate p1 = new Coordinate(-77.860192445970085, 39.153000129599988);
+		Coordinate p2 = new Coordinate(-77.862840901004034, 39.145148506742501);
 
 		double latDistance = Math.toRadians(p2.getY() - p1.getY());
 		double lonDistance = Math.toRadians(p2.getX() - p1.getX());
