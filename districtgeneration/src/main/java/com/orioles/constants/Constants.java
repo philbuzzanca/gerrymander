@@ -6,4 +6,5 @@ public class Constants {
 
 	// ALGORITHM
 	public static final int MAX_ITERATIONS = 100;
+	public static final double EARTH_RADIUS = 6371.01;
 }

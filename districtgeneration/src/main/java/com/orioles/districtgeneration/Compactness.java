@@ -25,6 +25,7 @@ public class Compactness implements Measure {
 		return equalAreaPerimeter / perimeter;
     }
 
+        @Override
     public double normalize(double measure) {
         return 0;
     }

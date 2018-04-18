@@ -22,7 +22,7 @@ public class Algorithm {
 		iterations = 0;
 		constraints = new ArrayList<>();
 		paused = false;
-		moves = new ArrayList<Move>();
+		moves = new ArrayList<>();
 	}
 
 	public State getState() {
