@@ -21,10 +21,9 @@ public class Precinct implements Cloneable {
         coordinates = new ArrayList<>();
         stats = null;
         locked = false;
-
     }
-    
-    public String getName() {
+
+	public String getName() {
         return name;
     }
 

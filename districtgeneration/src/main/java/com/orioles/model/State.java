@@ -1,17 +1,13 @@
 package com.orioles.model;
 
-
 import com.orioles.constants.Party;
 import com.orioles.constants.Race;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+
+import java.util.*;
 
 public class State implements Cloneable {
     private List<CongressionalDistrict> congressionalDistricts;
     private String name;
-
 	private boolean hasUpdated;
 	private Stats stat;
 
@@ -49,7 +45,7 @@ public class State implements Cloneable {
 
         congressionalDistricts.stream()
                 .map(CongressionalDistrict::summarize)
-                .forEach(cdStat -> Summary.summarize(conDistRace, conDistParty, cdStat, stat));
+                .forEach(cdStat -> Stats.summarize(conDistRace, conDistParty, cdStat, stat));
 
         hasUpdated = true;
 		return stat;
@@ -71,20 +67,13 @@ public class State implements Cloneable {
         return null;
     }
 
-	public void setStartingGoodness(Map<Measure, Double> measures){
-		for(int i=0; i<congressionalDistricts.size(); i++){
-
-			ArrayList<Double> goodnessVals = new ArrayList<Double>();
-			for ( Measure key : measures.keySet()) {
-				goodnessVals.add(key.calculateGoodness(congressionalDistricts.get(i))*measures.get(key));
-			}
-
-			double goodness = 0;
-			for(int j=0; j<goodnessVals.size();j++){
-				goodness+=goodnessVals.get(j);
-			}
-			goodness = goodness/goodnessVals.size();
-			congressionalDistricts.get(i).setOldGoodness(goodness);
+	void setStartingGoodness(Map<Measure, Double> measures){
+		for (CongressionalDistrict cd : congressionalDistricts) {
+			ArrayList<Double> goodnessVals = new ArrayList<>();
+			measures.keySet().forEach(key -> goodnessVals.add(key.calculateGoodness(cd) * measures.get(key)));
+			OptionalDouble goodness = goodnessVals.stream().mapToDouble(num -> num).average();
+			if (goodness.isPresent())
+				cd.setGoodness(goodness.getAsDouble());
 		}
 	}
 }

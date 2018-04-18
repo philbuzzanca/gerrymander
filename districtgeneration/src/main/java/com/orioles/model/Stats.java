@@ -4,7 +4,7 @@ import com.orioles.constants.Party;
 import com.orioles.constants.Race;
 import java.util.Map;
 
-public class Stats {
+class Stats {
     private Map<Race, Long> races;
     private Map<Party, Long> parties;
     private long population;
@@ -37,5 +37,17 @@ public class Stats {
 
     void setPopulation(long population) {
         this.population = population;
-    }    
+    }
+
+	static void summarize(Map<Race, Long> races, Map<Party, Long> parties, Stats eachStat, Stats overallStats) {
+		for (Race r : Race.values()) {
+			races.put(r, races.get(r) + eachStat.getRaces().get(r));
+		}
+
+		for (Party p : Party.values()) {
+			parties.put(p, parties.get(p) + eachStat.getParties().get(p));
+		}
+
+		overallStats.setPopulation(overallStats.getPopulation() + eachStat.getPopulation());
+	}
 }
