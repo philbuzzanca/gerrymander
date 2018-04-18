@@ -9,11 +9,20 @@ import java.util.List;
 import java.util.Map;
 
 public class State implements Cloneable {
-    private List<CongressionalDistrict> congressionalDistricts;
-    private String name;
-
+    
+        private List<CongressionalDistrict> congressionalDistricts;
+        private String name;
+        private double goodness;
 	private boolean hasUpdated;
 	private Stats stat;
+        
+        public State(){
+            congressionalDistricts = new ArrayList<>();
+            name = "";
+            goodness = 0;
+            hasUpdated = false;
+            stat = new Stats();
+        }
 
 	public List<CongressionalDistrict> getCongressionalDistricts() {
 		return congressionalDistricts;
@@ -71,27 +80,40 @@ public class State implements Cloneable {
         return null;
     }
 
-    public void setGoodness(Map<Measure, Double> measures){
+    public void setDistrictGoodness(Map<Measure, Double> measures){
         for(int i=0; i<congressionalDistricts.size(); i++){
             ArrayList<Double> goodnessVals = new ArrayList<Double>();
             for ( Measure key : measures.keySet()) {
                     goodnessVals.add(key.calculateGoodness(congressionalDistricts.get(i))*measures.get(key));
             }
-            double goodness = 0;
+            double districtGoodness = 0;
             for(int j=0; j<goodnessVals.size();j++){
-                    goodness+=goodnessVals.get(j);
+                    districtGoodness+=goodnessVals.get(j);
             }
-            goodness = goodness/goodnessVals.size();
-            congressionalDistricts.get(i).setOldGoodness(goodness);
+            districtGoodness = districtGoodness/goodnessVals.size();
+            congressionalDistricts.get(i).setOldGoodness(districtGoodness);
         }
     }
     
-    public double getGoodness(){
+    public void calculateGoodness(Map<Measure, Double> measures){
+        setDistrictGoodness(measures);
         double average = 0;
         for (CongressionalDistrict congressionalDistrict : congressionalDistricts) {
             average+=congressionalDistrict.getOldGoodness();
         }
         average = average/congressionalDistricts.size();
-        return average;
+        this.goodness = average;
+    }
+    
+    public double getGoodness(){
+        return this.goodness;
+    }
+    
+    public void setGoodness(double newGoodness){
+        this.goodness = newGoodness;
+    }
+    
+     public CongressionalDistrict getStartingDistrict(){
+        return congressionalDistricts.get((int)(Math.random()*congressionalDistricts.size()));
     }
 }
