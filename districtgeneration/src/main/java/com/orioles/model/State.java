@@ -98,7 +98,7 @@ public class State implements Cloneable {
 		return this.goodness = goodness.isPresent() ? goodness.getAsDouble() : 0;
 	}
 
-     public CongressionalDistrict getStartingDistrict(){
+	public CongressionalDistrict getStartingDistrict(){
         return getRandomDistrict();
     }
 

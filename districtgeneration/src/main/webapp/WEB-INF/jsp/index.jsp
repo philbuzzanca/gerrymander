@@ -162,7 +162,7 @@
 						<h2>Register <i class="fa fa-user-plus"></i></h2>
 						<form id="registerForm">
 							<div class="form-group">
-								<label for="registerEmail">Username</label>
+								<label for="registerUsername">Username</label>
 								<input type="text" id="registerUsername"
 											 class="form-control" placeholder="username">
 							</div>

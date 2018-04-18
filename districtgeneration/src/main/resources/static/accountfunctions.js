@@ -1,7 +1,7 @@
 'use strict';
 function register(username, password){
     let formData = {username: username, password: password};
-    $.post("/register", formData.serialize(), function (data, status) {
+    $.post("/register", formData, function (data, status) {
         if (status === 'error'){
             $('#invalidLogin').text(data.message);
         }
@@ -46,6 +46,13 @@ $(document).ready(function(){
         let password = $('#loginPassword').val();
         login(username, password);
     });
+
+    $("#registerForm").submit((event) => {
+        event.preventDefault();
+        let username = $('#registerUsername').val();
+        let password = $('#registerPassword').val();
+        register(username, password);
+    });
 });
 
 $(document).ready(function(){
@@ -53,7 +60,7 @@ $(document).ready(function(){
         event.preventDefault();
         logout();
     });
-    
+
     $("#logoutButton").click((event) => {
         event.preventDefault();
         logout();
