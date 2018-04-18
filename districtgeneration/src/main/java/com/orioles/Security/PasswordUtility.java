@@ -1,6 +1,6 @@
-package orioles.Security;
+package com.orioles.Security;
 
-import orioles.constants.Constants;
+import com.orioles.constants.Constants;
 
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;

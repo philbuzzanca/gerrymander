@@ -1,9 +1,9 @@
-package orioles.districtgeneration;
+package com.orioles.districtgeneration;
 
-import orioles.model.Measure;
-import orioles.model.State;
-import orioles.model.CongressionalDistrict;
 
+import com.orioles.model.CongressionalDistrict;
+import com.orioles.model.Measure;
+import com.orioles.model.State;
 import java.util.List;
 
 public class Compactness implements Measure {

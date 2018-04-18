@@ -1,4 +1,4 @@
-package orioles.constants;
+package com.orioles.constants;
 
 public enum Race {
     WHITE,

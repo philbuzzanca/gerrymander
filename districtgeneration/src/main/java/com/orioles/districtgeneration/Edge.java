@@ -1,4 +1,4 @@
-package orioles.districtgeneration;
+package com.orioles.districtgeneration;
 
 import java.awt.geom.Point2D;
 

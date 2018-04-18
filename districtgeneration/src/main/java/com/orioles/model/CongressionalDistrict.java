@@ -1,9 +1,9 @@
-package orioles.model;
+package com.orioles.model;
 
-import orioles.constants.Party;
-import orioles.constants.Race;
-import orioles.districtgeneration.Edge;
 
+import com.orioles.constants.Party;
+import com.orioles.constants.Race;
+import com.orioles.districtgeneration.Edge;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.HashMap;
