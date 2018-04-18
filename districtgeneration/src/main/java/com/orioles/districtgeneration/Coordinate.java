@@ -14,19 +14,19 @@ public class Coordinate {
 		this.y = yVal;
 	}
 
-	public double getX() {
+	double getX() {
 		return this.x;
 	}
 
-	public double getY() {
+	double getY() {
 		return this.y;
 	}
 
-	public void setX(double xValue) {
+	void setX(double xValue) {
 		this.x = xValue;
 	}
 
-	public void setY(double yValue) {
+	void setY(double yValue) {
 		this.y = yValue;
 	}
 
@@ -36,7 +36,7 @@ public class Coordinate {
 			return true;
 		if (o == null || getClass() != o.getClass())
 			return false;
-		Coordinate that = (Coordinate) o;
-		return that.x == this.x && that.y == this.y;
+		Coordinate otherCoordinate = (Coordinate) o;
+		return otherCoordinate.x == this.x && otherCoordinate.y == this.y;
 	}
 }

@@ -101,11 +101,10 @@ public class Algorithm {
 
 		for (Precinct adjacentPrecinct : adjacentPrecincts) {
 			CongressionalDistrict destDistrict = adjacentPrecinct.getDistrict();
-			if (sourceDistrict.getID() != destDistrict.getID()) {
+			if (!sourceDistrict.equals(destDistrict)) {
 				makeMove(sourceDistrict, destDistrict, movingPrecinct);
 				state.calculateDistrictGoodness(measures);
-				double newGoodness = state.getGoodness();
-				if (oldGoodness >= newGoodness) {
+				if (oldGoodness >= state.getGoodness()) {
 					makeMove(destDistrict, sourceDistrict, movingPrecinct);
 					state.calculateDistrictGoodness(measures);
 				} else {
@@ -116,16 +115,16 @@ public class Algorithm {
 		}
 	}
 
-	public void addMove(CongressionalDistrict sourceDistrict, CongressionalDistrict destDistrict,
-						Precinct movingPrecinct) {
+	private void addMove(CongressionalDistrict sourceDistrict, CongressionalDistrict destDistrict,
+						 Precinct movingPrecinct) {
 
 		Move newMove = new Move(movingPrecinct.getIdentifier(), sourceDistrict.getID(), destDistrict.getID());
 		moves.add(newMove);
 		movingPrecinct.setDistrict(destDistrict);
 	}
 
-	public void makeMove(CongressionalDistrict sourceDistrict, CongressionalDistrict destDistrict,
-						 Precinct movingPrecinct) {
+	private void makeMove(CongressionalDistrict sourceDistrict, CongressionalDistrict destDistrict,
+						  Precinct movingPrecinct) {
 
 		sourceDistrict.removeFromDistrict(movingPrecinct);
 		destDistrict.addToDistrict(movingPrecinct);
