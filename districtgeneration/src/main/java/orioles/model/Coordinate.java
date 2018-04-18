@@ -1,4 +1,4 @@
-package orioles.districtgeneration;
+package orioles.model;
 
 public class Coordinate {
     

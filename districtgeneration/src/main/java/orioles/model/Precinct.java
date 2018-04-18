@@ -2,7 +2,6 @@ package orioles.model;
 
 import java.util.ArrayList;
 import java.util.List;
-import orioles.districtgeneration.Coordinate;
 
 public class Precinct implements Cloneable {
     private String name;
