@@ -1,7 +1,5 @@
 package com.orioles.districtgeneration;
 
-import com.orioles.model.Coordinate;
-
 public class Edge {
     private Coordinate p1;
     private Coordinate p2;

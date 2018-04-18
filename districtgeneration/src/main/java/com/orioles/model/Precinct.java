@@ -1,5 +1,7 @@
 package com.orioles.model;
 
+import com.orioles.districtgeneration.Coordinate;
+
 import java.util.ArrayList;
 
 public class Precinct implements Cloneable {
