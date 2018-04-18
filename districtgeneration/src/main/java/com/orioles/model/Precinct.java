@@ -1,6 +1,5 @@
 package com.orioles.model;
 
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +8,7 @@ public class Precinct implements Cloneable {
     private int identifier;
     private CongressionalDistrict district;
     private List<Precinct> adjacentPrecincts;
-	private List<Point2D.Double> coordinates;
+    private List<Coordinate> coordinates;
     private Stats stats;
     private boolean locked;
 
@@ -75,11 +74,11 @@ public class Precinct implements Cloneable {
         return false;
     }
 
-	public void setCoordinates(List<Point2D.Double> coordinates){
+	public void setCoordinates(List<Coordinate> coordinates){
 		this.coordinates = coordinates;
 	}
 
-	public List<Point2D.Double> getCoordinates(){
+	public List<Coordinate> getCoordinates(){
 		return coordinates;
 	}
 }
