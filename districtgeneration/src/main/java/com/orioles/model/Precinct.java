@@ -10,6 +10,7 @@ public class Precinct implements Cloneable {
     private ArrayList<Coordinate> coordinates;
     private Stats stats;
     private boolean locked;
+    private double area;
 
     public Precinct(){
         name = "";
@@ -19,6 +20,7 @@ public class Precinct implements Cloneable {
         coordinates = new ArrayList<>();
         stats = null;
         locked = false;
+        area = 0;
     }
 
 	public String getName() {
@@ -79,5 +81,13 @@ public class Precinct implements Cloneable {
 
     public ArrayList<Coordinate> getCoordinates(){
             return coordinates;
+    }
+    
+    public void setArea(double newArea){
+        this.area = newArea;
+    }
+    
+    public double getArea(){
+        return this.area;
     }
 }
