@@ -21,11 +21,11 @@ public class LoginController {
 	private HttpSession httpSession;
 
 	@PostMapping("/login")
-	public User login(@RequestParam String email, @RequestParam String password) {
+	public User login(@RequestParam String username, @RequestParam String password) {
 		if (httpSession.getAttribute("user") != null) {
 			return null;
 		}
-		List<User> users = userRepository.findByEmailIgnoreCase(email);
+		List<User> users = userRepository.findByUsername(username);
 		if (!users.isEmpty()) {
 			User user = users.get(0);
 			if (PasswordUtility.matches(password, user.getPassword())) {
