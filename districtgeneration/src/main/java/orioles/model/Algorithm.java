@@ -7,6 +7,7 @@ import orioles.constants.Constraint;
 import java.util.List;
 import java.util.Map;
 import orioles.constants.Constants;
+import static orioles.constants.Constants.MAXITERATIONS;
 
 public class Algorithm {
     private State state;
@@ -99,7 +100,7 @@ public class Algorithm {
     
     public void startAlgorithm(){
         state.calculateGoodness(measures);
-        while(this.iterations<Constants.MAXITERATIONS){
+        while(this.iterations<MAXITERATIONS){
             step();
         }
     }
