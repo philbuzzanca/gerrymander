@@ -1,15 +1,11 @@
 package com.orioles.model;
 
-import com.orioles.constants.Constants;
 import com.orioles.constants.Party;
 import com.orioles.constants.Race;
 import com.orioles.districtgeneration.Coordinate;
 import com.orioles.districtgeneration.Edge;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class CongressionalDistrict implements Cloneable {
 	private int ID;
@@ -131,5 +127,15 @@ public class CongressionalDistrict implements Cloneable {
 		}
 		allEdges.removeAll(repeatedEdges);
 		return allEdges.stream().mapToDouble(Edge::calculateDistance).sum();
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
+		CongressionalDistrict otherDistrict = (CongressionalDistrict) o;
+		return this.ID == otherDistrict.ID ;
 	}
 }

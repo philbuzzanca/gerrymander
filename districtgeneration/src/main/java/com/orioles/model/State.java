@@ -46,10 +46,6 @@ public class State implements Cloneable {
 		return congressionalDistricts.size();
 	}
 
-	public double getGoodness(){
-		return this.goodness;
-	}
-
 	public void setGoodness(double newGoodness){
 		this.goodness = newGoodness;
 	}
@@ -96,7 +92,7 @@ public class State implements Cloneable {
 		}
 	}
 
-    double calculateGoodness() {
+    double getGoodness() {
 		OptionalDouble goodness = congressionalDistricts.stream()
 				.mapToDouble(CongressionalDistrict::getGoodness).average();
 		return goodness.isPresent() ? goodness.getAsDouble() : 0;
