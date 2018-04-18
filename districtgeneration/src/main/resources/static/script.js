@@ -1,9 +1,19 @@
 'use strict';
 var mymap = L.map('mapid').setView([37.7, -79.5], 8);
-L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoicGhpbGJ1enphbmNhIiwiYSI6ImNqZTB1eGIzYzY0YWsyeHFoaDRwamlxcXoifQ.EzbAaOMVsKV5_OIks8_67w',
-        {
-            id: 'mapbox.light'
-        }).addTo(mymap);
+const stateFocus = {
+    'nm': new L.LatLng(34, -105.87),
+    'va': new L.LatLng(37.7, -79.5),
+    'ut': new L.LatLng(39.3, -111.1)
+};
+const stateZoom = {
+    'nm': 7,
+    'va': 8,
+    'ut': 7
+};
+
+L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoicGhpbGJ1enphbmNhIiwiYSI6ImNqZTB1eGIzYzY0YWsyeHFoaDRwamlxcXoifQ.EzbAaOMVsKV5_OIks8_67w', {
+    id: 'mapbox.light'
+}).addTo(mymap);
 
 function onEachFeature(feature, layer) {
     let properties = [];
@@ -14,19 +24,7 @@ function onEachFeature(feature, layer) {
 }
 
 function mapFocus(state) {
-    switch(state) {
-        case "nm":
-            mymap.setView(new L.LatLng(34, -105.87), 7);
-            break;
-        case "va":
-            mymap.setView(new L.LatLng(37.7, -79.5), 8);
-            break;
-        case "ut":
-            mymap.setView(new L.LatLng(39.3, -111.1), 7);
-            break;
-        default:
-            mymap.setView(new L.LatLng(37.0902, 95.7129), 4);
-    }
+    mymap.flyTo(stateFocus[state], stateZoom[state]);
 }
 
 function getColor(d) {

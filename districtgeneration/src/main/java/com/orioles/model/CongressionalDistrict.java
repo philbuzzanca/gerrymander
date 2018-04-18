@@ -13,8 +13,7 @@ import java.util.Map;
 public class CongressionalDistrict implements Cloneable {
     private List<Precinct> precincts;
     private String name;
-    private double oldGoodness;
-
+    private double goodness;
     private boolean hasUpdated;
     private Stats stat;
 
@@ -23,7 +22,7 @@ public class CongressionalDistrict implements Cloneable {
 	public CongressionalDistrict(List<Precinct> precincts, String name) {
 		this.precincts = precincts;
 		this.name = name;
-		this.oldGoodness = -1;
+		this.goodness = -1;
 		this.hasUpdated = false;
 	}
 
@@ -43,12 +42,12 @@ public class CongressionalDistrict implements Cloneable {
 		this.name = name;
 	}
 
-	public double getOldGoodness() {
-		return oldGoodness;
+	public double getGoodness() {
+		return goodness;
 	}
 
-	public void setOldGoodness(double oldGoodness) {
-		this.oldGoodness = oldGoodness;
+	public void setGoodness(double goodness) {
+		this.goodness = goodness;
 	}
 
 	public double getArea() {
@@ -69,7 +68,7 @@ public class CongressionalDistrict implements Cloneable {
 
         precincts.stream()
 				.map(Precinct::getStats)
-				.forEach(precinctStat -> Summary.summarize(conDistRace, conDistParty, precinctStat, stat));
+				.forEach(precinctStat -> Stats.summarize(conDistRace, conDistParty, precinctStat, stat));
 
         hasUpdated = true;
         return stat;
