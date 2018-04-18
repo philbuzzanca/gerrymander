@@ -21,12 +21,14 @@ public class LoginController {
   @PostMapping("/login")
   public User login(@RequestParam String email, @RequestParam String password){
     User user = (User) httpSession.getAttribute("user");
+    System.out.println(user);
     if(user != null){
       return user;
     }
 
     List<User> users = userRepository.findByEmail(email);
     if(users.isEmpty()) {
+	  System.out.println("Invalid email");
       return null;
     }
 
@@ -36,6 +38,7 @@ public class LoginController {
       httpSession.setAttribute("user", user);
       return user;
     }
+    System.out.println("Invalid credentials");
     return null;
   }
   
