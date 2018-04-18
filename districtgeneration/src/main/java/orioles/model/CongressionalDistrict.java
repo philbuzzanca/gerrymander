@@ -12,17 +12,16 @@ import java.util.Map;
 
 public class CongressionalDistrict implements Cloneable {
     private List<Precinct> precincts;
-    private String name;
+    private int ID;
     private double oldGoodness;
-
     private boolean hasUpdated;
     private Stats stat;
 
 	public CongressionalDistrict() {}
 
-	public CongressionalDistrict(List<Precinct> precincts, String name) {
+	public CongressionalDistrict(List<Precinct> precincts, int ID) {
 		this.precincts = precincts;
-		this.name = name;
+		this.ID = ID;
 		this.oldGoodness = -1;
 		this.hasUpdated = false;
 	}
@@ -35,12 +34,12 @@ public class CongressionalDistrict implements Cloneable {
 		this.precincts = precincts;
 	}
 
-	public String getName() {
-		return name;
+	public int getID() {
+		return ID;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setID(int ID) {
+		this.ID = ID;
 	}
 
 	public double getOldGoodness() {

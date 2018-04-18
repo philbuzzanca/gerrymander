@@ -1,16 +1,28 @@
 package orioles.model;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import orioles.constants.Constraint;
 
 import java.util.List;
 import java.util.Map;
+import orioles.constants.Constants;
 
 public class Algorithm {
     private State state;
     private Map<Measure, Double> measures;
     private List<Constraint> constraints;
     private int iterations;
+    private boolean paused;
 
+    public Algorithm(){
+        measures = new HashMap<Measure, Double>();
+        state = new State();
+        iterations = 0;
+        constraints = new ArrayList<Constraint>();
+        paused = false;
+    }
+    
     public State getState() {
         return state;
     }
@@ -48,11 +60,10 @@ public class Algorithm {
     }
     
     public void startAlgorithm(){
-        state.setStartingGoodness(measures);
-//        int maxIterations = state.getNumPrecincts();
-//        for( ; iterations < maxIterations; iterations++){
-//            step();
-//        }
+        state.setGoodness(measures);
+        while(this.iterations<Constants.MAXITERATIONS && paused==false){
+            step();
+        }
     }
     
     public void addConstraint(Constraint constraint){
@@ -83,5 +94,30 @@ public class Algorithm {
         return null;
     }
 
-    public void step(){}
+    public void step(){
+        double oldGoodness = state.getGoodness();
+        CongressionalDistrict fromDistrict = getStartingDistrict();
+        Precinct movingPrecinct = fromDistrict.getRandomPrecinct();
+        ArrayList<Precinct> adjacentPrecincts = (ArrayList)movingPrecinct.getAdjacentPrecincts();
+        for(Precinct adjacentPrecinct : adjacentPrecincts) {
+            CongressionalDistrict toDistrict = adjacentPrecinct.getDistrict();
+            if(fromDistrict.getID() != toDistrict.getID()){
+                fromDistrict.removeFromDistrict(movingPrecinct);
+                toDistrict.addToDistrict(movingPrecinct);
+                state.setGoodness(measures);
+                double newGoodness = state.getGoodness();
+                if(oldGoodness>=newGoodness){
+                  toDistrict.removeFromDistrict(movingPrecinct);
+                  fromDistrict.addToDistrict(movingPrecinct);
+                  state.setGoodness(measures);
+                  //            if move is improvement then we need to change CD in precinct,
+                  //            also need to change border precicnt in all adjacent precincts to represent the moving
+                  //            precincts new CD
+                }
+                else{
+                    //add a move to the changes list
+                }
+            }
+        }
+    }
 }

@@ -9,7 +9,7 @@ public class Precinct implements Cloneable {
     private int identifier;
     private CongressionalDistrict district;
     private List<Precinct> adjacentPrecincts;
-	private List<Point2D.Double> coordinates;
+    private List<Point2D.Double> coordinates;
     private Stats stats;
     private boolean locked;
 
