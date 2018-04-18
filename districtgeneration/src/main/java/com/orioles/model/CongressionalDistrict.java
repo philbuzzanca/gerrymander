@@ -66,8 +66,7 @@ public class CongressionalDistrict implements Cloneable {
 		Map<Party, Long> conDistParty = new HashMap<>();
 		stat = new Stats(conDistRace, conDistParty, 0);
 
-        precincts.stream()
-				.map(Precinct::getStats)
+        precincts.stream().map(Precinct::getStats)
 				.forEach(precinctStat -> Stats.summarize(conDistRace, conDistParty, precinctStat, stat));
 
         hasUpdated = true;

@@ -69,7 +69,7 @@ public class State implements Cloneable {
 
 	void setStartingGoodness(Map<Measure, Double> measures){
 		for (CongressionalDistrict cd : congressionalDistricts) {
-			ArrayList<Double> goodnessVals = new ArrayList<>();
+			List<Double> goodnessVals = new ArrayList<>();
 			measures.keySet().forEach(key -> goodnessVals.add(key.calculateGoodness(cd) * measures.get(key)));
 			OptionalDouble goodness = goodnessVals.stream().mapToDouble(num -> num).average();
 			if (goodness.isPresent())
