@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import orioles.districtgeneration.Coordinate;
 
 public class CongressionalDistrict implements Cloneable {
     private List<Precinct> precincts;

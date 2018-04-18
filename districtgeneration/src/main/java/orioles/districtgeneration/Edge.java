@@ -1,5 +1,7 @@
 package orioles.districtgeneration;
 
+import orioles.model.Coordinate;
+
 public class Edge {
     
     private Coordinate p1;
