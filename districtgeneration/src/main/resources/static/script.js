@@ -1,3 +1,4 @@
+'use strict';
 var mymap = L.map('mapid').setView([37.7, -79.5], 8);
 L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoicGhpbGJ1enphbmNhIiwiYSI6ImNqZTB1eGIzYzY0YWsyeHFoaDRwamlxcXoifQ.EzbAaOMVsKV5_OIks8_67w',
         {
@@ -5,7 +6,6 @@ L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=p
         }).addTo(mymap);
 
 function onEachFeature(feature, layer) {
-    'use strict';
     let properties = [];
     for (let property of Object.keys(feature.properties)) {
         properties.push(`${property}: ${feature.properties[property]}`);
@@ -14,28 +14,29 @@ function onEachFeature(feature, layer) {
 }
 
 function mapFocus(state) {
-    if (state === "nm") {
-        mymap.setView(new L.LatLng(34, -105.87), 7);
-    } else if (state === "va") {
-        mymap.setView(new L.LatLng(37.7, -79.5), 8);
-    } else if (state === "ut") {
-        mymap.setView(new L.LatLng(39.3, -111.1), 7);
+    switch(state) {
+        case "nm":
+            mymap.setView(new L.LatLng(34, -105.87), 7);
+            break;
+        case "va":
+            mymap.setView(new L.LatLng(37.7, -79.5), 8);
+            break;
+        case "ut":
+            mymap.setView(new L.LatLng(39.3, -111.1), 7);
+            break;
+        default:
+            mymap.setView(new L.LatLng(37.0902, 95.7129), 4);
     }
 }
 
 function getColor(d) {
-    return 	d % 7 === 6 ? '#00FFFF' :
-            d % 7 === 5 ? '#660066' :
-            d % 7 === 4 ? '#FF66FF' :
-            d % 7 === 3 ? '#FFFF66' :
-            d % 7 === 2 ? '#FF0000' :
-            d % 7 === 1 ? '#00FF00' :
-            d % 7 === 0 ? '#0000FF' : '#FFFFFF'
+    const COLORS = ['#00FFFF', '#660066', '#FF66FF', '#FFFF66', '#FF0000', '#00FF00', '#0000FF', '#FFFFFF'];
+    return COLORS[d % 7];
 }
 //Colors precinct map based on county
 function precinctStyle(feature) {
     return {
-        fillColor: getColor(feature.properties.COUNTY || feature.properties.uscong_dis),
+        fillColor: getColor(feature.properties.CD),
         weight: 0.4
     };
 }
