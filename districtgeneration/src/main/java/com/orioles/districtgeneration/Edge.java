@@ -27,9 +27,17 @@ public class Edge {
         this.p2 = point;
     }
     
-    public boolean equals(Edge edge){
-        if(getP1().equals(edge.getP1()) && getP2().equals(edge.getP2())){
-            return true;
-        } else return getP1().equals(edge.getP2()) && getP2().equals(edge.getP1());
+    public boolean equals(Edge otherEdge){
+        return this.p1.equals(otherEdge.p1) && this.p2.equals(otherEdge.p2)
+                || this.p1.equals(otherEdge.p2) && this.p2.equals(otherEdge.p1);
     }
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
+		return this.equals((Edge) o);
+	}
 }

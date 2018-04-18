@@ -4,6 +4,7 @@ import com.orioles.constants.Constants;
 import com.orioles.constants.Party;
 import com.orioles.constants.Race;
 import com.orioles.districtgeneration.Edge;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -120,50 +121,27 @@ public class CongressionalDistrict implements Cloneable {
 	}
 
 	public double calculatePerimeter() {
-		//return 50;
-		double perimeter = 0;
-		ArrayList<Edge> edges1 = new ArrayList<>();
-		ArrayList<Edge> edges2 = new ArrayList<>();
-		for (int i = 0; i < precincts.size(); i++) {
-			Precinct currentPrecinct = precincts.get(i);
+		List<Edge> allEdges = new ArrayList<>();
+		List<Edge> repeatedEdges = new ArrayList<>();
+		for (Precinct currentPrecinct : precincts) {
 			List<Coordinate> coordinates = currentPrecinct.getCoordinates();
 			for (int j = 0; j < coordinates.size() - 1; j++) {
-				Coordinate p1 = coordinates.get(j);
-				Coordinate p2 = coordinates.get(j + 1);
-				Edge edge = new Edge(p1, p2);
-				Boolean found = false;
-				for (Edge checkedge : edges1) {
-					if (checkedge.equals(edge))
-						found = true;
-				}
-				if (found) {
-					System.out.println("here");
-					Boolean found2 = false;
-					for (Edge checkedge : edges2) {
-						if (checkedge.equals(edge))
-							found2 = true;
-					}
-					if (found2)
-						edges2.add(edge);
+				Edge edge = new Edge(coordinates.get(j), coordinates.get(j + 1));
+				if (allEdges.contains(edge)) {
+					if (repeatedEdges.contains(edge))
+						repeatedEdges.add(edge);
 				} else {
-					edges1.add(edge);
+					allEdges.add(edge);
 				}
 			}
 		}
-		for (Edge edge : edges2) {
-			edges1.remove(edge);
-		}
-		for (Edge edge : edges1) {
-			Coordinate point1 = edge.getP1();
-			Coordinate point2 = edge.getP2();
-			double distance = calculateDistance(point1, point2);
-			perimeter += distance;
-		}
-
-		return perimeter;
+		allEdges.removeAll(repeatedEdges);
+		return allEdges.stream().mapToDouble(this::calculateDistance).sum();
 	}
 
-	public double calculateDistance(Coordinate point1, Coordinate point2){
+	private double calculateDistance(Edge edge) {
+		Coordinate point1 = edge.getP1();
+		Coordinate point2 = edge.getP2();
 		//calculates distance using haversine formula
 		double radius = Constants.EARTH_RADIUS;
 		double latDistance = Math.toRadians(point2.getY() - point1.getY());
