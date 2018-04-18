@@ -99,7 +99,7 @@
 								onclick="updateAccount(updateUsername.value, updatePassword.value, partySelect.value); window.location.reload(false);"
 								data-dismiss="modal">Save & close
 				</button>
-				<button id="#logoutButton" type="button" class="btn btn-danger">Log out</button>
+				<button id="#logoutButton" type="button" class="btn btn-danger" style="display:none">Log out</button>
 			</div>
 		</div>
 	</div>
