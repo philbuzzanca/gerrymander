@@ -62,7 +62,6 @@
       </div>
     </nav>
     
-    
     <!-- accountModal -->
     <div class="modal fade" id="accountModal" tabindex="-1" role="dialog">
       <div class="modal-dialog" role="document">
@@ -104,7 +103,6 @@
         </div>
       </div>
     </div>
-    
     
     <!-- aboutModal -->
     <div class="modal fade" id="aboutModal" tabindex="-1" role="dialog">
@@ -207,21 +205,6 @@
                   <option value="nm">New Mexico</option>
                   <option value="ut">Utah</option>
                 </select>
-              </div>
-              <div class="form-group">
-                <h4 for="levelSelect">Political Level</h4>
-                <div class="form-check">
-                  <input class="form-check-input" type="radio" name="levelRadio" id="stateLevelRadio" value="state" checked>
-                  <label class="form-check-label" for="exampleRadios1">
-                    State
-                  </label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="radio" name="levelRadio" id="congressionalLevelRadio" value="congressional">
-                  <label class="form-check-label" for="exampleRadios2">
-                    Congressional
-                  </label>
-                </div>
               </div>
               <div class="form-group">
                 <h4>Constraints</h4>

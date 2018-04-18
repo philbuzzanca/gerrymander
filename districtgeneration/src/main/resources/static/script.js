@@ -7,7 +7,7 @@ const stateFocus = {
 };
 const stateZoom = {
     'nm': 7,
-    'va': 8,
+    'va': 7,
     'ut': 7
 };
 

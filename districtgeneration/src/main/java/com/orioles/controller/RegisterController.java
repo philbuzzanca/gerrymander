@@ -25,11 +25,7 @@ public class RegisterController {
 		if (!users.isEmpty()) {
 			return null;
 		}
-		User user = new User();
-		user.setUsername(username);
-		user.setPassword(PasswordUtility.encode(password));
-		user.setParty(Party.OTHER);
-		userRepository.save(user);
+		userRepository.save(new User(username, password));
 		return "OK";
 	}
 }
