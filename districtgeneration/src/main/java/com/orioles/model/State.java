@@ -7,8 +7,17 @@ import java.util.*;
 public class State implements Cloneable {
     private List<CongressionalDistrict> congressionalDistricts;
     private String name;
+	private double goodness;
 	private boolean hasUpdated;
 	private Stats stat;
+        
+        public State(){
+            congressionalDistricts = new ArrayList<>();
+            name = "";
+            goodness = 0;
+            hasUpdated = false;
+            stat = new Stats();
+        }
 
 	public List<CongressionalDistrict> getCongressionalDistricts() {
 		return congressionalDistricts;
@@ -66,7 +75,7 @@ public class State implements Cloneable {
         return null;
     }
 
-	void setGoodness(Map<Measure, Double> measures){
+	void setDistrictGoodness(Map<Measure, Double> measures){
 		for (CongressionalDistrict cd : congressionalDistricts) {
 			List<Double> goodnessVals = new ArrayList<>();
 			measures.keySet().forEach(key -> goodnessVals.add(key.calculateGoodness(cd) * measures.get(key)));
@@ -76,11 +85,23 @@ public class State implements Cloneable {
 		}
 	}
 
-    double getGoodness(){
+    double calculateGoodness() {
 		OptionalDouble goodness = congressionalDistricts.stream()
-						.mapToDouble(CongressionalDistrict::getGoodness).average();
+				.mapToDouble(CongressionalDistrict::getGoodness).average();
 		if (goodness.isPresent())
 			return goodness.getAsDouble();
 		else return 0;
+	}
+
+    public double getGoodness(){
+        return this.goodness;
+    }
+    
+    public void setGoodness(double newGoodness){
+        this.goodness = newGoodness;
+    }
+    
+     public CongressionalDistrict getStartingDistrict(){
+        return congressionalDistricts.get((int)(Math.random()*congressionalDistricts.size()));
     }
 }

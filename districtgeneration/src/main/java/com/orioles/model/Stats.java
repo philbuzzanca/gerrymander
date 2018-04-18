@@ -9,6 +9,11 @@ class Stats {
     private Map<Party, Long> parties;
     private long population;
 
+    
+    public Stats(){
+        
+    }
+    
 	Stats(Map<Race, Long> races, Map<Party, Long> parties, long population) {
 		this.races = races;
 		this.parties = parties;

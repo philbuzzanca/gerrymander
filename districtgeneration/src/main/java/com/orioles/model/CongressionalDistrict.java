@@ -1,10 +1,8 @@
 package com.orioles.model;
 
-
 import com.orioles.constants.Party;
 import com.orioles.constants.Race;
 import com.orioles.districtgeneration.Edge;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,7 +15,8 @@ public class CongressionalDistrict implements Cloneable {
 	private boolean hasUpdated;
 	private Stats stat;
 
-	public CongressionalDistrict() {}
+	public CongressionalDistrict() {
+	}
 
 	public CongressionalDistrict(List<Precinct> precincts, int ID) {
 		this.ID = ID;
@@ -105,11 +104,27 @@ public class CongressionalDistrict implements Cloneable {
 		return 100;
 	}
 
+	public Precinct getMovingPrecinct() {
+		Precinct movingPrecinct;
+		boolean isBorderPrecinct = false;
+		do {
+			movingPrecinct = getRandomPrecinct();
+			ArrayList<Precinct> adjacentPrecincts = movingPrecinct.getAdjacentPrecincts();
+			for (Precinct adjacentPrecinct : adjacentPrecincts) {
+				if (movingPrecinct.getDistrict().getID() != adjacentPrecinct.getDistrict().getID())
+					isBorderPrecinct = true;
+			}
+		} while (isBorderPrecinct);
+		return movingPrecinct;
+	}
+
 	public double calculatePerimeter() {
+		//return 50;
 		double perimeter = 0;
 		ArrayList<Edge> edges1 = new ArrayList<>();
 		ArrayList<Edge> edges2 = new ArrayList<>();
-		for (Precinct currentPrecinct : precincts) {
+		for (int i = 0; i < precincts.size(); i++) {
+			Precinct currentPrecinct = precincts.get(i);
 			List<Coordinate> coordinates = currentPrecinct.getCoordinates();
 			for (int j = 0; j < coordinates.size() - 1; j++) {
 				Coordinate p1 = coordinates.get(j);
@@ -161,9 +176,6 @@ public class CongressionalDistrict implements Cloneable {
 				+ Math.cos(Math.toRadians(p1.getY())) * Math.cos(Math.toRadians(p2.getY()))
 				* Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
 		double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-		double distance = radius * c;
-
-		distance = Math.pow(distance, 2);
-		return Math.sqrt(distance);
+		return radius * c;
 	}
 }
