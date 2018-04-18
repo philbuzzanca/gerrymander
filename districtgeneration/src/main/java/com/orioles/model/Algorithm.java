@@ -141,6 +141,5 @@ public class Algorithm {
 
 		sourceDistrict.removeFromDistrict(movingPrecinct);
 		destDistrict.addToDistrict(movingPrecinct);
-
 	}
 }
