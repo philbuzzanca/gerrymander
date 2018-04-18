@@ -6,7 +6,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.orioles.districtgeneration.AllMeasures;
 import com.orioles.districtgeneration.Coordinate;
+import com.orioles.districtgeneration.Measure;
 import com.orioles.model.*;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,8 +24,7 @@ public class AlgoController {
     @RequestMapping("/compactness")
     public Double compactnessTest(){
        CongressionalDistrict district = new CongressionalDistrict();
-       Measure measure = new Compactness();
-		return measure.calculateGoodness(district);
+       return AllMeasures.COMPACTNESS.calculateGoodness(district);
     }
     
     @RequestMapping("/perimeter")
