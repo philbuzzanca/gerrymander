@@ -22,7 +22,7 @@ public class TestController {
 		ps.add(precinct1);
 		ps.add(precinct2);
 		CongressionalDistrict district = new CongressionalDistrict(ps, 0);
-		return district.calculatePerimeter();
+		return district.getPerimeter();
 	}
 
 	private ArrayList<Coordinate> setTestValues1(){

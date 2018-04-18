@@ -1,26 +1,23 @@
 package com.orioles.model;
 
+import com.orioles.constants.Constants;
 import com.orioles.constants.Party;
 import com.orioles.constants.Race;
+import com.orioles.districtgeneration.AllMeasures;
 import com.orioles.districtgeneration.Measure;
 
 import javax.persistence.Entity;
 import javax.persistence.Transient;
 import java.util.*;
+import java.util.stream.Collectors;
 
-@Entity
 public class State implements Cloneable {
-	@Transient
     private List<CongressionalDistrict> congressionalDistricts;
     private String name;
-
-    @Transient
 	private double goodness;
 	private boolean hasUpdated;
-
-	@Transient
 	private Stats stat;
-        
+
 	public State(){
 		congressionalDistricts = new ArrayList<>();
 		name = "";
@@ -49,6 +46,14 @@ public class State implements Cloneable {
 		return congressionalDistricts.size();
 	}
 
+	public double getGoodness(){
+		return this.goodness;
+	}
+
+	public void setGoodness(double newGoodness){
+		this.goodness = newGoodness;
+	}
+
 	public void addDistrict(CongressionalDistrict cd) {
 		congressionalDistricts.add(cd);
 	}
@@ -75,17 +80,13 @@ public class State implements Cloneable {
                 .findFirst().orElse(null);
     }
 
-//    public CongressionalDistrict getDistrictByNumber(int districtNumber){
-//		return congressionalDistricts.stream()
-//				.filter(precinct -> precinct.getIdentifier() == districtNumber)
-//				.findFirst().orElse(null);
-//    }
-    
     public List<CongressionalDistrict> getGerrymanderedDistricts(){
-        return null;
+		return congressionalDistricts.stream()
+				.filter(district -> district.getGoodness() < Constants.GERRYMANDERING_THRESHOLD)
+				.collect(Collectors.toList());
     }
 
-	void calculateDistrictGoodness(Map<Measure, Double> measures){
+	void calculateDistrictGoodness(Map<AllMeasures, Double> measures){
 		for (CongressionalDistrict cd : congressionalDistricts) {
 			List<Double> goodnessVals = new ArrayList<>();
 			measures.keySet().forEach(key -> goodnessVals.add(key.calculateGoodness(cd) * measures.get(key)));
@@ -98,20 +99,14 @@ public class State implements Cloneable {
     double calculateGoodness() {
 		OptionalDouble goodness = congressionalDistricts.stream()
 				.mapToDouble(CongressionalDistrict::getGoodness).average();
-		if (goodness.isPresent())
-			return goodness.getAsDouble();
-		else return 0;
+		return goodness.isPresent() ? goodness.getAsDouble() : 0;
 	}
 
-    public double getGoodness(){
-        return this.goodness;
-    }
-    
-    public void setGoodness(double newGoodness){
-        this.goodness = newGoodness;
-    }
-    
      public CongressionalDistrict getStartingDistrict(){
-        return congressionalDistricts.get((int)(Math.random()*congressionalDistricts.size()));
+        return getRandomDistrict();
     }
+
+    private CongressionalDistrict getRandomDistrict() {
+		return congressionalDistricts.get((int)(Math.random()*congressionalDistricts.size()));
+	}
 }
