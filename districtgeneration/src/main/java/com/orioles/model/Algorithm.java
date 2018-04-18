@@ -108,7 +108,7 @@ public class Algorithm {
 		double oldGoodness = state.getGoodness();
 		CongressionalDistrict sourceDistrict = state.getStartingDistrict();
 		Precinct movingPrecinct = sourceDistrict.getMovingPrecinct();
-		ArrayList<Precinct> adjacentPrecincts = movingPrecinct.getAdjacentPrecincts();
+		List<Precinct> adjacentPrecincts = movingPrecinct.getAdjacentPrecincts();
 
 		for (Precinct adjacentPrecinct : adjacentPrecincts) {
 			CongressionalDistrict destDistrict = adjacentPrecinct.getDistrict();

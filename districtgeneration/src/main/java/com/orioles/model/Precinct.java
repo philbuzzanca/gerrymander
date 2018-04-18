@@ -3,13 +3,14 @@ package com.orioles.model;
 import com.orioles.districtgeneration.Coordinate;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Precinct implements Cloneable {
     private String name;
     private int identifier;
     private CongressionalDistrict district;
-    private ArrayList<Precinct> adjacentPrecincts;
-    private ArrayList<Coordinate> coordinates;
+    private List<Precinct> adjacentPrecincts;
+    private List<Coordinate> coordinates;
     private Stats stats;
     private boolean locked;
 
@@ -21,6 +22,10 @@ public class Precinct implements Cloneable {
         coordinates = new ArrayList<>();
         stats = null;
         locked = false;
+    }
+
+    public Precinct(List<Coordinate> coordinates){
+        this.coordinates = coordinates;
     }
 
 	public String getName() {
@@ -47,7 +52,7 @@ public class Precinct implements Cloneable {
         this.district = district;
     }
 
-    public ArrayList<Precinct> getAdjacentPrecincts() {
+    public List<Precinct> getAdjacentPrecincts() {
         return adjacentPrecincts;
     }
 
@@ -79,7 +84,7 @@ public class Precinct implements Cloneable {
             this.coordinates = coordinates;
     }
 
-    public ArrayList<Coordinate> getCoordinates(){
+    public List<Coordinate> getCoordinates(){
             return coordinates;
     }
 }
