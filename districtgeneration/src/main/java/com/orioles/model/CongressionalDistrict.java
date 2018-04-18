@@ -13,6 +13,7 @@ public class CongressionalDistrict implements Cloneable {
 	private double goodness;
 	private boolean isDirty;
 	private Stats stat;
+        private double area;
 
 	public CongressionalDistrict() {
 	}
@@ -21,7 +22,12 @@ public class CongressionalDistrict implements Cloneable {
 		this.ID = ID;
 		this.precincts = precincts;
 		this.goodness = -1;
+<<<<<<< HEAD
 		this.isDirty = false;
+=======
+		this.hasUpdated = false;
+                this.area = 0;
+>>>>>>> algorithm
 	}
 
 	public List<Precinct> getPrecincts() {
@@ -48,6 +54,17 @@ public class CongressionalDistrict implements Cloneable {
 		this.goodness = goodness;
 	}
 
+<<<<<<< HEAD
+=======
+	public double getArea() {
+		return area;
+	}
+
+	public double getPerimeter() {
+		return 0;
+	}
+
+>>>>>>> algorithm
 	public Stats summarize() {
 		if (!isDirty)
 			return stat;
@@ -91,8 +108,8 @@ public class CongressionalDistrict implements Cloneable {
 		return precincts.get((int) (Math.random() * precincts.size()));
 	}
 
-	public double getArea() {
-		return 100;
+	public double calculateArea() {
+		return precincts.stream().mapToDouble(Precinct::getArea).sum();
 	}
 
 	public Precinct getMovingPrecinct() {
