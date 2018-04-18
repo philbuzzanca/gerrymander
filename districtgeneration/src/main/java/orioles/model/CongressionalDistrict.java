@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import static orioles.constants.Constants.RADIUS;
 
 public class CongressionalDistrict implements Cloneable {
     private List<Precinct> precincts;
@@ -166,21 +167,15 @@ public class CongressionalDistrict implements Cloneable {
 
         public double calculateDistance(Coordinate point1, Coordinate point2){
                 //calculates distance useing haversine formula
-                double radius = 6371.01;
-
-                Coordinate p1 = new Coordinate(-77.860192445970085, 39.153000129599988);
-                Coordinate p2 = new Coordinate(-77.862840901004034, 39.145148506742501);
-
-                double latDistance = Math.toRadians(p2.getY() - p1.getY());
-                double lonDistance = Math.toRadians(p2.getX() - p1.getX());
+                double radius = RADIUS;
+                double latDistance = Math.toRadians(point2.getY() - point1.getY());
+                double lonDistance = Math.toRadians(point2.getX() - point1.getX());
 
                 double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2)
-                                + Math.cos(Math.toRadians(p1.getY())) * Math.cos(Math.toRadians(p2.getY()))
+                                + Math.cos(Math.toRadians(point1.getY())) * Math.cos(Math.toRadians(point2.getY()))
                                 * Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
                 double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
                 double distance = radius* c;
-
-                distance = Math.pow(distance, 2);
-                return Math.sqrt(distance);
+                return distance;
         }
 }
