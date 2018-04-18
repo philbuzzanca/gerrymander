@@ -1,57 +1,56 @@
 'use strict';
-function register(username, password) {
+function register(username, password){
     let formData = {username: username, password: password};
-    $.post("/register", formData.serialize(), function (data) {
-        if (data.error) {
-            // do stuff
+    $.post("/register", formData.serialize(), function (data, status) {
+        if (status === 'error'){
+            $('#invalidLogin').text(data.message);
         }
-       
     }, "json");
 }
 
-function login(username, password) {
-    /*var xhttp = new XMLHttpRequest();
-     var fd = new FormData();
-     fd.append("email", email);
-     fd.append("password", password); 
-     xhttp.open("POST", "/login", false);
-     xhttp.send(fd);*/
+function login(username, password){
     let formData = {username: username, password: password};
-    $.post("/login", formData.serialize(), function (data) {
-        console.log('done');
-        // do stuff
-    }, "json");
-
+    $.post("/login", formData, function (data, status) {
+        if (status === "success"){
+            $("#registerLink").hide();
+            $("#logoutLink").show();
+        }
+        else {
+            $('#invalidLogin').text(data.message);
+        }
+    });
 }
 
 function logout() {
-    /*var xhttp = new XMLHttpRequest();
-     xhttp.open("POST", "/logout", false);
-     xhttp.send(); */
     $.post("/logout", function (data) {
-        // do stuff
-    }, "json");
+        $("#logoutLink").hide();
+        $("#registerLink").show();
+    });
 }
 
 function updateAccount(newUsername, newPassword, newParty) {
-    /* var fd = new FormData();
-     fd.append("newUsername", newUsername);
-     fd.append("newPassword", newPassword);
-     fd.append("newParty", newParty);
-     var xhttp = new XMLHttpRequest();
-     xhttp.open("POST", "/update", false);
-     xhttp.send(fd); */
     let formData = {newUsername: newUsername, newPassword: newPassword, newParty: newParty};
-    $.post("/update", formData.serialize(),
-            function (data) {
-                // do stuff
-            },
-            "json");
+    $.post("/update", formData);
 }
 
-$('#loginButton').submit((event) => {
-    event.preventDefault();
-    let loginUsername = $('#loginUsername').value();
-    let loginPassword = $('#loginPassword').value();
-    login(loginUsername, loginPassword);
+$(document).ready(function(){
+    $("#logoutLink").hide();
+    $("#loginForm").submit((event) => {
+        event.preventDefault();
+        let username = $('#loginUsername').val();
+        let password = $('#loginPassword').val();
+        login(username, password);
+    });
+});
+
+$(document).ready(function(){
+    $("#logoutLink").click((event) => {
+        event.preventDefault();
+        logout();
+    });
+    
+    $("#logoutButton").click((event) => {
+        event.preventDefault();
+        logout();
+    });
 });

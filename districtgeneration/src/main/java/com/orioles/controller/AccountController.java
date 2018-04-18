@@ -1,5 +1,6 @@
 package com.orioles.controller;
 
+import com.orioles.exceptions.NoSuchUserException;
 import com.orioles.security.PasswordUtility;
 import com.orioles.constants.Party;
 import com.orioles.model.User;
@@ -7,6 +8,7 @@ import com.orioles.persistence.UserRepository;
 import java.util.List;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,6 +20,8 @@ public class AccountController {
     private UserRepository userRepository;
     @Autowired
     private HttpSession httpSession;
+	@Autowired
+	private Environment environment;
 
 	@PostMapping("/register")
 	public String register (@RequestParam String username,
@@ -27,24 +31,25 @@ public class AccountController {
 			return null;
 		}
 		userRepository.save(new User(username, password));
-		return "OK";
+		return environment.getProperty("orioles.statuscode.success");
 	}
 
 	@PostMapping("/login")
 	public User login(@RequestParam String username, @RequestParam String password) {
-		if (httpSession.getAttribute("user") != null) {
-			return null;
+		final String userAttribute = environment.getProperty("orioles.session.user");
+		User user = (User)httpSession.getAttribute(userAttribute);
+		if (user != null) {
+			return user;
 		}
 		List<User> users = userRepository.findByUsername(username);
 		if (!users.isEmpty()) {
-			User user = users.get(0);
+			user = users.get(0);
 			if (PasswordUtility.matches(password, user.getPassword())) {
-				httpSession.setAttribute("user", user);
+				httpSession.setAttribute(userAttribute, user);
 				return user;
 			}
-			return null;
 		}
-		return null;
+		throw new NoSuchUserException(environment.getProperty("orioles.login.invalid"));
 	}
 
     @PostMapping("/update")
@@ -52,19 +57,18 @@ public class AccountController {
             @RequestParam String newPassword,
             @RequestParam String newParty) {
         User user = (User) httpSession.getAttribute("user");
-        if (!(newUsername = newUsername.trim()).equals("")) {
+        if (!(newUsername = newUsername.trim()).isEmpty()) {
             user.setUsername(newUsername);
         }
-        if (!(newPassword).equals("")) {
+        if (!newPassword.isEmpty()) {
             user.setPassword(PasswordUtility.encode(newPassword));
         }
-        if (!newParty.equals("")) {
+        if (!newParty.isEmpty()) {
             int partyNum = Integer.parseInt(newParty);
             if (partyNum >= 0 && partyNum <= Party.values().length) {
                 user.setParty(Party.values()[partyNum]);
             }
         }
-        
         userRepository.save(user);
         return "OK";
     }
@@ -72,6 +76,6 @@ public class AccountController {
     @RequestMapping("/logout")
     public String logout() {
         httpSession.invalidate();
-        return "OK";
+        return environment.getProperty("orioles.statuscode.success");
     }
 }
