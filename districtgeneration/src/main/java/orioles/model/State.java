@@ -55,10 +55,10 @@ public class State implements Cloneable {
 		return stat;
     }
     
-    public CongressionalDistrict getDistrictByName (String districtName){
+    public CongressionalDistrict getDistrictByID (int districtID){
         return congressionalDistricts.stream()
-				.filter(precinct -> districtName.equals(precinct.getName()))
-				.findFirst().orElse(null);
+                .filter(district -> districtID == district.getID())
+                .findFirst().orElse(null);
     }
 
 //    public CongressionalDistrict getDistrictByNumber(int districtNumber){
@@ -71,20 +71,27 @@ public class State implements Cloneable {
         return null;
     }
 
-	public void setStartingGoodness(Map<Measure, Double> measures){
-		for(int i=0; i<congressionalDistricts.size(); i++){
-
-			ArrayList<Double> goodnessVals = new ArrayList<Double>();
-			for ( Measure key : measures.keySet()) {
-				goodnessVals.add(key.calculateGoodness(congressionalDistricts.get(i))*measures.get(key));
-			}
-
-			double goodness = 0;
-			for(int j=0; j<goodnessVals.size();j++){
-				goodness+=goodnessVals.get(j);
-			}
-			goodness = goodness/goodnessVals.size();
-			congressionalDistricts.get(i).setOldGoodness(goodness);
-		}
-	}
+    public void setGoodness(Map<Measure, Double> measures){
+        for(int i=0; i<congressionalDistricts.size(); i++){
+            ArrayList<Double> goodnessVals = new ArrayList<Double>();
+            for ( Measure key : measures.keySet()) {
+                    goodnessVals.add(key.calculateGoodness(congressionalDistricts.get(i))*measures.get(key));
+            }
+            double goodness = 0;
+            for(int j=0; j<goodnessVals.size();j++){
+                    goodness+=goodnessVals.get(j);
+            }
+            goodness = goodness/goodnessVals.size();
+            congressionalDistricts.get(i).setOldGoodness(goodness);
+        }
+    }
+    
+    public double getGoodness(){
+        double average = 0;
+        for (CongressionalDistrict congressionalDistrict : congressionalDistricts) {
+            average+=congressionalDistrict.getOldGoodness();
+        }
+        average = average/congressionalDistricts.size();
+        return average;
+    }
 }

@@ -1,4 +1,4 @@
-package orioles.controller;
+package orioles.test;
 
 import java.awt.geom.Point2D;
 import java.io.FileReader;
