@@ -2,7 +2,6 @@ package com.orioles.model;
 
 import com.orioles.constants.Party;
 import com.orioles.security.PasswordUtility;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.*;
 
