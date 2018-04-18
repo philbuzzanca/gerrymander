@@ -17,12 +17,11 @@ public class RegisterController {
 
 	@PostMapping("/register")
 	public String register (@RequestParam String username,
-							@RequestParam String email,
 							@RequestParam String password){
 		if ((username = username.trim()).equals("")) {
 			return null;
 		}
-		List<User> users = userRepository.findByEmailIgnoreCase(email);
+		List<User> users = userRepository.findByUsername(username);
 		if (!users.isEmpty()) {
 			return null;
 		}
