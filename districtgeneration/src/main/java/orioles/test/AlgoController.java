@@ -59,7 +59,7 @@ public class AlgoController {
     
     
     
-    public ArrayList<Coordinate> setTestValues1(){
+    private ArrayList<Coordinate> setTestValues1(){
         ArrayList<Coordinate> values = new ArrayList<>();
         values.add(new Coordinate(-77.860192445970085, 39.153000129599988));
         values.add(new Coordinate(-77.862840901004034, 39.145148506742501));
