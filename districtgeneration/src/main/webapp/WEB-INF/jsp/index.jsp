@@ -157,6 +157,9 @@
 				<div id="invalidLogin" class="alert alert-danger"></div>
 			</div>
 			<div class="modal-body row">
+				<div id="registerSuccess" class="alert alert-success"></div>
+			</div>
+			<div class="modal-body row">
 				<div class="col-md-6 col-lg-6">
 					<div id="registerBox">
 						<h2>Register <i class="fa fa-user-plus"></i></h2>

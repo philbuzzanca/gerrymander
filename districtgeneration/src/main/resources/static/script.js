@@ -7,7 +7,7 @@ const stateFocus = {
 };
 const stateZoom = {
     'nm': 7,
-    'va': 7,
+    'va': 8,
     'ut': 7
 };
 
@@ -16,13 +16,16 @@ L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=p
 }).addTo(mymap);
 
 function resetMap() {
-    L.map('mapid').setView([37.7, -79.5], 8);
+    mapFocus('va')
 }
 
 function onEachFeature(feature, layer) {
     let properties = [];
+    const exclusions = {NEIGHBORS: 1};
     for (let property of Object.keys(feature.properties)) {
-        properties.push(`${property}: ${feature.properties[property]}`);
+        if (!(property in exclusions)){
+            properties.push(`${property}: ${feature.properties[property]}`);
+        }
     }
     layer.bindPopup(properties.join("<br />"));
 }

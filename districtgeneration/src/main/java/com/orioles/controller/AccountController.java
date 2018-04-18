@@ -24,9 +24,8 @@ public class AccountController {
 	private Environment environment;
 
 	@PostMapping("/register")
-	public String register (@RequestParam String username,
-							@RequestParam String password){
-		if ((username = username.trim()).equals("")
+	public String register (@RequestParam String username, @RequestParam String password){
+		if ((username = username.trim()).isEmpty()
 				|| !userRepository.findByUsername(username).isEmpty()) {
 			return null;
 		}
