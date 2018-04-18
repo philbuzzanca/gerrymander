@@ -18,7 +18,35 @@ public class AccountController {
     private UserRepository userRepository;
     @Autowired
     private HttpSession httpSession;
-    
+
+	@PostMapping("/register")
+	public String register (@RequestParam String username,
+							@RequestParam String password){
+		if ((username = username.trim()).equals("")
+				|| !userRepository.findByUsername(username).isEmpty()) {
+			return null;
+		}
+		userRepository.save(new User(username, password));
+		return "OK";
+	}
+
+	@PostMapping("/login")
+	public User login(@RequestParam String username, @RequestParam String password) {
+		if (httpSession.getAttribute("user") != null) {
+			return null;
+		}
+		List<User> users = userRepository.findByUsername(username);
+		if (!users.isEmpty()) {
+			User user = users.get(0);
+			if (PasswordUtility.matches(password, user.getPassword())) {
+				httpSession.setAttribute("user", user);
+				return user;
+			}
+			return null;
+		}
+		return null;
+	}
+
     @PostMapping("/update")
     public String update(@RequestParam String newUsername,
             @RequestParam String newPassword,
@@ -41,37 +69,9 @@ public class AccountController {
         return "OK";
     }
     
-    @PostMapping("/login")
-    public User login(@RequestParam String username, @RequestParam String password) {
-        if (httpSession.getAttribute("user") != null) {
-            return null;
-        }
-        List<User> users = userRepository.findByUsername(username);
-        if (!users.isEmpty()) {
-            User user = users.get(0);
-            if (PasswordUtility.matches(password, user.getPassword())) {
-                httpSession.setAttribute("user", user);
-                return user;
-            }
-            return null;
-        }
-        return null;
-    }
-    
     @RequestMapping("/logout")
     public String logout() {
         httpSession.invalidate();
-        return "OK";
-    }
-    
-    @PostMapping("/register")
-    public String register (@RequestParam String username,
-            @RequestParam String password){
-        if ((username = username.trim()).equals("")
-                || !userRepository.findByUsername(username).isEmpty()) {
-            return null;
-        }
-        userRepository.save(new User(username, password));
         return "OK";
     }
 }

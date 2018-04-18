@@ -27,10 +27,10 @@ public class AlgoController {
     }
     
     @RequestMapping("/perimeter")
-    public Double perimetertest(){
+    public Double perimeterTest(){
         //Stubbed district info
         ArrayList<Coordinate> coordinates1 = setTestValues1();
-        ArrayList<Coordinate> coordinates2 = setTestValues2();
+        ArrayList<Coordinate> coordinates2 = setTestValues1();
         Precinct precinct1 = new Precinct();
         precinct1.setCoordinates(coordinates1);
         Precinct precinct2 = new Precinct();
@@ -39,7 +39,6 @@ public class AlgoController {
         CongressionalDistrict district = new CongressionalDistrict();
         district.addToDistrict(precinct1);
         district.addToDistrict(precinct2);
-
         return district.calculatePerimeter();
     }
     
