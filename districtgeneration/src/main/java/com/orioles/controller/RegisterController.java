@@ -1,6 +1,6 @@
 package com.orioles.controller;
 
-import com.orioles.Security.PasswordUtility;
+import com.orioles.security.PasswordUtility;
 import com.orioles.constants.Party;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.beans.factory.annotation.Autowired;

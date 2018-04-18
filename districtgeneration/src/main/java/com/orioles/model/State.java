@@ -2,7 +2,6 @@ package com.orioles.model;
 
 import com.orioles.constants.Party;
 import com.orioles.constants.Race;
-
 import java.util.*;
 
 public class State implements Cloneable {
@@ -77,7 +76,7 @@ public class State implements Cloneable {
 		}
 	}
 
-    public double getGoodness(){
+    double getGoodness(){
 		OptionalDouble goodness = congressionalDistricts.stream()
 						.mapToDouble(CongressionalDistrict::getGoodness).average();
 		if (goodness.isPresent())

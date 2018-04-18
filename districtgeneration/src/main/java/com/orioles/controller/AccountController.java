@@ -1,6 +1,6 @@
 package com.orioles.controller;
 
-import com.orioles.Security.PasswordUtility;
+import com.orioles.security.PasswordUtility;
 import com.orioles.constants.Party;
 import com.orioles.model.User;
 import com.orioles.persistence.UserRepository;
