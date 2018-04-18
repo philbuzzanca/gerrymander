@@ -75,16 +75,18 @@ public class CongressionalDistrict implements Cloneable {
         }
     
         public Precinct getMovingPrecinct(){
-            Precinct movingPrecinct = new Precinct();
+            Precinct movingPrecinct = getRandomPrecinct();
             boolean isBorderPrecinct = false;
             do{
                 movingPrecinct = getRandomPrecinct(); 
                 ArrayList<Precinct> adjacentPrecincts = movingPrecinct.getAdjacentPrecincts();
                 for (Precinct adjacentPrecinct : adjacentPrecincts) {
-                    if(movingPrecinct.getDistrict().getID() != adjacentPrecinct.getDistrict().getID())
+                    if(movingPrecinct.getDistrict().getID() != adjacentPrecinct.getDistrict().getID()){
                         isBorderPrecinct = true;
+                        break;
+                    }
                 }
-            }while(isBorderPrecinct==true);
+            }while(isBorderPrecinct==false);
             return movingPrecinct;
         }
 

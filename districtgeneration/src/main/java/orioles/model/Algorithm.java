@@ -116,7 +116,7 @@ public class Algorithm {
                 makeMove(sourceDistrict, destDistrict, movingPrecinct);
                 state.calculateGoodness(measures);
                 double newGoodness = state.getGoodness();
-                if(oldGoodness>=newGoodness){
+                if(oldGoodness>newGoodness){
                     makeMove(destDistrict, sourceDistrict, movingPrecinct);
                     state.calculateGoodness(measures);
                 }
