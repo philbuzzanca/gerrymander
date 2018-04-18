@@ -1,4 +1,4 @@
-package orioles.controller;
+package com.orioles.controller;
 
 import java.awt.geom.Point2D;
 import java.io.FileReader;
@@ -8,8 +8,8 @@ import java.util.HashMap;
 import java.util.Map;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import orioles.districtgeneration.Compactness;
-import orioles.model.*;
+import com.orioles.districtgeneration.Compactness;
+import com.orioles.model.*;
 
 import org.json.simple.JSONObject;
 import org.json.simple.JSONArray;
