@@ -6,8 +6,8 @@
   <head>
     <title>CSE 308</title>
     <meta charset="utf-8"/>
-    <link rel="stylesheet" type="text/css" href="style.css">
     
+    <link rel="stylesheet" type="text/css" href="style.css">
     <link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet">
     
     <!-- FontAwesome -->
@@ -29,26 +29,9 @@
     <script src="vaprecincts2013.js"></script>
     <script src="nm.js"></script>
     
-    <script>
-      function register(username, email, password){
-        var xhttp = new XMLHttpRequest();
-        var fd = new FormData();
-        fd.append("username", username);
-        fd.append("email", email);
-        fd.append("password", password);
-        xhttp.open("POST", "/register", false);
-        xhttp.send(fd);
-      }
-
-      function login(email, password){
-        var xhttp = new XMLHttpRequest();
-        var fd = new FormData();
-        fd.append("email", email);
-        fd.append("password", password);
-        xhttp.open("POST", "/login", false);
-        xhttp.send(fd);
-      }
-    </script>
+    <!--Other functions-->
+    <script src="accountfunctions.js"></script>
+    
   </head>
   <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -64,11 +47,64 @@
         </ul>
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
+            <a class="nav-link" href="" data-toggle="modal" data-target="#accountModal">${sessionScope.user.getUsername()}</i></a>
+          </li>
+          <%
+            if (session.getAttribute("user")==null){
+            %>
+          <li class="nav-item">
             <a class="nav-link" href="" data-toggle="modal" data-target="#registerLoginModal">Register/Login <i class="fas fa-sign-in-alt"></i></a>
           </li>
+          <%
+            }
+            %>
         </ul>
       </div>
     </nav>
+    
+    
+    <!-- accountModal -->
+    <div class="modal fade" id="accountModal" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Update account</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="form-group">
+                <h6 for="updateUsername">Change username</h6>
+                    <input type="text" name="updateUsername" id="updateUsername" style="width: 50%"></input>
+              </div>
+              <div class="form-group">
+                <h6 for="updatePassword">Change password</h6>
+                    <input type="password" name="updatePassword" id="updatePassword" style="width: 50%"></input>
+              </div>
+              <div class="form-group">
+                <h6 for="partySelect">Party: ${sessionScope.user.getParty()}</h6>
+                  <select name="partySelect" id="partySelect" class="form-control" style="width: 50%">
+                    <option selected disabled hidden value="">Change party</option>
+                    <option value="0">Republican</option>
+                    <option value="1">Democrat</option>
+                    <option value="2">Green</option>
+                    <option value="3">Libertarian</option>
+                    <option value="4">Other</option>
+                  </select>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-success" onclick="updateAccount(updateUsername.value, updatePassword.value, partySelect.value); window.location.reload(false);" data-dismiss="modal">Save & close</button>
+            <button type="button" class="btn btn-danger" onclick="logout(); window.location.reload(false);">Log out</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
     
     <!-- aboutModal -->
     <div class="modal fade" id="aboutModal" tabindex="-1" role="dialog">
@@ -111,7 +147,7 @@
     </div>
     
     <!-- registerLoginModal -->
-    <div class="modal fade" id="registerLoginModal" tabindex="-1" role="dialog">
+    <div class="modal fade" data-backdrop="static" id="registerLoginModal" tabindex="-1" role="dialog">
       <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
           <div class="modal-body row">
@@ -130,10 +166,6 @@
                   <div class="form-group">
                     <label for="registerPassword">Password</label>
                     <input type="password" id="registerPassword" class="form-control" placeholder="********">
-                  </div>
-                  <div class="form-group">
-                    <label for="registerPasswordConfirm">Re-enter Password</label>
-                    <input type="password" id="registerPasswordConfirm" class="form-control" placeholder="********">
                   </div>
                   <input class="btn btn-success" type="submit" value="Register">
                 </form>
