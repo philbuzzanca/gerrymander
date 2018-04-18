@@ -1,7 +1,6 @@
 package orioles.model;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Precinct implements Cloneable {
     private String name;

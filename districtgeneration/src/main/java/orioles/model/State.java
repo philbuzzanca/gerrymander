@@ -82,7 +82,7 @@ public class State implements Cloneable {
 
     public void setDistrictGoodness(Map<Measure, Double> measures){
         for(int i=0; i<congressionalDistricts.size(); i++){
-            ArrayList<Double> goodnessVals = new ArrayList<Double>();
+            ArrayList<Double> goodnessVals = new ArrayList<>();
             for ( Measure key : measures.keySet()) {
                     goodnessVals.add(key.calculateGoodness(congressionalDistricts.get(i))*measures.get(key));
             }

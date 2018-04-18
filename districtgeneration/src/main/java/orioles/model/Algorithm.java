@@ -17,12 +17,12 @@ public class Algorithm {
     private boolean paused;
 
     public Algorithm(){
-        measures = new HashMap<Measure, Double>();
+        measures = new HashMap<>();
         state = new State();
         iterations = 0;
-        constraints = new ArrayList<Constraint>();
+        constraints = new ArrayList<>();
         paused = false;
-        moves = new ArrayList<Move>();
+        moves = new ArrayList<>();
     }
     
     public State getState() {
