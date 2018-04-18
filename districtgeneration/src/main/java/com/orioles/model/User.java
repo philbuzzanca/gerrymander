@@ -1,6 +1,7 @@
 package com.orioles.model;
 
 import com.orioles.constants.Party;
+import com.orioles.security.PasswordUtility;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.*;
@@ -8,8 +9,6 @@ import javax.persistence.*;
 @Entity
 public class User {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
 	private String username;
 	private String password;
 	private Party party;
@@ -18,9 +17,8 @@ public class User {
 
 	public User(String username, String password) {
 		this.username = username;
+		this.password = PasswordUtility.encode(password);
 		this.party = Party.OTHER;
-		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-		this.password = encoder.encode(password);
 	}
 
 	public String getUsername() {
