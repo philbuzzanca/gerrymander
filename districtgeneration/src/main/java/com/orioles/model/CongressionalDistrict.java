@@ -3,6 +3,7 @@ package com.orioles.model;
 import com.orioles.constants.Constants;
 import com.orioles.constants.Party;
 import com.orioles.constants.Race;
+import com.orioles.districtgeneration.Coordinate;
 import com.orioles.districtgeneration.Edge;
 
 import java.util.ArrayList;

@@ -1,7 +1,6 @@
-package com.orioles.model;
+package com.orioles.districtgeneration;
 
 public class Coordinate {
-
 	private double x;
 	private double y;
 
@@ -29,5 +28,15 @@ public class Coordinate {
 
 	public void setY(double yValue) {
 		this.y = yValue;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
+		Coordinate that = (Coordinate) o;
+		return that.x == this.x && that.y == this.y;
 	}
 }
