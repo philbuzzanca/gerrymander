@@ -12,10 +12,14 @@ function login(username, password){
     let formData = {username: username, password: password};
     $.post("/login", formData, function (data, status) {
         if (status === "success"){
+            $("#invalidLogin").hide();
             $("#registerLink").hide();
             $("#logoutLink").show();
+            $("#registerLoginModal").modal("toggle");
+
         }
         else {
+            $('#invalidLogin').show();
             $('#invalidLogin').text(data.message);
         }
     });
@@ -34,6 +38,7 @@ function updateAccount(newUsername, newPassword, newParty) {
 }
 
 $(document).ready(function(){
+    $('#invalidLogin').hide()
     $("#logoutLink").hide();
     $("#loginForm").submit((event) => {
         event.preventDefault();
