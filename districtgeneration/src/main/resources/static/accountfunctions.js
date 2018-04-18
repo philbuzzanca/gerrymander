@@ -2,10 +2,18 @@
 function register(username, password){
     let formData = {username: username, password: password};
     $.post("/register", formData, function (data, status) {
-        if (status === 'error'){
-            $('#invalidLogin').text(data.message);
+        if (status === 'success'){
+            $('#registerSuccess').text("Success!");
+            $('#invalidLogin').hide();
+            $('#registerSuccess').show();
+
         }
-    }, "json");
+        if (status === 'error'){
+            $('#registerSuccess').hide();
+            $('#invalidLogin').text(data.message);
+            $('#invalidLogin').show();
+        }
+    });
 }
 
 function login(username, password){
@@ -16,12 +24,11 @@ function login(username, password){
             $("#registerLink").hide();
             $("#logoutLink").show();
             $("#registerLoginModal").modal("toggle");
-
+            $('#registerSuccess').hide();
         }
-        else {
-            $('#invalidLogin').show();
-            $('#invalidLogin').text(data.message);
-        }
+    }).fail(function(){
+        $('#invalidLogin').show();
+        $('#invalidLogin').text("Invalid login.");
     });
 }
 
@@ -38,7 +45,8 @@ function updateAccount(newUsername, newPassword, newParty) {
 }
 
 $(document).ready(function(){
-    $('#invalidLogin').hide()
+    $('#invalidLogin').hide();
+    $('#registerSuccess').hide();
     $("#logoutLink").hide();
     $("#loginForm").submit((event) => {
         event.preventDefault();
