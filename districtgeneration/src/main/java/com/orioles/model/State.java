@@ -2,22 +2,32 @@ package com.orioles.model;
 
 import com.orioles.constants.Party;
 import com.orioles.constants.Race;
+import com.orioles.districtgeneration.Measure;
+
+import javax.persistence.Entity;
+import javax.persistence.Transient;
 import java.util.*;
 
+@Entity
 public class State implements Cloneable {
+	@Transient
     private List<CongressionalDistrict> congressionalDistricts;
     private String name;
+
+    @Transient
 	private double goodness;
 	private boolean hasUpdated;
+
+	@Transient
 	private Stats stat;
         
-        public State(){
-            congressionalDistricts = new ArrayList<>();
-            name = "";
-            goodness = 0;
-            hasUpdated = false;
-            stat = new Stats();
-        }
+	public State(){
+		congressionalDistricts = new ArrayList<>();
+		name = "";
+		goodness = 0;
+		hasUpdated = false;
+		stat = new Stats();
+	}
 
 	public List<CongressionalDistrict> getCongressionalDistricts() {
 		return congressionalDistricts;
@@ -75,7 +85,7 @@ public class State implements Cloneable {
         return null;
     }
 
-	void setDistrictGoodness(Map<Measure, Double> measures){
+	void calculateDistrictGoodness(Map<Measure, Double> measures){
 		for (CongressionalDistrict cd : congressionalDistricts) {
 			List<Double> goodnessVals = new ArrayList<>();
 			measures.keySet().forEach(key -> goodnessVals.add(key.calculateGoodness(cd) * measures.get(key)));

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import com.orioles.constants.Constants;
 import com.orioles.constants.Constraint;
+import com.orioles.districtgeneration.Measure;
+
 import java.util.List;
 import java.util.Map;
 
@@ -98,8 +100,8 @@ public class Algorithm {
 	}
 
 	public void startAlgorithm() {
-		state.setDistrictGoodness(measures);
-		while (this.iterations < Constants.MAX_ITERATIONS) {
+		state.calculateDistrictGoodness(measures);
+		for (this.iterations = 0; this.iterations < Constants.MAX_ITERATIONS; this.iterations++) {
 			step();
 		}
 	}
@@ -114,11 +116,11 @@ public class Algorithm {
 			CongressionalDistrict destDistrict = adjacentPrecinct.getDistrict();
 			if (sourceDistrict.getID() != destDistrict.getID()) {
 				makeMove(sourceDistrict, destDistrict, movingPrecinct);
-				state.setDistrictGoodness(measures);
+				state.calculateDistrictGoodness(measures);
 				double newGoodness = state.getGoodness();
 				if (oldGoodness >= newGoodness) {
 					makeMove(destDistrict, sourceDistrict, movingPrecinct);
-					state.setDistrictGoodness(measures);
+					state.calculateDistrictGoodness(measures);
 				} else {
 					addMove(sourceDistrict, destDistrict, movingPrecinct);
 					break;

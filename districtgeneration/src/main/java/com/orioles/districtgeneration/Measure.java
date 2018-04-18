@@ -1,4 +1,7 @@
-package com.orioles.model;
+package com.orioles.districtgeneration;
+
+import com.orioles.model.CongressionalDistrict;
+import com.orioles.model.State;
 
 public interface Measure {
     double calculateGoodness(State state);
