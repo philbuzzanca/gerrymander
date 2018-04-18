@@ -51,10 +51,10 @@ public class State implements Cloneable {
 		return stat;
     }
     
-    public CongressionalDistrict getDistrictByName (String districtName){
+    public CongressionalDistrict getDistrictByID (int districtID){
         return congressionalDistricts.stream()
-				.filter(precinct -> districtName.equals(precinct.getName()))
-				.findFirst().orElse(null);
+                .filter(district -> districtID == district.getID())
+                .findFirst().orElse(null);
     }
 
 //    public CongressionalDistrict getDistrictByNumber(int districtNumber){
@@ -67,7 +67,7 @@ public class State implements Cloneable {
         return null;
     }
 
-	void setStartingGoodness(Map<Measure, Double> measures){
+	void setGoodness(Map<Measure, Double> measures){
 		for (CongressionalDistrict cd : congressionalDistricts) {
 			List<Double> goodnessVals = new ArrayList<>();
 			measures.keySet().forEach(key -> goodnessVals.add(key.calculateGoodness(cd) * measures.get(key)));
@@ -76,4 +76,12 @@ public class State implements Cloneable {
 				cd.setGoodness(goodness.getAsDouble());
 		}
 	}
+
+    public double getGoodness(){
+		OptionalDouble goodness = congressionalDistricts.stream()
+						.mapToDouble(CongressionalDistrict::getGoodness).average();
+		if (goodness.isPresent())
+			return goodness.getAsDouble();
+		else return 0;
+    }
 }
