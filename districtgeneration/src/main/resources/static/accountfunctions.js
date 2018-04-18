@@ -51,7 +51,7 @@ function updateAccount(newUsername, newPassword, newParty) {
 
 $('#loginButton').submit((event) => {
     event.preventDefault();
-    let loginUsername = $('#loginUsername');
-    let loginPassword = $('#loginPassword');
+    let loginUsername = $('#loginUsername').value();
+    let loginPassword = $('#loginPassword').value();
     login(loginUsername, loginPassword);
 });
