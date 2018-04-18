@@ -15,6 +15,10 @@ L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=p
     id: 'mapbox.light'
 }).addTo(mymap);
 
+function resetMap() {
+    L.map('mapid').setView([37.7, -79.5], 8);
+}
+
 function onEachFeature(feature, layer) {
     let properties = [];
     for (let property of Object.keys(feature.properties)) {
