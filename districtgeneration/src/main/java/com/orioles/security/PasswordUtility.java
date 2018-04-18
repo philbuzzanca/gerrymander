@@ -1,4 +1,4 @@
-package com.orioles.Security;
+package com.orioles.security;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
