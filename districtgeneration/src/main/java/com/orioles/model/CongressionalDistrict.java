@@ -34,7 +34,7 @@ public class CongressionalDistrict implements Cloneable {
 		this.precincts = precincts;
 	}
 
-	public int getID() {
+	int getID() {
 		return ID;
 	}
 
@@ -42,15 +42,15 @@ public class CongressionalDistrict implements Cloneable {
 		this.ID = ID;
 	}
 
-	public double getGoodness() {
+	double getGoodness() {
 		return goodness;
 	}
 
-	public void setGoodness(double goodness) {
+	void setGoodness(double goodness) {
 		this.goodness = goodness;
 	}
 
-	public Stats summarize() {
+	Stats summarize() {
 		if (!isDirty)
 			return stat;
 
@@ -73,12 +73,12 @@ public class CongressionalDistrict implements Cloneable {
 		return null;
 	}
 
-	public void removeFromDistrict(Precinct precinct) {
+	void removeFromDistrict(Precinct precinct) {
 		isDirty = true;
 		precincts.remove(precinct);
 	}
 
-	public void addToDistrict(Precinct precinct) {
+	void addToDistrict(Precinct precinct) {
 		isDirty = true;
 		precincts.add(precinct);
 	}
@@ -89,15 +89,15 @@ public class CongressionalDistrict implements Cloneable {
 				.findFirst().orElse(null);
 	}
 
-	public Precinct getRandomPrecinct() {
+	private Precinct getRandomPrecinct() {
 		return precincts.get((int) (Math.random() * precincts.size()));
 	}
 
-	public double calculateArea() {
+	public double getArea() {
 		return this.area = precincts.stream().mapToDouble(Precinct::getArea).sum();
 	}
 
-	public Precinct getMovingPrecinct() {
+	Precinct getMovingPrecinct() {
 		Precinct movingPrecinct;
 		boolean isBorderPrecinct = false;
 		do {
@@ -120,7 +120,7 @@ public class CongressionalDistrict implements Cloneable {
 			for (int j = 0; j < coordinates.size() - 1; j++) {
 				Edge edge = new Edge(coordinates.get(j), coordinates.get(j + 1));
 				if (allEdges.contains(edge)) {
-					if (repeatedEdges.contains(edge))
+					if (!repeatedEdges.contains(edge))
 						repeatedEdges.add(edge);
 				} else {
 					allEdges.add(edge);

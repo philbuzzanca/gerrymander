@@ -2,11 +2,12 @@ package com.orioles.districtgeneration;
 
 import com.orioles.model.CongressionalDistrict;
 import com.orioles.model.State;
+
 import java.util.List;
 import java.util.OptionalDouble;
 
-public enum AllMeasures implements Measure{
-	COMPACTNESS {	// Schwartzberg
+public enum AllMeasures implements Measure {
+	COMPACTNESS {    // Schwartzberg
 		@Override
 		public double calculateGoodness(State state) {
 			List<CongressionalDistrict> districts = state.getCongressionalDistricts();
@@ -19,7 +20,7 @@ public enum AllMeasures implements Measure{
 			double area = district.getArea();
 			double perimeter = district.getPerimeter();
 
-			double r = Math.sqrt(area/Math.PI);
+			double r = Math.sqrt(area / Math.PI);
 			double equalAreaPerimeter = 2 * Math.PI * r;
 			return equalAreaPerimeter / perimeter;
 		}
@@ -28,8 +29,7 @@ public enum AllMeasures implements Measure{
 		public double normalize(double measure) {
 			return 0;
 		}
-	},
-	EQUAL_POPULATION {
+	}, EQUAL_POPULATION {
 		@Override
 		public double calculateGoodness(State state) {
 			return 0;
@@ -44,8 +44,7 @@ public enum AllMeasures implements Measure{
 		public double normalize(double measure) {
 			return 0;
 		}
-	},
-	PARTISAN_FAIRNESS {
+	}, PARTISAN_FAIRNESS {
 		@Override
 		public double calculateGoodness(State state) {
 			return 0;

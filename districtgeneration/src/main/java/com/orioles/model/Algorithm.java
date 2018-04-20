@@ -70,16 +70,8 @@ public class Algorithm {
 		constraints.remove(constraint);
 	}
 
-	public boolean isImprovement(int goodness, int oldGoodness) {
-		return goodness > oldGoodness;
-	}
-
 	public ArrayList<Precinct> getCandidates(ArrayList<Precinct> precincts) {
 		return null;
-	}
-
-	public double calculateImprovement(double goodness, double oldGoodness) {
-		return goodness - oldGoodness;
 	}
 
 	public List<Precinct> getValidMoves() {
@@ -97,9 +89,8 @@ public class Algorithm {
 		double oldGoodness = state.getGoodness();
 		CongressionalDistrict sourceDistrict = state.getStartingDistrict();
 		Precinct movingPrecinct = sourceDistrict.getMovingPrecinct();
-		List<Precinct> adjacentPrecincts = movingPrecinct.getAdjacentPrecincts();
 
-		for (Precinct adjacentPrecinct : adjacentPrecincts) {
+		for (Precinct adjacentPrecinct : movingPrecinct.getAdjacentPrecincts()) {
 			CongressionalDistrict destDistrict = adjacentPrecinct.getDistrict();
 			if (!sourceDistrict.equals(destDistrict)) {
 				makeMove(sourceDistrict, destDistrict, movingPrecinct);
@@ -115,12 +106,9 @@ public class Algorithm {
 		}
 	}
 
-	private void addMove(CongressionalDistrict sourceDistrict, CongressionalDistrict destDistrict,
-						 Precinct movingPrecinct) {
-
-		Move newMove = new Move(movingPrecinct.getIdentifier(), sourceDistrict.getID(), destDistrict.getID());
-		moves.add(newMove);
-		movingPrecinct.setDistrict(destDistrict);
+	private void addMove(CongressionalDistrict source, CongressionalDistrict dest, Precinct movingPrecinct) {
+		moves.add(new Move(movingPrecinct.getIdentifier(), source.getID(), dest.getID()));
+		movingPrecinct.setDistrict(dest);
 	}
 
 	private void makeMove(CongressionalDistrict sourceDistrict, CongressionalDistrict destDistrict,

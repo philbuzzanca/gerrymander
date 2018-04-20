@@ -87,8 +87,7 @@ public class State implements Cloneable {
 			List<Double> goodnessVals = new ArrayList<>();
 			measures.keySet().forEach(key -> goodnessVals.add(key.calculateGoodness(cd) * measures.get(key)));
 			OptionalDouble goodness = goodnessVals.stream().mapToDouble(num -> num).average();
-			if (goodness.isPresent())
-				cd.setGoodness(goodness.getAsDouble());
+			cd.setGoodness(goodness.isPresent() ? goodness.getAsDouble() : -1);
 		}
 	}
 
@@ -98,7 +97,7 @@ public class State implements Cloneable {
 		return this.goodness = goodness.isPresent() ? goodness.getAsDouble() : 0;
 	}
 
-	public CongressionalDistrict getStartingDistrict(){
+	CongressionalDistrict getStartingDistrict(){
         return getRandomDistrict();
     }
 
