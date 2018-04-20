@@ -93,7 +93,7 @@ public class CongressionalDistrict implements Cloneable {
 		return precincts.get((int) (Math.random() * precincts.size()));
 	}
 
-	public double calculateArea() {
+	public double getArea() {
 		return this.area = precincts.stream().mapToDouble(Precinct::getArea).sum();
 	}
 
