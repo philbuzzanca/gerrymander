@@ -21,9 +21,7 @@ public class AlgoController {
 	public List<CongressionalDistrict> startAlgo (@RequestParam Map<String, String> settings) {
 		State state = (State) httpSession.getAttribute("state");
 		Map<AllMeasures, Double> measures = new HashMap<>();
-		for (String measure : settings.keySet()) {
-			measures.put(AllMeasures.valueOf(measure), Double.parseDouble(settings.get(measure)));
-		}
+		settings.keySet().forEach(key -> measures.put(AllMeasures.valueOf(key), Double.parseDouble(settings.get(key))));
 
 		Algorithm algo = new Algorithm(state, measures, Collections.emptyList());
 		httpSession.setAttribute("algo", algo);

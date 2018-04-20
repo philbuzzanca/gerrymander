@@ -12,9 +12,8 @@ import java.util.List;
 public class TestController {
 	@RequestMapping("/perimeter")
 	public Double perimeterTest(){
-		//Stubbed district info
-		ArrayList<Coordinate> coordinates1 = setTestValues1();
-		ArrayList<Coordinate> coordinates2 = setTestValues1();
+		List<Coordinate> coordinates1 = setTestValues1();
+		List<Coordinate> coordinates2 = setTestValues1();
 		Precinct precinct1 = new Precinct(coordinates1);
 		Precinct precinct2 = new Precinct(coordinates2);
 
@@ -25,8 +24,8 @@ public class TestController {
 		return district.getPerimeter();
 	}
 
-	private ArrayList<Coordinate> setTestValues1(){
-		ArrayList<Coordinate> values = new ArrayList<>();
+	private List<Coordinate> setTestValues1(){
+		List<Coordinate> values = new ArrayList<>();
 		values.add(new Coordinate(-77.860192445970085, 39.153000129599988));
 		values.add(new Coordinate(-77.862840901004034, 39.145148506742501));
 		values.add(new Coordinate(-77.873346649637909, 39.135546360339532));
