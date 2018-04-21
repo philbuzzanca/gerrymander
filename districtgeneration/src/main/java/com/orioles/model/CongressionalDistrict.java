@@ -65,10 +65,6 @@ public class CongressionalDistrict implements Cloneable {
 		return stat;
 	}
 
-	public Precinct getStartingPrecinct() {
-		return null;
-	}
-
 	public Precinct choosePrecinct() {
 		return null;
 	}
@@ -94,6 +90,9 @@ public class CongressionalDistrict implements Cloneable {
 	}
 
 	public double getArea() {
+		if (!isDirty)
+			return this.area;
+		isDirty = false;
 		return this.area = precincts.stream().mapToDouble(Precinct::getArea).sum();
 	}
 
