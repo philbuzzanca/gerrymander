@@ -17,12 +17,9 @@ public enum AllMeasures implements Measure {
 
 		@Override
 		public double calculateGoodness(CongressionalDistrict district) {
-			double area = district.getArea();
-			double perimeter = district.getPerimeter();
-
-			double r = Math.sqrt(area / Math.PI);
+			double r = Math.sqrt(district.getArea() / Math.PI);
 			double equalAreaPerimeter = 2 * Math.PI * r;
-			return equalAreaPerimeter / perimeter;
+			return equalAreaPerimeter / district.getPerimeter();
 		}
 
 		@Override
