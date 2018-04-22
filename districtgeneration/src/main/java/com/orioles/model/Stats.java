@@ -2,19 +2,31 @@ package com.orioles.model;
 
 import com.orioles.constants.Party;
 import com.orioles.constants.Race;
+
+import java.util.HashMap;
 import java.util.Map;
 
-class Stats {
+public class Stats {
     private Map<Race, Long> races;
     private Map<Party, Long> parties;
     private long population;
 
     
     public Stats(){
-        
+		this.races = new HashMap<>();
+		for (Race r : Race.values()) {
+			races.put(r, 0L);
+		}
+
+		this.parties = new HashMap<>();
+		for (Party p : Party.values()) {
+			parties.put(p, 0L);
+		}
+
+		this.population = 0;
     }
     
-	Stats(Map<Race, Long> races, Map<Party, Long> parties, long population) {
+	public Stats(Map<Race, Long> races, Map<Party, Long> parties, long population) {
 		this.races = races;
 		this.parties = parties;
 		this.population = population;
@@ -36,7 +48,7 @@ class Stats {
         this.parties = parties;
     }
 
-    long getPopulation() {
+    public long getPopulation() {
         return population;
     }
 
@@ -44,8 +56,11 @@ class Stats {
         this.population = population;
     }
 
-	static void summarize(Map<Race, Long> races, Map<Party, Long> parties, Stats eachStat, Stats overallStats) {
-		for (Race r : Race.values()) {
+	static void summarize(Stats eachStat, Stats overallStats) {
+		Map<Race, Long> races  = overallStats.races;
+		Map<Party, Long> parties = overallStats.parties;
+
+    	for (Race r : Race.values()) {
 			races.put(r, races.get(r) + eachStat.getRaces().get(r));
 		}
 

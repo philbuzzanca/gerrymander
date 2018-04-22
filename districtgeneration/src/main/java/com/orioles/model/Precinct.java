@@ -2,6 +2,7 @@ package com.orioles.model;
 
 import com.orioles.districtgeneration.Coordinate;
 
+import javax.persistence.Transient;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +13,8 @@ public class Precinct implements Cloneable {
     private List<Precinct> adjacentPrecincts;
     private List<Coordinate> coordinates;
     private Stats stats;
+
+    @Transient
     private boolean locked;
     private double area;
 
@@ -62,7 +65,7 @@ public class Precinct implements Cloneable {
         this.adjacentPrecincts = adjacentPrecincts;
     }
 
-    public Stats getStats() {
+    Stats getStats() {
         return stats;
     }
 

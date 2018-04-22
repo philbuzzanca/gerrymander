@@ -9,13 +9,6 @@ import java.util.OptionalDouble;
 public enum AllMeasures implements Measure {
 	COMPACTNESS {    // Schwartzberg
 		@Override
-		public double calculateGoodness(State state) {
-			List<CongressionalDistrict> districts = state.getCongressionalDistricts();
-			OptionalDouble avgGoodness = districts.stream().mapToDouble(this::calculateGoodness).average();
-			return avgGoodness.isPresent() ? avgGoodness.getAsDouble() : -1;
-		}
-
-		@Override
 		public double calculateGoodness(CongressionalDistrict district) {
 			double r = Math.sqrt(district.getArea() / Math.PI);
 			double equalAreaPerimeter = 2 * Math.PI * r;
@@ -28,13 +21,8 @@ public enum AllMeasures implements Measure {
 		}
 	}, EQUAL_POPULATION {
 		@Override
-		public double calculateGoodness(State state) {
-			return 0;
-		}
-
-		@Override
 		public double calculateGoodness(CongressionalDistrict district) {
-			return 0;
+			return district.summarize().getPopulation();
 		}
 
 		@Override
@@ -42,11 +30,6 @@ public enum AllMeasures implements Measure {
 			return 0;
 		}
 	}, PARTISAN_FAIRNESS {
-		@Override
-		public double calculateGoodness(State state) {
-			return 0;
-		}
-
 		@Override
 		public double calculateGoodness(CongressionalDistrict district) {
 			return 0;
