@@ -262,6 +262,43 @@
             </div>
         </div>
         
+        <!-- compareDistrictsModal -->
+        <div class="modal fade" data-backdrop="static" id="compareDistrictsModal" tabindex="-1"
+             role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Compare district data</h5>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-inline">
+                            <select class="form-control">
+                            </select>
+                        </form>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col"></th>
+                                    <th scope="col">District 1</th>
+                                    <th scope="col">District 2</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th scope="row">Population</th>
+                                    <td>x</td>
+                                    <td>y</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+            
         <div class="container-fluid fill">
             <div class="row no-gutters">
                 <div class="col-sm-2 col-lg-2">
@@ -271,9 +308,9 @@
                                 <h4 for="stateSelect">Target state</h4>
                                 <select id="stateSelect" class="form-control"
                                         onchange="mapFocus(this.value)">
-                                    <option value="va">Virginia</option>
-                                    <option value="nm">New Mexico</option>
-                                    <option value="ut">Utah</option>
+                                    <option value="Virginia">Virginia</option>
+                                    <option value="New Mexico">New Mexico</option>
+                                    <option value="Utah">Utah</option>
                                 </select>
                             </div>
                             <div class="form-group">
@@ -367,7 +404,7 @@
                                 <button type="button" class="btn btn-primary dropdown-toggle" id="toolsButton" data-toggle="dropdown" style="width:100%">Tools</button>
                                 <div class="dropdown-menu" style="width:100%">
                                     <button class="dropdown-item" type="button">Run algorithm</button>
-                                    <button class="dropdown-item" type="button">View district data</button>
+                                    <button class="dropdown-item" type="button" data-toggle="modal" data-target="#compareDistrictsModal" id="compareDistrictsButton">Compare districts</button>
                                     <button class="dropdown-item" type="button">Reset map</button>
                                 </div>
                             </div>

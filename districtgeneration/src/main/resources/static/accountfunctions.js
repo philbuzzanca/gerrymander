@@ -44,6 +44,10 @@ function updateAccount(newUsername, newPassword, newParty) {
     $.post("/update", formData);
 }
 
+function getDistricts(state) {
+    
+}
+
 $(document).ready(function(){
     $('#invalidLogin').hide();
     $('#registerSuccess').hide();
@@ -73,4 +77,10 @@ $(document).ready(function(){
         event.preventDefault();
         logout();
     });
+});
+
+$(document).ready(function(){
+   $("#compareDistrictsButton").click((event) => {
+      $.post("/getDistricts", $('#stateSelect').val());
+   });
 });
