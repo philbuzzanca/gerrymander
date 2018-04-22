@@ -47,6 +47,10 @@
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
                         <a class="nav-link" href="" data-toggle="modal"
+                           data-target="#adminModal" style="visibility: hidden">Administrator</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="" data-toggle="modal"
                            data-target="#accountModal">${sessionScope.user.getUsername()}</i></a>
                     </li>
                     <c:if test="${empty sessionScope.user}">
@@ -59,6 +63,59 @@
                 </ul>
             </div>
         </nav>
+        
+        <!-- adminModal -->
+        <div class="modal fade" id="adminModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Administrator tools</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <h5>User statistics</h5>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Users</th>
+                                    <th scope="col">Total</th>
+                                    <th scope="col">Republican</th>
+                                    <th scope="col">Democrat</th>
+                                    <th scope="col">Green</th>
+                                    <th scope="col">Libertarian</th>
+                                    <th scope="col">Other</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th scope="row">Number of users</th>
+                                    <td>10</td>
+                                    <td>0</td>
+                                    <td>1</td>
+                                    <td>2</td>
+                                    <td>3</td>
+                                    <td>4</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Percent of total</th>
+                                    <td>100%</td>
+                                    <td>0%</td>
+                                    <td>10%</td>
+                                    <td>20%</td>
+                                    <td>30%</td>
+                                    <td>40%</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         
         <!-- accountModal -->
         <div class="modal fade" id="accountModal" tabindex="-1" role="dialog">
@@ -104,7 +161,6 @@
                 </div>
             </div>
         </div>
-        
         
         <!-- aboutModal -->
         <div class="modal fade" id="aboutModal" tabindex="-1" role="dialog">
