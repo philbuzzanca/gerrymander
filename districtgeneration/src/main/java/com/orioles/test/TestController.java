@@ -1,15 +1,35 @@
 package com.orioles.test;
 
+import com.orioles.constants.Party;
+import com.orioles.constants.Race;
+import com.orioles.districtgeneration.AllMeasures;
 import com.orioles.districtgeneration.Coordinate;
 import com.orioles.model.CongressionalDistrict;
 import com.orioles.model.Precinct;
+import com.orioles.model.Stats;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class TestController {
+	int precinct_counter = 0;
+
+	@RequestMapping("/compactness_score")
+	public Double compactness(){
+		CongressionalDistrict district = setup();
+		return AllMeasures.COMPACTNESS.calculateGoodness(district);
+	}
+
+	@RequestMapping("/eq_population")
+	public Double population(){
+		return AllMeasures.EQUAL_POPULATION.calculateGoodness(setup());
+	}
+
 	@RequestMapping("/perimeter")
 	public Double perimeterTest(){
 		List<Coordinate> coordinates1 = setTestValues1();
@@ -23,6 +43,33 @@ public class TestController {
 		CongressionalDistrict district = new CongressionalDistrict(ps, 0);
 		return district.getPerimeter();
 	}
+
+	private CongressionalDistrict setup() {
+		Precinct p1 = createPrecinct(setTestValues1());
+		Precinct p2 = createPrecinct(setTestValues1());
+
+		List<Precinct> ps = new ArrayList<>();
+		ps.add(p1);
+		ps.add(p2);
+		return new CongressionalDistrict(ps, 0);
+	}
+
+	private Precinct createPrecinct(List<Coordinate> coord) {
+		long i = ++precinct_counter;
+		Map<Race, Long> conDistRace = new HashMap<>();
+		for (Race r : Race.values())
+			conDistRace.put(r, 100 * i++);
+
+		Map<Party, Long> conDistParty = new HashMap<>();
+		for (Party p : Party.values())
+			conDistParty.put(p, 1000 * i++);
+
+		Precinct p1 = new Precinct(coord);
+		p1.setStats(new Stats(conDistRace, conDistParty, 10000 * i));
+		return p1;
+	}
+
+
 
 	private List<Coordinate> setTestValues1(){
 		List<Coordinate> values = new ArrayList<>();

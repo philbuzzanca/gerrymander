@@ -14,16 +14,17 @@ import java.util.stream.Collectors;
 public class State implements Cloneable {
     private List<CongressionalDistrict> congressionalDistricts;
     private String name;
-	private double goodness;
+
+    @Transient
 	private boolean hasUpdated;
+
+    @Transient
 	private Stats stat;
 
 	public State(){
 		congressionalDistricts = new ArrayList<>();
 		name = "";
-		goodness = 0;
 		hasUpdated = false;
-		stat = new Stats();
 	}
 
 	public List<CongressionalDistrict> getCongressionalDistricts() {
@@ -46,10 +47,6 @@ public class State implements Cloneable {
 		return congressionalDistricts.size();
 	}
 
-	public void setGoodness(double newGoodness){
-		this.goodness = newGoodness;
-	}
-
 	public void addDistrict(CongressionalDistrict cd) {
 		congressionalDistricts.add(cd);
 	}
@@ -58,13 +55,10 @@ public class State implements Cloneable {
 		if (!hasUpdated)
 			return stat;
 
-        Map<Race, Long> conDistRace = new HashMap<>();
-        Map<Party, Long> conDistParty = new HashMap<>();
-		stat = new Stats(conDistRace, conDistParty, 0);
-
+		stat = new Stats();
         congressionalDistricts.stream()
                 .map(CongressionalDistrict::summarize)
-                .forEach(cdStat -> Stats.summarize(conDistRace, conDistParty, cdStat, stat));
+                .forEach(cdStat -> Stats.summarize(cdStat, stat));
 
         hasUpdated = true;
 		return stat;
@@ -94,7 +88,7 @@ public class State implements Cloneable {
     double getGoodness() {
 		OptionalDouble goodness = congressionalDistricts.stream()
 				.mapToDouble(CongressionalDistrict::getGoodness).average();
-		return this.goodness = goodness.isPresent() ? goodness.getAsDouble() : 0;
+		return goodness.isPresent() ? goodness.getAsDouble() : 0;
 	}
 
 	CongressionalDistrict getStartingDistrict(){

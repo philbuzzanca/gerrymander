@@ -5,14 +5,23 @@ import com.orioles.constants.Race;
 import com.orioles.districtgeneration.Coordinate;
 import com.orioles.districtgeneration.Edge;
 
+import javax.persistence.Transient;
 import java.util.*;
 
 public class CongressionalDistrict implements Cloneable {
 	private int ID;
 	private List<Precinct> precincts;
+
+	@Transient
 	private double goodness;
+
+	@Transient
 	private boolean isDirty;
+
+	@Transient
 	private Stats stat;
+
+	@Transient
 	private double area;
 
 	public CongressionalDistrict() {
@@ -23,7 +32,7 @@ public class CongressionalDistrict implements Cloneable {
 		this.precincts = precincts;
 		this.goodness = -1;
 		this.area = 0;
-		this.isDirty = false;
+		this.isDirty = true;
 	}
 
 	public List<Precinct> getPrecincts() {
@@ -50,16 +59,13 @@ public class CongressionalDistrict implements Cloneable {
 		this.goodness = goodness;
 	}
 
-	Stats summarize() {
+	public Stats summarize() {
 		if (!isDirty)
 			return stat;
 
-		Map<Race, Long> conDistRace = new HashMap<>();
-		Map<Party, Long> conDistParty = new HashMap<>();
-		stat = new Stats(conDistRace, conDistParty, 0);
-
+		stat = new Stats();
 		precincts.stream().map(Precinct::getStats)
-				.forEach(precinctStat -> Stats.summarize(conDistRace, conDistParty, precinctStat, stat));
+				.forEach(precinctStat -> Stats.summarize(precinctStat, stat));
 
 		isDirty = false;
 		return stat;
