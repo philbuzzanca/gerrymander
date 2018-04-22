@@ -271,26 +271,7 @@
                         <h5 class="modal-title">Compare district data</h5>
                     </div>
                     <div class="modal-body">
-                        <form class="form-inline">
-                            <select class="form-control">
-                            </select>
-                        </form>
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th scope="col"></th>
-                                    <th scope="col">District 1</th>
-                                    <th scope="col">District 2</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <th scope="row">Population</th>
-                                    <td>x</td>
-                                    <td>y</td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <!-- add ability to select districts and display demographic data here -->
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
