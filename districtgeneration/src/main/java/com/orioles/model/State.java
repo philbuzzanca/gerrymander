@@ -4,18 +4,12 @@ import com.orioles.constants.Constants;
 import com.orioles.constants.Party;
 import com.orioles.constants.Race;
 import com.orioles.districtgeneration.AllMeasures;
-import com.orioles.districtgeneration.Measure;
 
-import javax.persistence.Entity;
-import javax.persistence.Transient;
 import java.util.*;
 import java.util.stream.Collectors;
-import javax.persistence.Id;
 
-@Entity
 public class State implements Cloneable {
     private List<CongressionalDistrict> congressionalDistricts;
-    @Id
     private String name;
     private double goodness;
     private boolean hasUpdated;
