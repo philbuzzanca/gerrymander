@@ -13,10 +13,10 @@ public class Precinct implements Cloneable {
     private List<Precinct> adjacentPrecincts;
     private List<Coordinate> coordinates;
     private Stats stats;
+	private double area;
 
     @Transient
     private boolean locked;
-    private double area;
 
     public Precinct(){
         name = "";
