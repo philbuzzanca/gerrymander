@@ -18,14 +18,26 @@ public class AlgoController {
 	private HttpSession httpSession;
 
 	@PostMapping("/startAlgo")
-	public List<CongressionalDistrict> startAlgo (@RequestParam Map<String, String> settings) {
-		State state = (State) httpSession.getAttribute("state");
-		Map<AllMeasures, Double> measures = new HashMap<>();
-		settings.keySet().forEach(key -> measures.put(AllMeasures.valueOf(key), Double.parseDouble(settings.get(key))));
+	public List<Integer> startAlgo (@RequestParam Map<String, String> settings,
+												  @RequestParam String state) {
+		System.out.println("------------------------------------------");
+		for (String s : settings.keySet())
+			System.out.printf("%s -> %s%n", s, settings.get(s));
 
-		Algorithm algo = new Algorithm(state, measures, Collections.emptyList());
-		httpSession.setAttribute("algo", algo);
-		return state.getGerrymanderedDistricts();
+		List<Integer> gerrymandered = new ArrayList<>();
+		gerrymandered.add(123);
+		gerrymandered.add(234);
+
+		State geoState = (State) httpSession.getAttribute(state);
+		System.out.println(geoState == null ? "geoState null" : "Where did geoState come from");
+		return gerrymandered;
+
+//		Map<AllMeasures, Double> measures = new HashMap<>();
+//		settings.keySet().forEach(key -> measures.put(AllMeasures.valueOf(key), Double.parseDouble(settings.get(key))));
+//
+//		Algorithm algo = new Algorithm(geoState, measures, Collections.emptyList());
+//		httpSession.setAttribute("algo", algo);
+//		return geoState.getGerrymanderedDistricts();
 	}
 
 	@PostMapping("/runIteration")
