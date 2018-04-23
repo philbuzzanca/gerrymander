@@ -18,9 +18,9 @@ public class Demographics {
     private int hispanic;
     private int white;
     private int black;
-    private int nativeAmerican;
+    private int nativeamerican;
     private int asian;
-    private int pacificIslander;
+    private int pacificislander;
     private int other;
     private int multiple;
     private int population;
@@ -50,7 +50,7 @@ public class Demographics {
     }
 
     public int getNativeAmerican() {
-        return nativeAmerican;
+        return nativeamerican;
     }
 
     public int getAsian() {
@@ -58,7 +58,7 @@ public class Demographics {
     }
 
     public int getPacificIslander() {
-        return pacificIslander;
+        return pacificislander;
     }
 
     public int getOther() {
