@@ -1,5 +1,7 @@
 'use strict';
-var mymap = L.map('mapid').setView([37.7, -79.5], 8);
+var currentLayer;
+//var mymap = L.map('mapid').setView([37.7, -79.5], 8);
+var mymap = L.map('mapid').setView([37.0902, -95.7129], 4);
 const stateFocus = {
     'nm': new L.LatLng(34, -105.87),
     'va': new L.LatLng(37.7, -79.5),
@@ -10,13 +12,14 @@ const stateZoom = {
     'va': 8,
     'ut': 7
 };
-
-L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoicGhpbGJ1enphbmNhIiwiYSI6ImNqZTB1eGIzYzY0YWsyeHFoaDRwamlxcXoifQ.EzbAaOMVsKV5_OIks8_67w', {
+// New token: pk.eyJ1IjoiYWFsaWJlcnRpIiwiYSI6ImNqZ2JqeWNoMTJyODUyd3JudGxnNmhocHYifQ.FlEvzCpCA2Muv2ECqboflQ
+// Old token: pk.eyJ1IjoicGhpbGJ1enphbmNhIiwiYSI6ImNqZTB1eGIzYzY0YWsyeHFoaDRwamlxcXoifQ.EzbAaOMVsKV5_OIks8_67w
+L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiYWFsaWJlcnRpIiwiYSI6ImNqZ2JqeWNoMTJyODUyd3JudGxnNmhocHYifQ.FlEvzCpCA2Muv2ECqboflQ', {
     id: 'mapbox.light'
 }).addTo(mymap);
 
 function resetMap() {
-    mapFocus('va')
+    mapFocus('va');
 }
 
 function onEachFeature(feature, layer) {
@@ -31,6 +34,17 @@ function onEachFeature(feature, layer) {
 }
 
 function mapFocus(state) {
+    if (!state){
+        return;
+    }
+    if (currentLayer)
+        mymap.removeLayer(currentLayer);
+    $.get(`/precincts/${state}`, function(data){
+        currentLayer = L.geoJson(data, {
+            onEachFeature: onEachFeature,
+            style: precinctStyle,
+        }).addTo(mymap);
+    });
     mymap.flyTo(stateFocus[state], stateZoom[state]);
 }
 
@@ -38,19 +52,10 @@ function getColor(d) {
     const COLORS = ['#00FFFF', '#660066', '#FF66FF', '#FFFF66', '#FF0000', '#00FF00', '#0000FF', '#FFFFFF'];
     return COLORS[d % 7];
 }
-//Colors precinct map based on county
+
 function precinctStyle(feature) {
     return {
         fillColor: getColor(feature.properties.CD),
         weight: 0.4
     };
 }
-
-L.geoJSON(vaGeoData, {
-    onEachFeature: onEachFeature,
-    style: precinctStyle
-}).addTo(mymap);
-L.geoJSON(nm, {
-    onEachFeature: onEachFeature,
-    style: precinctStyle
-}).addTo(mymap);
