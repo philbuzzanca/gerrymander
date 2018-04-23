@@ -101,3 +101,7 @@ html {
 	margin: 0;
 	padding: 0;
 }
+
+#compareDistrictsModalDialog {
+    max-width: 66% !important;
+}

@@ -34,15 +34,15 @@ public class Stats {
 	Map<Race, Long> getRaces() {
         return races;
     }
-
+    
     void setRaces(Map<Race, Long> races) {
         this.races = races;
     }
-
+    
     Map<Party, Long> getParties() {
         return parties;
     }
-
+    
     void setParties(Map<Party, Long> parties) {
         this.parties = parties;
     }
@@ -50,7 +50,7 @@ public class Stats {
     public long getPopulation() {
         return population;
     }
-
+    
     void setPopulation(long population) {
         this.population = population;
     }
