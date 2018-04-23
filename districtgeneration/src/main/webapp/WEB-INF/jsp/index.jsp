@@ -296,7 +296,7 @@
 						<div class="slidecontainer">
 							<input type="range" min="0" max="100" value="0" class="slider"
 										 id="racialSlider">
-							<span id="racialOut"></span>
+							<span id="emptyOut"></span>
 							<script>
                   var racialSlider = document.getElementById("racialSlider");
                   var racialOut = document.getElementById("racialOut");
