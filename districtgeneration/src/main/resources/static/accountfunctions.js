@@ -61,9 +61,7 @@ $(document).ready(function(){
         let password = $('#registerPassword').val();
         register(username, password);
     });
-});
 
-$(document).ready(function(){
     $("#logoutLink").click((event) => {
         event.preventDefault();
         logout();

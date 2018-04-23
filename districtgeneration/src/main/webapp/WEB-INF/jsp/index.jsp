@@ -105,7 +105,6 @@
 	</div>
 </div>
 
-
 <!-- aboutModal -->
 <div class="modal fade" id="aboutModal" tabindex="-1" role="dialog">
 	<div class="modal-dialog" role="document">
@@ -210,6 +209,16 @@
 	<div class="row no-gutters">
 		<div class="col-sm-2 col-lg-2">
 			<div class="sidebar">
+				<div class="dropdown">
+					<button type="button" class="btn btn-primary dropdown-toggle" id="toolsButton" data-toggle="dropdown" style="width:100%">Tools</button>
+					<div class="dropdown-menu" style="width:100%">
+						<button class="dropdown-item" type="button">Run algorithm</button>
+						<button class="dropdown-item" type="button" data-toggle="modal"
+										data-target="#compareDistrictsModal" id="compareDistrictsButton">Compare districts</button>
+						<button class="dropdown-item" type="button">Reset map</button>
+					</div>
+				</div>
+				<br>
 				<form>
 					<div class="form-group">
 						<h4 for="stateSelect">Target state</h4>
@@ -226,12 +235,16 @@
 							<input class="form-check-input" type="checkbox"
 										 id="preserveExistingCommunitiesCheck">
 							<label class="form-check-label"
-										 for="preserveExistingCommunitiesCheck">Preserve existing
-								communities</label>
+										 for="preserveExistingCommunitiesCheck">Preserve Communities</label>
+							<br>
+							<input class="form-check-input" type="checkbox"
+										 id="contiguityCheck">
+							<label class="form-check-label"
+										 for="contiguityCheck">Contiguity</label>
 						</div>
 						<h4>Measures</h4>
 						<label class="form-check-label"
-									 for="compactnessCheck">Compactness</label>
+									 for="compactOut">Compactness</label>
 						<span id="compactOut" class="measuresOut"></span>
 						<div class="slidecontainer">
 							<input type="range" min="0" max="100" value="0" class="slider"
@@ -245,22 +258,22 @@
                   };
 							</script>
 						</div>
-						<label class="form-check-label"
-									 for="contiguityCheck">Contiguity</label>
-						<span id="contiguityOut" class="measuresOut"></span>
-						<div class="slidecontainer">
-							<input type="range" min="0" max="100" value="0" class="slider"
-										 id="contiguitySlider">
-							<script>
-                  var contigSlider = document.getElementById("contiguitySlider");
-                  var contiguityOut = document.getElementById("contiguityOut");
-                  contiguityOut.innerHTML = contigSlider.value;
-                  contigSlider.oninput = function () {
-                      contiguityOut.innerHTML = this.value;
-                  };
-							</script>
-						</div>
-						<label class="form-check-label" for="equalPopulationCheck">Equal
+						<%--<label class="form-check-label"--%>
+									 <%--for="contiguityCheck">Contiguity</label>--%>
+						<%--<span id="contiguityOut" class="measuresOut"></span>--%>
+						<%--<div class="slidecontainer">--%>
+							<%--<input type="range" min="0" max="100" value="0" class="slider"--%>
+										 <%--id="contiguitySlider">--%>
+							<%--<script>--%>
+                  <%--var contigSlider = document.getElementById("contiguitySlider");--%>
+                  <%--var contiguityOut = document.getElementById("contiguityOut");--%>
+                  <%--contiguityOut.innerHTML = contigSlider.value;--%>
+                  <%--contigSlider.oninput = function () {--%>
+                      <%--contiguityOut.innerHTML = this.value;--%>
+                  <%--};--%>
+							<%--</script>--%>
+						<%--</div>--%>
+						<label class="form-check-label" for="equalOut">Equal
 							population</label>
 						<span id="equalOut" class="measuresOut"></span>
 						<div class="slidecontainer">
@@ -275,22 +288,22 @@
                   };
 							</script>
 						</div>
-						<label class="form-check-label" for="partisanFairnessCheck">Partisan
-							fairness</label>
-						<span id="partisanOut" class="measuresOut"></span>
-						<div class="slidecontainer">
-							<input type="range" min="0" max="100" value="0" class="slider"
-										 id="partisanSlider">
-							<script>
-                  var partisanSlider = document.getElementById("partisanSlider");
-                  var partisanOut = document.getElementById("partisanOut");
-                  partisanOut.innerHTML = partisanSlider.value;
-                  partisanSlider.oninput = function () {
-                      partisanOut.innerHTML = this.value;
-                  };
-							</script>
-						</div>
-						<label class="form-check-label" for="racialFairnessCheck">Racial
+						<%--<label class="form-check-label" for="partisanFairnessCheck">Partisan--%>
+							<%--fairness</label>--%>
+						<%--<span id="partisanOut" class="measuresOut"></span>--%>
+						<%--<div class="slidecontainer">--%>
+							<%--<input type="range" min="0" max="100" value="0" class="slider"--%>
+										 <%--id="partisanSlider">--%>
+							<%--<script>--%>
+                  <%--var partisanSlider = document.getElementById("partisanSlider");--%>
+                  <%--var partisanOut = document.getElementById("partisanOut");--%>
+                  <%--partisanOut.innerHTML = partisanSlider.value;--%>
+                  <%--partisanSlider.oninput = function () {--%>
+                      <%--partisanOut.innerHTML = this.value;--%>
+                  <%--};--%>
+							<%--</script>--%>
+						<%--</div>--%>
+						<label class="form-check-label" for="racialOut">Racial
 							fairness</label>
 						<span id="racialOut" class="measuresOut"></span>
 						<div class="slidecontainer">
