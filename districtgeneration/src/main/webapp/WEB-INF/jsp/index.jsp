@@ -215,14 +215,15 @@
 						<h4 for="stateSelect">Target state</h4>
 						<select id="stateSelect" class="form-control"
 										onchange="mapFocus(this.value)">
-							<option value="va">Virginia</option>
+                                                        <option selected="selected">Select a state...</option>
+                                                        <option value="va">Virginia</option>
 							<option value="nm">New Mexico</option>
 							<option value="ut">Utah</option>
 						</select>
 					</div>
 					<div class="form-group">
 						<h4>Constraints</h4>
-						<div class="form-check">
+						<div class="form-check"> 
 							<input class="form-check-input" type="checkbox"
 										 id="preserveExistingCommunitiesCheck">
 							<label class="form-check-label"
