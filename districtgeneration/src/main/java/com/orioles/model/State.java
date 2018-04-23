@@ -1,11 +1,7 @@
 package com.orioles.model;
 
 import com.orioles.constants.Constants;
-import com.orioles.constants.Party;
-import com.orioles.constants.Race;
 import com.orioles.districtgeneration.AllMeasures;
-import com.orioles.districtgeneration.Measure;
-
 import javax.persistence.Entity;
 import javax.persistence.Transient;
 import java.util.*;
@@ -70,13 +66,16 @@ public class State implements Cloneable {
                 .findFirst().orElse(null);
     }
 
-    public List<CongressionalDistrict> getGerrymanderedDistricts(){
+    @SuppressWarnings("unchecked")
+    public List<Pair<Integer, Double>> getGerrymanderedDistricts(){
 		return congressionalDistricts.stream()
 				.filter(district -> district.getGoodness() < Constants.GERRYMANDERING_THRESHOLD)
+				.sorted(Comparator.comparingDouble(CongressionalDistrict::getGoodness))
+				.map(cd -> new Pair<>(cd.getID(), cd.getGoodness()))
 				.collect(Collectors.toList());
     }
 
-	void calculateDistrictGoodness(Map<AllMeasures, Double> measures){
+	void calculateDistrictGoodness(Map<AllMeasures, Integer> measures){
 		for (CongressionalDistrict cd : congressionalDistricts) {
 			List<Double> goodnessVals = new ArrayList<>();
 			measures.keySet().forEach(key -> goodnessVals.add(key.calculateGoodness(cd) * measures.get(key)));

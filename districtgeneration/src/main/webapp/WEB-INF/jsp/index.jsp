@@ -205,6 +205,24 @@
 	</div>
 </div>
 
+<!-- compareDistrictsModal -->
+<div class="modal fade" data-backdrop="static" id="compareDistrictsModal" tabindex="-1"
+		 role="dialog">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Compare district data</h5>
+			</div>
+			<div class="modal-body">
+				<!-- add ability to select districts and display demographic data here -->
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
+</div>
+
 <div class="container-fluid fill">
 	<div class="row no-gutters">
 		<div class="col-sm-2 col-lg-2">
@@ -215,11 +233,11 @@
 						<button class="dropdown-item" type="button">Run algorithm</button>
 						<button class="dropdown-item" type="button" data-toggle="modal"
 										data-target="#compareDistrictsModal" id="compareDistrictsButton">Compare districts</button>
-						<button class="dropdown-item" type="button">Reset map</button>
+						<button id="resetMap" class="dropdown-item" type="button">Reset map</button>
 					</div>
 				</div>
 				<br>
-				<form>
+				<form id="startAlgo">
 					<div class="form-group">
 						<h4 for="stateSelect">Target state</h4>
 						<select id="stateSelect" class="form-control"
@@ -258,21 +276,6 @@
                   };
 							</script>
 						</div>
-						<%--<label class="form-check-label"--%>
-									 <%--for="contiguityCheck">Contiguity</label>--%>
-						<%--<span id="contiguityOut" class="measuresOut"></span>--%>
-						<%--<div class="slidecontainer">--%>
-							<%--<input type="range" min="0" max="100" value="0" class="slider"--%>
-										 <%--id="contiguitySlider">--%>
-							<%--<script>--%>
-                  <%--var contigSlider = document.getElementById("contiguitySlider");--%>
-                  <%--var contiguityOut = document.getElementById("contiguityOut");--%>
-                  <%--contiguityOut.innerHTML = contigSlider.value;--%>
-                  <%--contigSlider.oninput = function () {--%>
-                      <%--contiguityOut.innerHTML = this.value;--%>
-                  <%--};--%>
-							<%--</script>--%>
-						<%--</div>--%>
 						<label class="form-check-label" for="equalOut">Equal
 							population</label>
 						<span id="equalOut" class="measuresOut"></span>
@@ -320,15 +323,21 @@
 							</script>
 						</div>
 					</div>
-					<button type="submit" class="btn btn-primary" style="width:100%">Build
-					</button>
+					<button id="startAlgoBtn" type="submit" class="btn btn-primary" style="width:100%">Build</button>
 				</form>
+				<div id="runningAlgo" style="width:100%">
+					<button id="play"><i class="fas fa-play"></i></button>
+					<button id="pause"><i class="fas fa-pause"></i></button>
+					<button id="stop"><i class="fas fa-stop"></i></button>
+				</div>
+
 			</div>
 		</div>
 		<div class="col-sm-10 col-lg-10">
 			<div id="mapid">
 				<script src="script.js"></script>
 				<script src="accountfunctions.js"></script>
+				<script src="algo.js"></script>
 			</div>
 		</div>
 	</div>

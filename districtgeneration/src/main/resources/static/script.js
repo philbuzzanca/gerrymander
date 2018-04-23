@@ -54,3 +54,9 @@ L.geoJSON(nm, {
     onEachFeature: onEachFeature,
     style: precinctStyle
 }).addTo(mymap);
+
+$(document).ready(function(){
+    $("#resetMap").click(() => {
+        resetMap();
+    });
+});
