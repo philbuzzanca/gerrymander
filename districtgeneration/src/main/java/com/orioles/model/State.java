@@ -55,11 +55,10 @@ public class State implements Cloneable {
         congressionalDistricts.stream()
                 .map(CongressionalDistrict::summarize)
                 .forEach(cdStat -> Stats.summarize(cdStat, stat));
-
-        hasUpdated = true;
+		hasUpdated = true;
 		return stat;
-    }
-    
+	}
+
     public CongressionalDistrict getDistrictByID (int districtID){
         return congressionalDistricts.stream()
                 .filter(district -> districtID == district.getID())
@@ -93,8 +92,8 @@ public class State implements Cloneable {
 	CongressionalDistrict getStartingDistrict(){
         return getRandomDistrict();
     }
-
+    
     private CongressionalDistrict getRandomDistrict() {
-		return congressionalDistricts.get((int)(Math.random()*congressionalDistricts.size()));
-	}
+        return congressionalDistricts.get((int)(Math.random()*congressionalDistricts.size()));
+    }
 }
