@@ -53,13 +53,11 @@
                         <a class="nav-link" href="" data-toggle="modal"
                            data-target="#accountModal">${sessionScope.user.getUsername()}</i></a>
                     </li>
-                    <c:if test="${empty sessionScope.user}">
-                        <li class="nav-item">
-                            <a class="nav-link" href="" id="registerLink" data-toggle="modal" data-target="#registerLoginModal">Register/Login
-                                <i class="fas fa-sign-in-alt"></i></a>
-                            <a class="nav-link" href="" id="logoutLink">Logout</a>
-                        </li>
-                    </c:if>
+                    <li class="nav-item">
+                        <a class="nav-link" href="" id="registerLink" data-toggle="modal" data-target="#registerLoginModal">Register/Login
+                            <i class="fas fa-sign-in-alt"></i></a>
+                        <a class="nav-link" href="" id="logoutLink">Logout</a>
+                    </li>
                 </ul>
             </div>
         </nav>
@@ -265,13 +263,59 @@
         <!-- compareDistrictsModal -->
         <div class="modal fade" data-backdrop="static" id="compareDistrictsModal" tabindex="-1"
              role="dialog">
-            <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-dialog" id="compareDistrictsModalDialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">Compare district data</h5>
                     </div>
                     <div class="modal-body">
-                        <!-- add ability to select districts and display demographic data here -->
+                        <form class="form-inline">
+                            <input type="text" class="form-control mb-2 mr-sm-2" id="compareCdOne" placeholder="VA01">
+                            <input type="text" class="form-control mb-2 mr-sm-2" id="compareCdTwo" placeholder="VA02">
+                            <button type="button" class="btn btn-secondary mb-2 mr-sm-2" id="compareDistrictsButton">Compare</button>
+                        </form>
+                            <table class="table" id="compareDistrictsTable">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">District</th>
+                                        <th scope="col">Population</th>
+                                        <th scope="col">Hispanic</th>
+                                        <th scope="col">White</th>
+                                        <th scope="col">Black</th>
+                                        <th scope="col">Native American</th>
+                                        <th scope="col">Asian</th>
+                                        <th scope="col">Pacific Islander</th>
+                                        <th scope="col">Other</th>
+                                        <th scope="col">Multiple races</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th scope="row" id="comparisonDistrictOne"></th>
+                                        <td id="populationOne">10</td>
+                                        <td id="hispanicOne">0</td>
+                                        <td id="whiteOne">1</td>
+                                        <td id="blackOne">2</td>
+                                        <td id="nativeOne">3</td>
+                                        <td id="asianOne">4</td>
+                                        <td id="pacificOne">1</td>
+                                        <td id="otherOne">2</td>
+                                        <td id="multipleOne">3</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" id="comparisonDistrictTwo"></th>
+                                        <td id="populationTwo"></td>
+                                        <td id="hispanicTwo"></td>
+                                        <td id="whiteTwo"></td>
+                                        <td id="blackTwo"></td>
+                                        <td id="nativeTwo"></td>
+                                        <td id="asianTwo"></td>
+                                        <td id="pacificTwo"></td>
+                                        <td id="otherTwo"></td>
+                                        <td id="multipleTwo"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -279,7 +323,7 @@
                 </div>
             </div>
         </div>
-            
+        
         <div class="container-fluid fill">
             <div class="row no-gutters">
                 <div class="col-sm-2 col-lg-2">
@@ -385,7 +429,7 @@
                                 <button type="button" class="btn btn-primary dropdown-toggle" id="toolsButton" data-toggle="dropdown" style="width:100%">Tools</button>
                                 <div class="dropdown-menu" style="width:100%">
                                     <button class="dropdown-item" type="button">Run algorithm</button>
-                                    <button class="dropdown-item" type="button" data-toggle="modal" data-target="#compareDistrictsModal" id="compareDistrictsButton">Compare districts</button>
+                                    <button class="dropdown-item" type="button" data-toggle="modal" data-target="#compareDistrictsModal">Compare districts</button>
                                     <button class="dropdown-item" type="button">Reset map</button>
                                 </div>
                             </div>

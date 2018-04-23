@@ -44,10 +44,6 @@ function updateAccount(newUsername, newPassword, newParty) {
     $.post("/update", formData);
 }
 
-function getDistricts(state) {
-    
-}
-
 $(document).ready(function(){
     $('#invalidLogin').hide();
     $('#registerSuccess').hide();
@@ -79,8 +75,34 @@ $(document).ready(function(){
     });
 });
 
-$(document).ready(function(){
-   $("#compareDistrictsButton").click((event) => {
-      $.post("/getDistricts", $('#stateSelect').val());
-   });
+$(document).ready(function() {
+    $("#compareDistrictsTable").hide();
+    $("#compareDistrictsButton").click(function(){
+        let formData = {d1: $("#compareCdOne").val(), d2: $("#compareCdTwo").val()};
+        $.post("/compareDistricts", formData, function(data) {
+            if(data[0] !== null && data[1] !== null){
+                $("#compareDistrictsTable").show();
+                $("#comparisonDistrictOne").text(data[0].cdID);
+                $("#hispanicOne").text(data[0].hispanic);
+                $("#whiteOne").text(data[0].white);
+                $("#blackOne").text(data[0].black);
+                $("#nativeOne").text(data[0].nativeAmerican);
+                $("#asianOne").text(data[0].asian);
+                $("#pacificOne").text(data[0].pacificIslander);
+                $("#multipleOne").text(data[0].multiple);
+                $("#otherOne").text(data[0].other);
+                $("#populationOne").text(data[0].population);
+                $("#comparisonDistrictTwo").text(data[1].cdID);
+                $("#hispanicTwo").text(data[1].hispanic);
+                $("#whiteTwo").text(data[1].white);
+                $("#blackTwo").text(data[1].black);
+                $("#nativeTwo").text(data[1].nativeAmerican);
+                $("#asianTwo").text(data[1].asian);
+                $("#pacificTwo").text(data[1].pacificIslander);
+                $("#multipleTwo").text(data[1].multiple);
+                $("#otherTwo").text(data[1].other);
+                $("#populationTwo").text(data[1].population);
+            }
+        }, "json");
+    }); 
 });
