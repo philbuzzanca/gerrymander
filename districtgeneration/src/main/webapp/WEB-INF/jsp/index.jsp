@@ -336,8 +336,8 @@
 				<form id="startAlgo">
 					<div class="form-group">
 						<h4 for="stateSelect">Target state</h4>
-						<select id="stateSelect" class="form-control"
-										onchange="mapFocus(this.value)">
+						<select id="stateSelect" class="form-control" onchange="mapFocus(this.value)">
+							<option selected="selected">Select a state...</option>
 							<option value="Virginia">Virginia</option>
 							<option value="New Mexico">New Mexico</option>
 							<option value="Utah">Utah</option>
@@ -345,7 +345,7 @@
 					</div>
 					<div class="form-group">
 						<h4>Constraints</h4>
-						<div class="form-check">
+						<div class="form-check"> 
 							<input class="form-check-input" type="checkbox"
 										 id="preserveExistingCommunitiesCheck">
 							<label class="form-check-label"

@@ -7,7 +7,6 @@ import com.orioles.districtgeneration.Coordinate;
 import com.orioles.model.CongressionalDistrict;
 import com.orioles.model.Precinct;
 import com.orioles.model.Stats;
-import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.ArrayList;

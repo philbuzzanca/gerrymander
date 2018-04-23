@@ -2,14 +2,27 @@ package com.orioles.model;
 
 import com.orioles.constants.Constants;
 import com.orioles.districtgeneration.AllMeasures;
+import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.Transient;
 import java.util.*;
 import java.util.stream.Collectors;
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
-public class State implements Cloneable {
+@Entity
+@Table(name = "GeoState")
+public class State implements Cloneable, Serializable {
+    @Transient
     private List<CongressionalDistrict> congressionalDistricts;
+
+    @Id
+    @Column(name="name", columnDefinition="VARCHAR(255) PRIMARY KEY")
     private String name;
+
+	@Column(name="geo_json", columnDefinition="LONGTEXT NOT NULL")
+	private String geoJson;
 
     @Transient
 	private boolean hasUpdated;
@@ -17,10 +30,16 @@ public class State implements Cloneable {
     @Transient
 	private Stats stat;
 
-	public State(){
+	@Transient
+	private double goodness;
+
+	public State() {
 		congressionalDistricts = new ArrayList<>();
 		name = "";
+		goodness = 0;
 		hasUpdated = false;
+		stat = new Stats();
+		geoJson = "{}";
 	}
 
 	public List<CongressionalDistrict> getCongressionalDistricts() {
@@ -47,9 +66,22 @@ public class State implements Cloneable {
 		congressionalDistricts.add(cd);
 	}
     
+    public void setGoodness(double newGoodness) {
+        this.goodness = newGoodness;
+    }
+
+    public String getGeoJson() {
+        return geoJson;
+    }
+
+    public void setGeoJson(String geoJson) {
+        this.geoJson = geoJson;
+    }
+
     public Stats summarize() {
-		if (!hasUpdated)
-			return stat;
+        if (!hasUpdated) {
+            return stat;
+        }
 
 		stat = new Stats();
         congressionalDistricts.stream()
@@ -94,6 +126,17 @@ public class State implements Cloneable {
     }
     
     private CongressionalDistrict getRandomDistrict() {
-        return congressionalDistricts.get((int)(Math.random()*congressionalDistricts.size()));
+        return congressionalDistricts.get((int) (Math.random() * congressionalDistricts.size()));
+    }
+
+    @Override
+    public Object clone() {
+        State state = new State();
+        state.name = this.name;
+        state.geoJson = this.geoJson;
+        state.stat = this.stat;
+        state.goodness = this.goodness;
+        state.congressionalDistricts = this.congressionalDistricts;
+        return state;
     }
 }

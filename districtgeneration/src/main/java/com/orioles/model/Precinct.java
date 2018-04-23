@@ -1,26 +1,47 @@
 package com.orioles.model;
 
+import com.google.gson.Gson;
 import com.orioles.districtgeneration.Coordinate;
+import java.io.Serializable;
 
 import javax.persistence.Transient;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+import javax.persistence.Transient;
+import org.springframework.beans.factory.annotation.Autowired;
 
-public class Precinct implements Cloneable {
-    private String name;
+@Entity
+public class Precinct implements Cloneable, Serializable {
+
+    @Autowired
+    @Transient
+    private Gson gson;
+    @Transient
     private int identifier;
-    private CongressionalDistrict district;
+    private String name;
+    @Column(name = "geojson", columnDefinition = "LONGTEXT")
+    private String geojson;
+    @Transient
+    private CongressionalDistrict district; // contained within the embedded ID.
+    @Transient
     private List<Precinct> adjacentPrecincts;
+    @Transient
     private List<Coordinate> coordinates;
+    @Transient
     private Stats stats;
-	private double area;
-
     @Transient
     private boolean locked;
+    @Transient
+    private double area;
+    @EmbeddedId
+    private PrecinctId id;
 
-    public Precinct(){
+    public Precinct() {
         name = "";
-        identifier = -1;
+        id = null;
         district = null;
         adjacentPrecincts = new ArrayList<>();
         coordinates = new ArrayList<>();
@@ -29,16 +50,32 @@ public class Precinct implements Cloneable {
         area = 0;
     }
 
-    public Precinct(List<Coordinate> coordinates){
+    public Precinct(List<Coordinate> coordinates) {
         this.coordinates = coordinates;
     }
 
-	public String getName() {
+    public String getGeojson() {
+        return geojson;
+    }
+
+    public void setGeojson(String geojson) {
+        this.geojson = geojson;
+    }
+
+    public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public PrecinctId getId() {
+        return id;
+    }
+
+    public void setId(PrecinctId id) {
+        this.id = id;
     }
 
     public int getIdentifier() {
@@ -81,23 +118,23 @@ public class Precinct implements Cloneable {
         this.locked = locked;
     }
 
-    public boolean isOnBorder(){
+    public boolean isOnBorder() {
         return false;
     }
 
-    public void setCoordinates(ArrayList<Coordinate> coordinates){
-            this.coordinates = coordinates;
+    public void setCoordinates(ArrayList<Coordinate> coordinates) {
+        this.coordinates = coordinates;
     }
 
-    public List<Coordinate> getCoordinates(){
-            return coordinates;
+    public List<Coordinate> getCoordinates() {
+        return coordinates;
     }
-    
-    public void setArea(double newArea){
+
+    public void setArea(double newArea) {
         this.area = newArea;
     }
-    
-    public double getArea(){
+
+    public double getArea() {
         return this.area;
     }
 }
