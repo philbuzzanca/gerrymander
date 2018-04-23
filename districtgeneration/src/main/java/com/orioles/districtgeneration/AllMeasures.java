@@ -39,5 +39,15 @@ public enum AllMeasures implements Measure {
 		public double normalize(double measure) {
 			return 0;
 		}
+	}, RACIAL_FAIRNESS {
+		@Override
+		public double calculateGoodness(CongressionalDistrict district) {
+			return 0;
+		}
+
+		@Override
+		public double normalize(double measure) {
+			return 0;
+		}
 	}
 }

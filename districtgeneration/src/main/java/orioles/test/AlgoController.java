@@ -49,7 +49,7 @@
 ////        	measures.put(measure, 1.0);
 ////        algo.setMeasures(measures);
 ////        algo.setState(state);
-//        //algo.startAlgorithm();
+//        //algo.runAlgorithm();
 //        return "OK";
 //    }
 //
