@@ -1,16 +1,15 @@
 'use strict';
 var currentLayer;
-//var mymap = L.map('mapid').setView([37.7, -79.5], 8);
 var mymap = L.map('mapid').setView([37.0902, -95.7129], 4);
 const stateFocus = {
-    'nm': new L.LatLng(34, -105.87),
-    'va': new L.LatLng(37.7, -79.5),
-    'ut': new L.LatLng(39.3, -111.1)
+    'New Mexico': new L.LatLng(34, -105.87),
+    'Virginia': new L.LatLng(37.7, -79.5),
+    'Utah': new L.LatLng(39.3, -111.1)
 };
 const stateZoom = {
-    'nm': 7,
-    'va': 8,
-    'ut': 7
+    'New Mexico': 7,
+    'Virginia': 8,
+    'Utah': 7
 };
 // New token: pk.eyJ1IjoiYWFsaWJlcnRpIiwiYSI6ImNqZ2JqeWNoMTJyODUyd3JudGxnNmhocHYifQ.FlEvzCpCA2Muv2ECqboflQ
 // Old token: pk.eyJ1IjoicGhpbGJ1enphbmNhIiwiYSI6ImNqZTB1eGIzYzY0YWsyeHFoaDRwamlxcXoifQ.EzbAaOMVsKV5_OIks8_67w
@@ -19,7 +18,7 @@ L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=p
 }).addTo(mymap);
 
 function resetMap() {
-    mapFocus('va');
+    mapFocus('Virginia');
 }
 
 function onEachFeature(feature, layer) {

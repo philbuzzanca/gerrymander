@@ -1,8 +1,3 @@
-/*
-* To change this license header, choose License Headers in Project Properties.
-* To change this template file, choose Tools | Templates
-* and open the template in the editor.
-*/
 package com.orioles.controller;
 
 import com.orioles.model.Demographics;
@@ -13,19 +8,21 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @RestController
 public class DemographicsController {
-    
     @Autowired
-            HttpSession httpSession;
+    HttpSession httpSession;
     @Autowired
-            DemographicsRepository demographicsRepository;
+    DemographicsRepository demographicsRepository;
     
     @PostMapping("/compareDistricts")
-    public Demographics[] getDistricts(@RequestParam String d1, @RequestParam String d2){
-        Demographics[] d = new Demographics[2];
-        d[0] = demographicsRepository.findByCdIDIgnoreCase(d1);
-        d[1] = demographicsRepository.findByCdIDIgnoreCase(d2);
-        return d;
+    public List<Demographics> getDistricts(@RequestParam String d1, @RequestParam String d2){
+        List<Demographics> districts = new ArrayList<>();
+        districts.add(demographicsRepository.findByCdIDIgnoreCase(d1));
+        districts.add(demographicsRepository.findByCdIDIgnoreCase(d2));
+        return districts;
     }
 }

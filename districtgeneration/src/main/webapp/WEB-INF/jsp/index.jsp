@@ -345,7 +345,7 @@
 					</div>
 					<div class="form-group">
 						<h4>Constraints</h4>
-						<div class="form-check"> 
+						<div class="form-check">
 							<input class="form-check-input" type="checkbox"
 										 id="preserveExistingCommunitiesCheck">
 							<label class="form-check-label"
