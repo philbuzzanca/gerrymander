@@ -8,6 +8,7 @@ import com.orioles.model.Move;
 import com.orioles.model.Pair;
 import com.orioles.model.State;
 //import com.orioles.persistence.StateRepository;
+import com.orioles.persistence.StateRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,8 +18,8 @@ import java.util.*;
 
 @RestController
 public class AlgoController {
-//	@Autowired
-//	private StateRepository stateRepository;
+	@Autowired
+	private StateRepository stateRepository;
 	@Autowired
 	private HttpSession httpSession;
 
@@ -42,8 +43,8 @@ public class AlgoController {
 			}
 		}
 
-		State geoState = (State) httpSession.getAttribute("state");
-//		State geoState = stateRepository.findByStateName(state);
+//		State geoState = (State) httpSession.getAttribute("state");
+		State geoState = stateRepository.findByName("state").get(0);
 		Algorithm algo = new Algorithm(geoState, measures, Collections.emptyList());
 		httpSession.setAttribute("algo", algo);
 		return geoState.getGerrymanderedDistricts();

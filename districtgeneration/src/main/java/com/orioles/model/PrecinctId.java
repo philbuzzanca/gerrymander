@@ -38,6 +38,4 @@ public class PrecinctId implements Serializable {
     public void setCd(int cd) {
         this.cd = cd;
     }
-    
-    
 }

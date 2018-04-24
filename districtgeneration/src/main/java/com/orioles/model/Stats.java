@@ -12,6 +12,7 @@ public class Stats {
     private long population;
 
     Stats(){
+		this.population = 0;
 		this.races = new HashMap<>();
 		for (Race r : Race.values()) {
 			races.put(r, 0L);
@@ -21,8 +22,6 @@ public class Stats {
 		for (Party p : Party.values()) {
 			parties.put(p, 0L);
 		}
-
-		this.population = 0;
     }
     
 	public Stats(Map<Race, Long> races, Map<Party, Long> parties, long population) {
