@@ -6,5 +6,5 @@ import org.springframework.stereotype.Component;
 
 @Component
 public interface DemographicsRepository extends CrudRepository<Demographics, Long>{
-    public Demographics findByCdIDIgnoreCase(String cdID);
+    Demographics findByCdIDIgnoreCase(String cdID);
 }
