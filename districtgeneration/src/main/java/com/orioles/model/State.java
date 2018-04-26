@@ -101,7 +101,16 @@ public class State implements Cloneable {
         this.goodness = newGoodness;
     }
     
-     public CongressionalDistrict getStartingDistrict(){
+    public CongressionalDistrict getStartingDistrict(){
         return congressionalDistricts.get((int)(Math.random()*congressionalDistricts.size()));
+    }
+    
+    public void setBorderStatus(){
+        for (CongressionalDistrict congressionalDistrict : congressionalDistricts) {
+            ArrayList<Precinct> precincts = (ArrayList)congressionalDistrict.getPrecincts();
+            for (Precinct precinct : precincts) {
+                precinct.setBorder();
+            }
+        }
     }
 }
