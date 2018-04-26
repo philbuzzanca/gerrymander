@@ -114,10 +114,12 @@ public class CongressionalDistrict implements Cloneable {
 	public Precinct getMovingPrecinct() {
 		Precinct movingPrecinct;
 		boolean isBorderPrecinct = false;
+                boolean locked = false;
 		do {
 			movingPrecinct = getRandomPrecinct();
                         isBorderPrecinct = movingPrecinct.getBorder();
-		} while (isBorderPrecinct);
+                        locked = movingPrecinct.isLocked();
+		} while (isBorderPrecinct && !locked);
 		return movingPrecinct;
 	}
 

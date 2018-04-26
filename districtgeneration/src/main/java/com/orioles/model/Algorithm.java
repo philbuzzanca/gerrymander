@@ -99,6 +99,7 @@ public class Algorithm {
 
 	public void startAlgorithm() {
 		state.setDistrictGoodness(measures);
+                state.setBorderStatus();
 		while (this.iterations < Constants.MAX_ITERATIONS) {
 			step();
 		}
@@ -106,7 +107,6 @@ public class Algorithm {
 
 	public void step() {
 		double oldGoodness = state.getGoodness();
-                state.setBorderStatus();
 		CongressionalDistrict sourceDistrict = state.getStartingDistrict();
 		Precinct movingPrecinct = sourceDistrict.getMovingPrecinct();
 		ArrayList<Precinct> adjacentPrecincts = movingPrecinct.getAdjacentPrecincts();
@@ -145,4 +145,14 @@ public class Algorithm {
 		sourceDistrict.removeFromDistrict(movingPrecinct);
 		destDistrict.addToDistrict(movingPrecinct);
 	}
+        
+        public void makeSpecifiedMove(CongressionalDistrict sourceDistrict, CongressionalDistrict destDistrict,
+						Precinct movingPrecinct) {
+            Move newMove = new Move(movingPrecinct.getIdentifier(), sourceDistrict.getID(),
+				destDistrict.getID());
+            moves.add(newMove);
+            movingPrecinct.setDistrict(destDistrict);
+            movingPrecinct.setLocked(true);
+            
+        }
 }
