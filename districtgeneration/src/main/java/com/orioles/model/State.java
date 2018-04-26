@@ -113,4 +113,25 @@ public class State implements Cloneable {
             }
         }
     }
+    
+    public void setLockedPrecincts(ArrayList<Precinct> lockedPrecincts){
+        for (CongressionalDistrict congressionalDistrict : congressionalDistricts) {
+            ArrayList<Precinct> precincts = (ArrayList)congressionalDistrict.getPrecincts();
+            for (Precinct precinct : precincts) {
+                if(lockedPrecincts.contains(precinct))
+                    precinct.setLocked(true);
+            }
+        }
+    }
+    
+    public void setLockedDistricts(ArrayList<CongressionalDistrict> lockedDistricts){
+            for (CongressionalDistrict congressionalDistrict : congressionalDistricts) {
+                if(lockedDistricts.contains(congressionalDistrict)){
+                    ArrayList<Precinct> precincts = (ArrayList)congressionalDistrict.getPrecincts();
+                    for (Precinct precinct : precincts) {
+                        precinct.setLocked(true);
+                    }
+                }                  
+            }
+    }
 }
