@@ -106,6 +106,7 @@ public class Algorithm {
 
 	public void step() {
 		double oldGoodness = state.getGoodness();
+                state.setBorderStatus();
 		CongressionalDistrict sourceDistrict = state.getStartingDistrict();
 		Precinct movingPrecinct = sourceDistrict.getMovingPrecinct();
 		ArrayList<Precinct> adjacentPrecincts = movingPrecinct.getAdjacentPrecincts();
@@ -120,6 +121,8 @@ public class Algorithm {
 					makeMove(destDistrict, sourceDistrict, movingPrecinct);
 					state.setDistrictGoodness(measures);
 				} else {
+                                        movingPrecinct.setBorder();
+                                        movingPrecinct.updateAdjacentBorders();
 					addMove(sourceDistrict, destDistrict, movingPrecinct);
 					break;
 				}

@@ -10,6 +10,7 @@ public class Precinct implements Cloneable {
     private ArrayList<Coordinate> coordinates;
     private Stats stats;
     private boolean locked;
+    private boolean onBorder;
     private double area;
 
     public Precinct(){
@@ -89,5 +90,25 @@ public class Precinct implements Cloneable {
     
     public double getArea(){
         return this.area;
+    }
+    
+    public void setBorder(){
+        this.onBorder = false;
+        for (Precinct adjacentPrecinct : adjacentPrecincts) {
+            if(adjacentPrecinct.getDistrict().getID() != this.district.getID()){
+                this.onBorder = true;
+                break;
+            }
+        }
+    }
+    
+    public boolean getBorder(){
+        return this.onBorder;
+    }
+    
+    public void updateAdjacentBorders(){
+        for (Precinct adjacentPrecinct : adjacentPrecincts) {
+            adjacentPrecinct.setBorder();
+        }
     }
 }
