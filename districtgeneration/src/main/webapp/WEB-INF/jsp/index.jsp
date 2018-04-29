@@ -47,7 +47,7 @@
 		<ul class="navbar-nav ml-auto">
 			<li class="nav-item">
 				<a class="nav-link" href="" data-toggle="modal"
-					 data-target="#accountModal">${sessionScope.user.getUsername()}</i></a>
+					 data-target="#accountModal">${sessionScope.user.getUsername()}</a>
 			</li>
 			<li class="nav-item">
 				<a class="nav-link" href="" id="registerLink" data-toggle="modal" data-target="#registerLoginModal">Register/Login

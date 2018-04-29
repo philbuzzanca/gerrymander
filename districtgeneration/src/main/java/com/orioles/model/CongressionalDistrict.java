@@ -77,7 +77,7 @@ public class CongressionalDistrict implements Cloneable {
 		precincts.remove(precinct);
 	}
 
-	void addToDistrict(Precinct precinct) {
+	public void addToDistrict(Precinct precinct) {
 		isDirty = true;
 		precincts.add(precinct);
 	}

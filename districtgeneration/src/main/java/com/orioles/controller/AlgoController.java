@@ -3,11 +3,9 @@ package com.orioles.controller;
 import com.orioles.constants.Constants;
 import com.orioles.districtgeneration.AllMeasures;
 import com.orioles.districtgeneration.Constraint;
-import com.orioles.model.Algorithm;
-import com.orioles.model.Move;
-import com.orioles.model.Pair;
-import com.orioles.model.State;
+import com.orioles.model.*;
 //import com.orioles.persistence.StateRepository;
+import com.orioles.persistence.PrecinctRepository;
 import com.orioles.persistence.StateRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,6 +16,8 @@ import java.util.*;
 
 @RestController
 public class AlgoController {
+	@Autowired
+	private PrecinctRepository precinctRepository;
 	@Autowired
 	private StateRepository stateRepository;
 	@Autowired
@@ -55,5 +55,11 @@ public class AlgoController {
 		Algorithm algo = (Algorithm) httpSession.getAttribute("algo");
 		algo.runAlgorithm();
 		return algo.getCurrMoves();
+	}
+
+	@PostMapping("/precinct2")
+	public List<Precinct> getPrecinct(){
+		System.out.println("Precinct Requested");
+		return precinctRepository.findByIdState("va");
 	}
 }
