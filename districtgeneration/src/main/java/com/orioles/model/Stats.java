@@ -39,7 +39,7 @@ public class Stats {
         this.parties = parties;
     }
 
-    long getPopulation() {
+    public long getPopulation() {
         return population;
     }
 
@@ -47,7 +47,7 @@ public class Stats {
         this.population = population;
     }
     
-    Map<Demographic, Long> getDemographics() {
+    public Map<Demographic, Long> getDemographics() {
         return demographics;
     }
 

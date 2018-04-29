@@ -17,7 +17,7 @@ public class Compactness implements Measure {
 
         //need this for consistency with interface
 	@Override
-    public double calculateGoodness(CongressionalDistrict district, Stats stateStats) {
+    public double calculateGoodness(CongressionalDistrict district, State State) {
         double area = district.getArea();
         double perimeter = district.getPerimeter();
         
@@ -27,7 +27,7 @@ public class Compactness implements Measure {
 		return equalAreaPerimeter / perimeter;
     }
     
-    //this one gets used in total state calculation
+    //this one gets used in total state goodness calculation
     public double calculateGoodness(CongressionalDistrict district) {
         double area = district.getArea();
         double perimeter = district.getPerimeter();

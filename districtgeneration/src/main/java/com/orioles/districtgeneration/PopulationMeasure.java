@@ -15,17 +15,29 @@ public class PopulationMeasure implements Measure{
 
     @Override
     public double calculateGoodness(State state) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        double sum =0;
+        for (CongressionalDistrict congressionalDistrict : state.getCongressionalDistricts()) {
+            sum+= calculateGoodness(congressionalDistrict, state);
+        }
+        
+        return sum/state.getCongressionalDistricts().size();
     }
 
     @Override
-    public double calculateGoodness(CongressionalDistrict district, Stats stateStats) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public double calculateGoodness(CongressionalDistrict district, State state) {
+        Long statePopulation = state.getStats().getPopulation();
+        Long avgPopulation = statePopulation/state.getCongressionalDistricts().size();
+        Long population = district.getStats().getPopulation();
+        if(population>avgPopulation)
+            return population/avgPopulation;
+        else
+            return avgPopulation/population;
+        
     }
 
     @Override
     public double normalize(double measure) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return 0;
     }
     
 }
