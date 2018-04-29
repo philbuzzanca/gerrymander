@@ -180,4 +180,8 @@ public class CongressionalDistrict implements Cloneable {
 				* Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
 		return radius * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 	}
+        
+        public Stats getStats(){
+            return this.stat;
+        }
 }

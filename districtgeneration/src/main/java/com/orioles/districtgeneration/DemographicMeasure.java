@@ -19,7 +19,7 @@ public class DemographicMeasure implements Measure{
     }
 
     @Override
-    public double calculateGoodness(CongressionalDistrict district, Stats stateStats) {
+    public double calculateGoodness(CongressionalDistrict district, State state) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
