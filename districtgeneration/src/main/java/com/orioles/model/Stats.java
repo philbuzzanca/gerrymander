@@ -5,7 +5,7 @@ import com.orioles.constants.Party;
 import com.orioles.constants.Race;
 import java.util.Map;
 
-class Stats {
+public class Stats {
     private Map<Race, Long> races;
     private Map<Party, Long> parties;
     private Map<Demographic, Long> demographics;
