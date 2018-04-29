@@ -1,6 +1,7 @@
 package com.orioles.model;
 
 import com.orioles.constants.Constants;
+import com.orioles.constants.Demographic;
 import com.orioles.constants.Party;
 import com.orioles.constants.Race;
 import com.orioles.districtgeneration.Edge;
@@ -66,10 +67,11 @@ public class CongressionalDistrict implements Cloneable {
 
 		Map<Race, Long> conDistRace = new HashMap<>();
 		Map<Party, Long> conDistParty = new HashMap<>();
-		stat = new Stats(conDistRace, conDistParty, 0);
+                Map<Demographic, Long> demographic = new HashMap<>();
+		stat = new Stats(conDistRace, conDistParty, 0, demographic);
 
 		precincts.stream().map(Precinct::getStats)
-				.forEach(precinctStat -> Stats.summarize(conDistRace, conDistParty, precinctStat, stat));
+				.forEach(precinctStat -> Stats.summarize(conDistRace, conDistParty, precinctStat, stat, demographic));
 
 		hasUpdated = true;
 		return stat;
