@@ -106,3 +106,7 @@ $(document).ready(function() {
         }, "json");
     }); 
 });
+
+$(function(){
+    $('#precinctOptions').hide();
+});

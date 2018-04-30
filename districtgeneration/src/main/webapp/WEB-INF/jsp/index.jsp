@@ -274,48 +274,48 @@
                             <input type="text" class="form-control mb-2 mr-sm-2" id="compareCdTwo" placeholder="VA02">
                             <button type="button" class="btn btn-secondary mb-2 mr-sm-2" id="compareDistrictsButton">Compare</button>
                         </form>
-                            <table class="table" id="compareDistrictsTable">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">District</th>
-                                        <th scope="col">Population</th>
-                                        <th scope="col">Hispanic</th>
-                                        <th scope="col">White</th>
-                                        <th scope="col">Black</th>
-                                        <th scope="col">Native American</th>
-                                        <th scope="col">Asian</th>
-                                        <th scope="col">Pacific Islander</th>
-                                        <th scope="col">Other</th>
-                                        <th scope="col">Multiple races</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <th scope="row" id="comparisonDistrictOne"></th>
-                                        <td id="populationOne">10</td>
-                                        <td id="hispanicOne">0</td>
-                                        <td id="whiteOne">1</td>
-                                        <td id="blackOne">2</td>
-                                        <td id="nativeOne">3</td>
-                                        <td id="asianOne">4</td>
-                                        <td id="pacificOne">1</td>
-                                        <td id="otherOne">2</td>
-                                        <td id="multipleOne">3</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row" id="comparisonDistrictTwo"></th>
-                                        <td id="populationTwo"></td>
-                                        <td id="hispanicTwo"></td>
-                                        <td id="whiteTwo"></td>
-                                        <td id="blackTwo"></td>
-                                        <td id="nativeTwo"></td>
-                                        <td id="asianTwo"></td>
-                                        <td id="pacificTwo"></td>
-                                        <td id="otherTwo"></td>
-                                        <td id="multipleTwo"></td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                        <table class="table" id="compareDistrictsTable">
+                            <thead>
+                                <tr>
+                                    <th scope="col">District</th>
+                                    <th scope="col">Population</th>
+                                    <th scope="col">Hispanic</th>
+                                    <th scope="col">White</th>
+                                    <th scope="col">Black</th>
+                                    <th scope="col">Native American</th>
+                                    <th scope="col">Asian</th>
+                                    <th scope="col">Pacific Islander</th>
+                                    <th scope="col">Other</th>
+                                    <th scope="col">Multiple races</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th scope="row" id="comparisonDistrictOne"></th>
+                                    <td id="populationOne">10</td>
+                                    <td id="hispanicOne">0</td>
+                                    <td id="whiteOne">1</td>
+                                    <td id="blackOne">2</td>
+                                    <td id="nativeOne">3</td>
+                                    <td id="asianOne">4</td>
+                                    <td id="pacificOne">1</td>
+                                    <td id="otherOne">2</td>
+                                    <td id="multipleOne">3</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row" id="comparisonDistrictTwo"></th>
+                                    <td id="populationTwo"></td>
+                                    <td id="hispanicTwo"></td>
+                                    <td id="whiteTwo"></td>
+                                    <td id="blackTwo"></td>
+                                    <td id="nativeTwo"></td>
+                                    <td id="asianTwo"></td>
+                                    <td id="pacificTwo"></td>
+                                    <td id="otherTwo"></td>
+                                    <td id="multipleTwo"></td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -432,6 +432,21 @@
                                     <button class="dropdown-item" type="button" data-toggle="modal" data-target="#compareDistrictsModal">Compare districts</button>
                                     <button class="dropdown-item" type="button">Reset map</button>
                                 </div>
+                            </div>
+                            <hr>
+                            <div id="precinctOptions">
+                                <h4>Precinct Options</h4>
+                                <form>
+                                    <div class="form-group">
+                                        <label for="precinctDistrictSelect" id="precinctLabel">District</label>
+                                        <select class="form-control" id="precinctDistrictSelect">
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="precinctLockedCheckbox"><span>Locked: </span></label>
+                                        <input class="checkbox pull-right" type="checkbox" id="precinctLockedCheckbox">
+                                    </div>
+                                </form>
                             </div>
                         </form>
                     </div>
