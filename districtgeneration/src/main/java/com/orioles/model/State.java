@@ -42,6 +42,12 @@ public class State implements Cloneable, Serializable {
 		geoJson = "{}";
 	}
 
+	public State(List<CongressionalDistrict> cdList, String name) {
+		this();
+		congressionalDistricts = cdList;
+		this.name = name;
+	}
+
 	public List<CongressionalDistrict> getCongressionalDistricts() {
 		return congressionalDistricts;
 	}

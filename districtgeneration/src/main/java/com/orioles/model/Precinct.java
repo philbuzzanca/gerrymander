@@ -19,30 +19,40 @@ public class Precinct implements Cloneable, Serializable {
     @Autowired
     @Transient
     private Gson gson;
+
     @Transient
     private int identifier;
+
     private String name;
+
     @Column(name = "geojson", columnDefinition = "LONGTEXT")
     private String geojson;
-    @Transient
-    private CongressionalDistrict district; // contained within the embedded ID.
+
+//    @Transient
+//    private CongressionalDistrict district; // contained within the embedded ID.
+
     @Transient
     private List<Precinct> adjacentPrecincts;
+
     @Transient
     private List<Coordinate> coordinates;
+
     @Transient
     private Stats stats;
+
     @Transient
     private boolean locked;
+
     @Transient
     private double area;
+
     @EmbeddedId
     private PrecinctId id;
 
     public Precinct() {
         name = "";
         id = null;
-        district = null;
+//        district = null;
         adjacentPrecincts = new ArrayList<>();
         coordinates = new ArrayList<>();
         stats = null;
@@ -86,13 +96,13 @@ public class Precinct implements Cloneable, Serializable {
         this.identifier = identifier;
     }
 
-    public CongressionalDistrict getDistrict() {
-        return district;
-    }
-
-    public void setDistrict(CongressionalDistrict district) {
-        this.district = district;
-    }
+//    public CongressionalDistrict getDistrict() {
+//        return district;
+//    }
+//
+//    public void setDistrict(CongressionalDistrict district) {
+//        this.district = district;
+//    }
 
     public List<Precinct> getAdjacentPrecincts() {
         return adjacentPrecincts;
