@@ -8,21 +8,13 @@ import java.util.*;
 public class CongressionalDistrict implements Cloneable {
 	private int ID;
 	private List<Precinct> precincts;
-
-	@Transient
+	private List<Precinct> pBorders;
 	private double goodness;
-
-	@Transient
 	private boolean isDirty;
-
-	@Transient
 	private Stats stat;
-
-	@Transient
 	private double area;
 
-	public CongressionalDistrict() {
-	}
+	public CongressionalDistrict() {}
 
 	public CongressionalDistrict(List<Precinct> precincts, int ID) {
 		this.ID = ID;
@@ -38,6 +30,14 @@ public class CongressionalDistrict implements Cloneable {
 
 	public void setPrecincts(List<Precinct> precincts) {
 		this.precincts = precincts;
+	}
+
+	public List<Precinct> getpBorders() {
+		return pBorders;
+	}
+
+	public void setpBorders(List<Precinct> pBorders) {
+		this.pBorders = pBorders;
 	}
 
 	int getID() {
@@ -66,10 +66,6 @@ public class CongressionalDistrict implements Cloneable {
 
 		isDirty = false;
 		return stat;
-	}
-
-	public Precinct choosePrecinct() {
-		return null;
 	}
 
 	void removeFromDistrict(Precinct precinct) {

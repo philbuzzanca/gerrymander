@@ -1,5 +1,6 @@
 package com.orioles.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -10,8 +11,10 @@ public class PDemo {
 	private int hispanic;
 	private int white;
 	private int black;
+	@Column(name = "Native")
 	private int nativeamerican;
 	private int asian;
+	@Column(name = "Pacific")
 	private int pacificislander;
 	private int other;
 	private int multiple;
