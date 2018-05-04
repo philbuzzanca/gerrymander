@@ -434,6 +434,11 @@
                                 </div>
                             </div>
                             <hr>
+                            <div class="form-group" style="margin: auto">
+                                <button type="button" class="btn btn-secondary" id="saveMapButton" style="margin-left: 10%">Load map</button>
+                                <button type="button" class="btn btn-secondary" id="loadMapButton" style="margin-left: 10%">Save map</button>
+                            </div>
+                            <hr>
                             <div id="precinctOptions">
                                 <h4>Precinct Options</h4>
                                 <form>
