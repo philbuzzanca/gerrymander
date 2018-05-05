@@ -14,11 +14,11 @@ public class Stats {
         
     }
     
-	Stats(Map<Race, Long> races, Map<Party, Long> parties, long population) {
-		this.races = races;
-		this.parties = parties;
-		this.population = population;
-	}
+    public Stats(Map<Race, Long> races, Map<Party, Long> parties, long population) {
+            this.races = races;
+            this.parties = parties;
+            this.population = population;
+    }
 
     public Map<Race, Long> getRaces() {
         return races;
@@ -46,15 +46,15 @@ public class Stats {
     
     
 
-	static void summarize(Map<Race, Long> races, Map<Party, Long> parties, Stats eachStat, Stats overallStats) {
-		for (Race r : Race.values()) {
-			races.put(r, races.get(r) + eachStat.getRaces().get(r));
-		}
+    static void summarize(Map<Race, Long> races, Map<Party, Long> parties, Stats eachStat, Stats overallStats) {
+            for (Race r : Race.values()) {
+                    races.put(r, races.get(r) + eachStat.getRaces().get(r));
+            }
 
-		for (Party p : Party.values()) {
-			parties.put(p, parties.get(p) + eachStat.getParties().get(p));
-		}
+            for (Party p : Party.values()) {
+                    parties.put(p, parties.get(p) + eachStat.getParties().get(p));
+            }
 
-		overallStats.setPopulation(overallStats.getPopulation() + eachStat.getPopulation());
-	}
+            overallStats.setPopulation(overallStats.getPopulation() + eachStat.getPopulation());
+    }
 }

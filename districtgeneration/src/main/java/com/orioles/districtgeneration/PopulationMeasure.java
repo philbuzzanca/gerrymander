@@ -23,7 +23,7 @@ public class PopulationMeasure implements Measure{
         Long statePopulation = state.getStats().getPopulation();
         Long avgPopulation = statePopulation/state.getCongressionalDistricts().size();
         Long population = district.getStats().getPopulation();
-        if(population>avgPopulation)
+        if(population<avgPopulation)
             return population/avgPopulation;
         else
             return avgPopulation/population;

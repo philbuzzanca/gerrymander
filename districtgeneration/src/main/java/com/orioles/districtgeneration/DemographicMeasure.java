@@ -51,7 +51,7 @@ public class DemographicMeasure implements Measure{
         double stateRatio = stateOtherPop/stateWhitePop;
         double cdRatio = cdOtherPop/cdWhitePop;
         
-        if(cdRatio>stateRatio)
+        if(cdRatio<stateRatio)
             return cdRatio/stateRatio;
         else
             return stateRatio/cdRatio;

@@ -148,9 +148,12 @@ public class Algorithm {
         
         public void makeSpecifiedMove(CongressionalDistrict sourceDistrict, CongressionalDistrict destDistrict,
 						Precinct movingPrecinct) {
+            
             Move newMove = new Move(movingPrecinct.getIdentifier(), sourceDistrict.getID(),
 				destDistrict.getID());
             moves.add(newMove);
+            sourceDistrict.removeFromDistrict(movingPrecinct);
+            destDistrict.addToDistrict(movingPrecinct);
             movingPrecinct.setDistrict(destDistrict);
             movingPrecinct.setLocked(true);
             
