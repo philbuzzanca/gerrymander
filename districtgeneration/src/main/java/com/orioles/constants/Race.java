@@ -8,6 +8,5 @@ public enum Race {
     ASIAN,
 	PACIFIC,
     OTHER,
-	MULTIPLE,
-	POPULATION
+	MULTIPLE
 }

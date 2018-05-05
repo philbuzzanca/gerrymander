@@ -334,9 +334,9 @@
 						<h4 for="stateSelect">Target state</h4>
 						<select id="stateSelect" class="form-control" onchange="mapFocus(this.value)">
 							<option selected="selected">Select a state...</option>
-							<option value="Virginia">Virginia</option>
-							<option value="New Mexico">New Mexico</option>
-							<option value="Utah">Utah</option>
+							<option value="va">Virginia</option>
+							<option value="nm">New Mexico</option>
+							<option value="ut">Utah</option>
 						</select>
 					</div>
 					<div class="form-group">
