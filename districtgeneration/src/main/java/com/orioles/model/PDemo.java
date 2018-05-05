@@ -1,26 +1,31 @@
 package com.orioles.model;
 
+import com.orioles.constants.Party;
+import com.orioles.constants.Race;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import java.util.HashMap;
+import java.util.Map;
 
 @Entity
 public class PDemo {
 	@Id
 	private int pid;
-	private int hispanic;
-	private int white;
-	private int black;
+	private long hispanic;
+	private long white;
+	private long black;
 	@Column(name = "Native")
-	private int nativeamerican;
-	private int asian;
+	private long nativeamerican;
+	private long asian;
 	@Column(name = "Pacific")
-	private int pacificislander;
-	private int other;
-	private int multiple;
-	private int population;
+	private long pacificislander;
+	private long other;
+	private long multiple;
+	private long population;
 
-	public int getPid() {
+	public long getPid() {
 		return pid;
 	}
 
@@ -28,75 +33,94 @@ public class PDemo {
 		this.pid = pid;
 	}
 
-	public int getHispanic() {
+	public long getHispanic() {
 		return hispanic;
 	}
 
-	public void setHispanic(int hispanic) {
+	public void setHispanic(long hispanic) {
 		this.hispanic = hispanic;
 	}
 
-	public int getWhite() {
+	public long getWhite() {
 		return white;
 	}
 
-	public void setWhite(int white) {
+	public void setWhite(long white) {
 		this.white = white;
 	}
 
-	public int getBlack() {
+	public long getBlack() {
 		return black;
 	}
 
-	public void setBlack(int black) {
+	public void setBlack(long black) {
 		this.black = black;
 	}
 
-	public int getNativeamerican() {
+	public long getNativeamerican() {
 		return nativeamerican;
 	}
 
-	public void setNativeamerican(int nativeamerican) {
+	public void setNativeamerican(long nativeamerican) {
 		this.nativeamerican = nativeamerican;
 	}
 
-	public int getAsian() {
+	public long getAsian() {
 		return asian;
 	}
 
-	public void setAsian(int asian) {
+	public void setAsian(long asian) {
 		this.asian = asian;
 	}
 
-	public int getPacificislander() {
+	public long getPacificislander() {
 		return pacificislander;
 	}
 
-	public void setPacificislander(int pacificislander) {
+	public void setPacificislander(long pacificislander) {
 		this.pacificislander = pacificislander;
 	}
 
-	public int getOther() {
+	public long getOther() {
 		return other;
 	}
 
-	public void setOther(int other) {
+	public void setOther(long other) {
 		this.other = other;
 	}
 
-	public int getMultiple() {
+	public long getMultiple() {
 		return multiple;
 	}
 
-	public void setMultiple(int multiple) {
+	public void setMultiple(long multiple) {
 		this.multiple = multiple;
 	}
 
-	public int getPopulation() {
+	public long getPopulation() {
 		return population;
 	}
 
-	public void setPopulation(int population) {
+	public void setPopulation(long population) {
 		this.population = population;
+	}
+
+	public Stats makeStat() {
+		this.population = 0;
+		Map<Race, Long> races = new HashMap<>();
+		races.put(Race.HISPANIC, hispanic);
+		races.put(Race.WHITE, white);
+		races.put(Race.BLACK, black);
+		races.put(Race.NATIVE, nativeamerican);
+		races.put(Race.ASIAN, asian);
+		races.put(Race.PACIFIC, pacificislander);
+		races.put(Race.OTHER, other);
+		races.put(Race.MULTIPLE, multiple);
+
+		Map<Party, Long> parties = new HashMap<>();
+		for (Party p : Party.values()) {
+			parties.put(p, 0L);
+		}
+		return new Stats(races, parties, population);
 	}
 }

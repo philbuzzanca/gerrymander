@@ -1,5 +1,6 @@
 package com.orioles.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.gson.Gson;
 import com.orioles.districtgeneration.Coordinate;
 import java.io.Serializable;
@@ -15,12 +16,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 @Entity
 public class Precinct implements Cloneable, Serializable {
-
     @Autowired
     @Transient
     private Gson gson;
 
     @Transient
+	@JsonIgnore
     private int identifier;
 
     private String name;
@@ -29,33 +30,37 @@ public class Precinct implements Cloneable, Serializable {
     private String geojson;
 
     @Transient
+    @JsonIgnore
     private CongressionalDistrict district; // contained within the embedded ID.
 
     @Transient
+	@JsonIgnore
     private List<Precinct> adjacentPrecincts;
 
     @Transient
+	@JsonIgnore
     private List<Coordinate> coordinates;
 
     @Transient
+	@JsonIgnore
     private Stats stats;
 
     @Transient
+	@JsonIgnore
     private boolean locked;
 
     @Transient
+	@JsonIgnore
     private double area;
 
     @EmbeddedId
+	@JsonIgnore
     private PrecinctId id;
 
     public Precinct() {
         name = "";
-        id = null;
-        district = null;
         adjacentPrecincts = new ArrayList<>();
         coordinates = new ArrayList<>();
-        stats = null;
         locked = false;
         area = 0;
     }

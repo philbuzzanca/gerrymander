@@ -5,7 +5,9 @@ import com.orioles.exceptions.NoSuchStateException;
 import com.orioles.model.FeatureCollection;
 import com.orioles.model.Precinct;
 import com.orioles.model.State;
+import com.orioles.persistence.PDemoRepository;
 import com.orioles.persistence.PrecinctRepository;
+import com.orioles.persistence.StateManager;
 import com.orioles.persistence.StateRepository;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,6 +26,8 @@ public class StateController {
     private Gson gson;
     @Autowired
     private PrecinctRepository precinctRepository;
+	@Autowired
+	private PDemoRepository pDemoRepository;
     @Autowired
     private StateRepository stateRepository;
     @Autowired
@@ -39,14 +43,11 @@ public class StateController {
         return (State) (states.get(0).clone());
     }
     
-    public FeatureCollection getFromCache(String stateName){
+    private FeatureCollection getFromCache(String stateName){
         if (stateCache == null) {
             stateCache = new HashMap<>();
         }
-        if (stateCache.containsKey(stateName)){
-            return stateCache.get(stateName);
-        }
-        return null;
+        return stateCache.getOrDefault(stateName, null);
     }
 
     @GetMapping("/precincts/{state}")
@@ -69,4 +70,10 @@ public class StateController {
         stateCache.put(stateName, result);
         return result;
     }
+
+	@GetMapping("/getVa")
+	public State getVa() {
+    	StateManager.setupManager(gson, precinctRepository, pDemoRepository);
+		return StateManager.getStateManager().getStateByName("va");
+	}
 }
