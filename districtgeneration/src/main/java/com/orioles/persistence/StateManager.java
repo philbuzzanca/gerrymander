@@ -33,6 +33,7 @@ public class StateManager {
 		isSetup = true;
 	}
 
+	@SuppressWarnings("unchecked")
 	public State getStateByName(String stateName) {
 		if (states.containsKey(stateName))
 			return (State) states.get(stateName).clone();
@@ -44,23 +45,29 @@ public class StateManager {
 			List<Precinct> precinctInCD = precinctList.stream()
 					.filter(p -> p.getId().getCd() == distID).collect(Collectors.toList());
 
-			System.out.printf("Found %d precincts in district id:%d%n", precinctInCD.size(), distID);
 			cd.setPrecincts(precinctInCD);
 			for (Precinct p : precinctInCD) {
 				p.setDistrict(cd);
-				System.out.printf("%sPdemo (%d): %s%s%n", Constants.ANSI_GREEN,
-						p.getId().getId(), pDemoRepository.findByPid(p.getId().getId()), Constants.ANSI_RESET);
-				p.setStats(pDemoRepository.findByPid(p.getId().getId()).makeStat());
-				Object geometry = gson.fromJson(p.getGeojson(), Map.class).get("geometry");
+				p.setStats(pDemoRepository.findByPid(p.getIdentifier()).makeStat());
+//				System.out.println(p.getStats());
 
-				System.out.println(((Map)geometry).get("coordinates").getClass().getName());
-				System.out.println(((Map)geometry).get("coordinates").toString());
+				List<List<List<List<Double>>>> coordinates = (List<List<List<List<Double>>>>)
+						((Map)gson.fromJson(p.getGeojson(), Map.class).get("geometry")).get("coordinates");
+				if (coordinates.get(0).size() > 1)
+					System.out.printf("L1:%d; L2:%d; L3:%d; L4:%f%n", coordinates.size(), coordinates.get(0).size(),
+							coordinates.get(0).get(0).size(), coordinates.get(0).get(0).get(0).get(0));
+//				System.out.println("----------------1");
+//				System.out.println(coordinates.get(0).toString());
+//				System.out.println("----------------2");
+//				System.out.println(coordinates.get(0).get(0).toString());
+//				System.out.println("----------------3");
+//				System.out.println(coordinates.get(0).get(0).get(0).toString());
 
 				// TBD: fill in precinct coordinates
-				break;
+//				break;
 			}
 			cds.add(cd);
-			break;
+//			break;
 		}
 
 		State s = new State(cds, stateName);
@@ -68,5 +75,5 @@ public class StateManager {
 		return s;
 	}
 
-
+//	private
 }

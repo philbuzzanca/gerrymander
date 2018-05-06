@@ -20,10 +20,6 @@ public class Precinct implements Cloneable, Serializable {
     @Transient
     private Gson gson;
 
-    @Transient
-	@JsonIgnore
-    private int identifier;
-
     private String name;
 
     @Column(name = "geojson", columnDefinition = "LONGTEXT")
@@ -94,11 +90,7 @@ public class Precinct implements Cloneable, Serializable {
     }
 
     public int getIdentifier() {
-        return identifier;
-    }
-
-    public void setIdentifier(int identifier) {
-        this.identifier = identifier;
+        return id.getId();
     }
 
     public CongressionalDistrict getDistrict() {
@@ -117,7 +109,7 @@ public class Precinct implements Cloneable, Serializable {
         this.adjacentPrecincts = adjacentPrecincts;
     }
 
-    Stats getStats() {
+    public Stats getStats() {
         return stats;
     }
 

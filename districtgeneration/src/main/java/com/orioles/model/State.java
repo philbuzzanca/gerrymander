@@ -1,5 +1,6 @@
 package com.orioles.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.orioles.constants.Constants;
 import com.orioles.districtgeneration.AllMeasures;
 import java.io.Serializable;
@@ -21,12 +22,15 @@ public class State implements Cloneable, Serializable {
     @Column(name="name", columnDefinition="VARCHAR(255) PRIMARY KEY")
     private String name;
 
+    @JsonIgnore
 	@Column(name="geo_json", columnDefinition="LONGTEXT NOT NULL")
 	private String geoJson;
 
+    @JsonIgnore
     @Transient
 	private boolean hasUpdated;
 
+    @JsonIgnore
     @Transient
 	private Stats stat;
 

@@ -23,7 +23,7 @@ public class PDemo {
 	private long pacificislander;
 	private long other;
 	private long multiple;
-	private long population;
+//	private long population;
 
 	public long getPid() {
 		return pid;
@@ -97,16 +97,15 @@ public class PDemo {
 		this.multiple = multiple;
 	}
 
-	public long getPopulation() {
-		return population;
-	}
+//	public long getPopulation() {
+//		return population;
+//	}
 
-	public void setPopulation(long population) {
-		this.population = population;
-	}
+//	public void setPopulation(long population) {
+//		this.population = population;
+//	}
 
 	public Stats makeStat() {
-		this.population = 0;
 		Map<Race, Long> races = new HashMap<>();
 		races.put(Race.HISPANIC, hispanic);
 		races.put(Race.WHITE, white);
@@ -121,6 +120,7 @@ public class PDemo {
 		for (Party p : Party.values()) {
 			parties.put(p, 0L);
 		}
-		return new Stats(races, parties, population);
+		return new Stats(races, parties, hispanic + white + black
+				+ nativeamerican + asian + pacificislander + other + multiple);
 	}
 }

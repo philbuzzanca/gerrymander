@@ -68,4 +68,15 @@ public class Stats {
 
 		overallStats.setPopulation(overallStats.getPopulation() + eachStat.getPopulation());
 	}
+
+	@Override
+	public String toString() {
+    	StringBuilder sb = new StringBuilder();
+    	return races.keySet().stream().map(k -> "").reduce((a, b) -> a + b).toString() + "population= " + population;
+//    	sb.append("Race {\t");
+//		for (Race r : Race.values()) {
+//			sb.append(r).append(races.get(r)).append("\n\t");
+//		}
+//		return sb.append("}\n Population: ").append(population).toString();
+	}
 }
