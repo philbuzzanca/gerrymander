@@ -4,37 +4,14 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.orioles.constants.Constants;
 import com.orioles.districtgeneration.AllMeasures;
 import java.io.Serializable;
-import javax.persistence.Entity;
-import javax.persistence.Transient;
 import java.util.*;
 import java.util.stream.Collectors;
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.Table;
 
-@Entity
-@Table(name = "GeoState")
 public class State implements Cloneable, Serializable {
-    @Transient
     private List<CongressionalDistrict> congressionalDistricts;
-
-    @Id
-    @Column(name="name", columnDefinition="VARCHAR(255) PRIMARY KEY")
     private String name;
-
-    @JsonIgnore
-	@Column(name="geo_json", columnDefinition="LONGTEXT NOT NULL")
-	private String geoJson;
-
-    @JsonIgnore
-    @Transient
 	private boolean hasUpdated;
-
-    @JsonIgnore
-    @Transient
 	private Stats stat;
-
-	@Transient
 	private double goodness;
 
 	public State() {
@@ -43,12 +20,11 @@ public class State implements Cloneable, Serializable {
 		goodness = 0;
 		hasUpdated = false;
 		stat = new Stats();
-		geoJson = "{}";
 	}
 
 	public State(List<CongressionalDistrict> cdList, String name) {
 		this();
-		congressionalDistricts = cdList;
+		this.congressionalDistricts = cdList;
 		this.name = name;
 	}
 
@@ -56,8 +32,8 @@ public class State implements Cloneable, Serializable {
 		return congressionalDistricts;
 	}
 
-	public void setCongressionalDistricts(List<CongressionalDistrict> congressionalDistricts) {
-		this.congressionalDistricts = congressionalDistricts;
+	public void setCongressionalDistricts(List<CongressionalDistrict> cds) {
+		this.congressionalDistricts = cds;
 	}
 
 	public String getName() {
@@ -68,6 +44,7 @@ public class State implements Cloneable, Serializable {
 		this.name = name;
 	}
 
+	@JsonIgnore
 	public int getNumPrecincts() {
 		return congressionalDistricts.size();
 	}
@@ -78,14 +55,6 @@ public class State implements Cloneable, Serializable {
     
     public void setGoodness(double newGoodness) {
         this.goodness = newGoodness;
-    }
-
-    public String getGeoJson() {
-        return geoJson;
-    }
-
-    public void setGeoJson(String geoJson) {
-        this.geoJson = geoJson;
     }
 
     public Stats summarize() {
@@ -107,6 +76,7 @@ public class State implements Cloneable, Serializable {
                 .findFirst().orElse(null);
     }
 
+    @JsonIgnore
     @SuppressWarnings("unchecked")
     public List<Pair<Integer, Double>> getGerrymanderedDistricts(){
 		return congressionalDistricts.stream()
@@ -118,9 +88,8 @@ public class State implements Cloneable, Serializable {
 
 	void calculateDistrictGoodness(Map<AllMeasures, Integer> measures){
 		for (CongressionalDistrict cd : congressionalDistricts) {
-			List<Double> goodnessVals = new ArrayList<>();
-			measures.keySet().forEach(key -> goodnessVals.add(key.calculateGoodness(cd) * measures.get(key)));
-			OptionalDouble goodness = goodnessVals.stream().mapToDouble(num -> num).average();
+			OptionalDouble goodness = measures.keySet().stream()
+					.mapToDouble(key -> key.calculateGoodness(cd) * measures.get(key)).average();
 			cd.setGoodness(goodness.isPresent() ? goodness.getAsDouble() : -1);
 		}
 	}
@@ -143,7 +112,6 @@ public class State implements Cloneable, Serializable {
     public Object clone() {
         State state = new State();
         state.name = this.name;
-        state.geoJson = this.geoJson;
         state.stat = this.stat;
         state.goodness = this.goodness;
         state.congressionalDistricts = this.congressionalDistricts;

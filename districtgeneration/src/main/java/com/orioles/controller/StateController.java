@@ -8,11 +8,7 @@ import com.orioles.model.State;
 import com.orioles.persistence.PDemoRepository;
 import com.orioles.persistence.PrecinctRepository;
 import com.orioles.persistence.StateManager;
-import com.orioles.persistence.StateRepository;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,14 +25,11 @@ public class StateController {
 	@Autowired
 	private PDemoRepository pDemoRepository;
     @Autowired
-    private StateRepository stateRepository;
-    @Autowired
     private Environment environment;
 
     @GetMapping("/state/{name}")
     public State getState(@PathVariable("name") String stateName) {
-        stateName = stateName.toLowerCase();
-        List<State> states = stateRepository.findByName(stateName);
+        List<State> states = Collections.emptyList();   // stateRepository.findByName(stateName.toLowerCase());
         if (states.isEmpty() || states.size() > 1) {
             throw new NoSuchStateException(environment.getProperty("orioles.state.nomatch"));
         }

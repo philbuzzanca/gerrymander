@@ -49,25 +49,19 @@ public class StateManager {
 			for (Precinct p : precinctInCD) {
 				p.setDistrict(cd);
 				p.setStats(pDemoRepository.findByPid(p.getIdentifier()).makeStat());
-//				System.out.println(p.getStats());
+				System.out.println("Stats: " + p.getStats());
 
 				List<List<List<List<Double>>>> coordinates = (List<List<List<List<Double>>>>)
 						((Map)gson.fromJson(p.getGeojson(), Map.class).get("geometry")).get("coordinates");
 				if (coordinates.get(0).size() > 1)
 					System.out.printf("L1:%d; L2:%d; L3:%d; L4:%f%n", coordinates.size(), coordinates.get(0).size(),
 							coordinates.get(0).get(0).size(), coordinates.get(0).get(0).get(0).get(0));
-//				System.out.println("----------------1");
-//				System.out.println(coordinates.get(0).toString());
-//				System.out.println("----------------2");
-//				System.out.println(coordinates.get(0).get(0).toString());
-//				System.out.println("----------------3");
-//				System.out.println(coordinates.get(0).get(0).get(0).toString());
 
 				// TBD: fill in precinct coordinates
 //				break;
 			}
 			cds.add(cd);
-//			break;
+			break;
 		}
 
 		State s = new State(cds, stateName);
