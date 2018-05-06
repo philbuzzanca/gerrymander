@@ -1,17 +1,24 @@
 package com.orioles.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.orioles.districtgeneration.Coordinate;
 import com.orioles.districtgeneration.Edge;
 import javax.persistence.Transient;
 import java.util.*;
 
 public class CongressionalDistrict implements Cloneable {
+	@JsonIgnore
 	private int ID;
 	private List<Precinct> precincts;
+	@JsonIgnore
 	private List<Precinct> pBorders;
+	@JsonIgnore
 	private double goodness;
+	@JsonIgnore
 	private boolean isDirty;
+	@JsonIgnore
 	private Stats stat;
+	@JsonIgnore
 	private double area;
 
 	public CongressionalDistrict() {}

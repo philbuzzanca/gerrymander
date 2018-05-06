@@ -55,14 +55,14 @@ function precinctStyle(feature) {
     };
 }
 
-L.geoJSON(vaGeoData, {
-    onEachFeature: onEachFeature,
-    style: precinctStyle
-}).addTo(mymap);
-L.geoJSON(nm, {
-    onEachFeature: onEachFeature,
-    style: precinctStyle
-}).addTo(mymap);
+// L.geoJSON(vaGeoData, {
+//     onEachFeature: onEachFeature,
+//     style: precinctStyle
+// }).addTo(mymap);
+// L.geoJSON(nm, {
+//     onEachFeature: onEachFeature,
+//     style: precinctStyle
+// }).addTo(mymap);
 
 $(document).ready(function(){
     $("#resetMap").click(() => {

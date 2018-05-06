@@ -148,7 +148,7 @@ public class AlgoController {
                 JSONObject properties = (JSONObject) precinct.get("properties");
                 Long districtnum = (Long)properties.get("CD");
                 Long identifier = (Long)properties.get("CODE");
-                newPrecinct.setIdentifier((int)(double)identifier);
+//                newPrecinct.setIdentifier((int)(double)identifier);
 
                 CongressionalDistrict district = loadedState.getDistrictByID((int)(double)districtnum);
                 district.addToDistrict(newPrecinct);
