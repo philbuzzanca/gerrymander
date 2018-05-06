@@ -2,7 +2,6 @@ package com.orioles.model;
 
 import com.orioles.constants.Party;
 import com.orioles.constants.Race;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,14 +13,12 @@ public class Stats {
     Stats(){
 		this.population = 0;
 		this.races = new HashMap<>();
-		for (Race r : Race.values()) {
+		for (Race r : Race.values())
 			races.put(r, 0L);
-		}
 
 		this.parties = new HashMap<>();
-		for (Party p : Party.values()) {
+		for (Party p : Party.values())
 			parties.put(p, 0L);
-		}
     }
     
 	public Stats(Map<Race, Long> races, Map<Party, Long> parties, long population) {
@@ -55,28 +52,19 @@ public class Stats {
     }
 
 	static void summarize(Stats eachStat, Stats overallStats) {
-		Map<Race, Long> races  = overallStats.races;
-		Map<Party, Long> parties = overallStats.parties;
-
-    	for (Race r : Race.values()) {
-			races.put(r, races.get(r) + eachStat.getRaces().get(r));
-		}
-
-		for (Party p : Party.values()) {
-			parties.put(p, parties.get(p) + eachStat.getParties().get(p));
-		}
-
 		overallStats.setPopulation(overallStats.getPopulation() + eachStat.getPopulation());
+		Map<Race, Long> races  = overallStats.races;
+    	for (Race r : Race.values())
+			races.put(r, races.get(r) + eachStat.getRaces().get(r));
+
+		Map<Party, Long> parties = overallStats.parties;
+		for (Party p : Party.values())
+			parties.put(p, parties.get(p) + eachStat.getParties().get(p));
 	}
 
 	@Override
 	public String toString() {
-    	StringBuilder sb = new StringBuilder();
-    	return races.keySet().stream().map(k -> "").reduce((a, b) -> a + b).toString() + "population= " + population;
-//    	sb.append("Race {\t");
-//		for (Race r : Race.values()) {
-//			sb.append(r).append(races.get(r)).append("\n\t");
-//		}
-//		return sb.append("}\n Population: ").append(population).toString();
+    	return races.keySet().stream().map(k -> races.get(k) == 0 ? "" : String.format("%s=%d", k, races.get(k)))
+				.reduce((a, b) -> a + ", " + b).orElse("") + "\npopulation=" + population;
 	}
 }

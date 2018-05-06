@@ -7,7 +7,6 @@ import javax.persistence.Transient;
 import java.util.*;
 
 public class CongressionalDistrict implements Cloneable {
-	@JsonIgnore
 	private int ID;
 	private List<Precinct> precincts;
 	@JsonIgnore
@@ -88,7 +87,7 @@ public class CongressionalDistrict implements Cloneable {
 	public Precinct getPrecinctById(int precinctId) {
 		return precincts.stream()
 				.filter(precinct -> precinct.getIdentifier() == precinctId)
-				.findFirst().orElse(null);
+				.findAny().orElse(null);
 	}
 
 	private Precinct getRandomPrecinct() {
@@ -117,6 +116,7 @@ public class CongressionalDistrict implements Cloneable {
 		return movingPrecinct;
 	}
 
+	@JsonIgnore
 	public double getPerimeter() {
 		List<Edge> allEdges = new ArrayList<>();
 		List<Edge> repeatedEdges = new ArrayList<>();

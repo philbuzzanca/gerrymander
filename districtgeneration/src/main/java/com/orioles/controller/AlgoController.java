@@ -4,9 +4,7 @@ import com.orioles.constants.Constants;
 import com.orioles.districtgeneration.AllMeasures;
 import com.orioles.districtgeneration.Constraint;
 import com.orioles.model.*;
-//import com.orioles.persistence.StateRepository;
 import com.orioles.persistence.PrecinctRepository;
-import com.orioles.persistence.StateRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,8 +16,6 @@ import java.util.*;
 public class AlgoController {
 	@Autowired
 	private PrecinctRepository precinctRepository;
-	@Autowired
-	private StateRepository stateRepository;
 	@Autowired
 	private HttpSession httpSession;
 
@@ -43,8 +39,8 @@ public class AlgoController {
 			}
 		}
 
-//		State geoState = (State) httpSession.getAttribute("state");
-		State geoState = stateRepository.findByName("state").get(0);
+		State geoState = (State) httpSession.getAttribute("state");
+//		State geoState = new State();	//stateRepository.findByName("state").get(0);
 		Algorithm algo = new Algorithm(geoState, measures, Collections.emptyList());
 		httpSession.setAttribute("algo", algo);
 		return geoState.getGerrymanderedDistricts();
