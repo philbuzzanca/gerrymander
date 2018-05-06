@@ -3,6 +3,7 @@ package com.orioles.controller;
 import com.orioles.constants.Constants;
 import com.orioles.districtgeneration.AllMeasures;
 import com.orioles.districtgeneration.Constraint;
+import com.orioles.helper_model.Pair;
 import com.orioles.model.*;
 import com.orioles.persistence.PrecinctRepository;
 import org.springframework.beans.factory.annotation.Autowired;

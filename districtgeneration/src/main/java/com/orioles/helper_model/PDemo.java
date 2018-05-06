@@ -1,7 +1,8 @@
-package com.orioles.model;
+package com.orioles.helper_model;
 
 import com.orioles.constants.Party;
 import com.orioles.constants.Race;
+import com.orioles.model.Stats;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -23,7 +24,6 @@ public class PDemo {
 	private long pacificislander;
 	private long other;
 	private long multiple;
-//	private long population;
 
 	public long getPid() {
 		return pid;
@@ -96,14 +96,6 @@ public class PDemo {
 	public void setMultiple(long multiple) {
 		this.multiple = multiple;
 	}
-
-//	public long getPopulation() {
-//		return population;
-//	}
-
-//	public void setPopulation(long population) {
-//		this.population = population;
-//	}
 
 	public Stats makeStat() {
 		Map<Race, Long> races = new HashMap<>();

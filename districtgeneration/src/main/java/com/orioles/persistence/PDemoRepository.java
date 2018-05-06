@@ -1,6 +1,6 @@
 package com.orioles.persistence;
 
-import com.orioles.model.PDemo;
+import com.orioles.helper_model.PDemo;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Component;
 
