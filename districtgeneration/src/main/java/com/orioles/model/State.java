@@ -3,6 +3,8 @@ package com.orioles.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.orioles.constants.Constants;
 import com.orioles.districtgeneration.AllMeasures;
+import com.orioles.helper_model.Pair;
+
 import java.io.Serializable;
 import java.util.*;
 import java.util.stream.Collectors;

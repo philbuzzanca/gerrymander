@@ -49,7 +49,6 @@ public class StateManager {
 			for (Precinct p : precinctInCD) {
 				p.setDistrict(cd);
 				p.setStats(pDemoRepository.findByPid(p.getIdentifier()).makeStat());
-				System.out.println("Stats: " + p.getStats());
 
 				List<List<List<List<Double>>>> coordinates = (List<List<List<List<Double>>>>)
 						((Map)gson.fromJson(p.getGeojson(), Map.class).get("geometry")).get("coordinates");
@@ -69,5 +68,8 @@ public class StateManager {
 		return s;
 	}
 
-//	private
+	private List<List<List<List<Double>>>> parseCoordinates(List<List<List<List<Double>>>> coordinates) {
+
+		return null;
+	}
 }

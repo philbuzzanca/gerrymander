@@ -1,6 +1,6 @@
 package com.orioles.controller;
 
-import com.orioles.model.Demographics;
+import com.orioles.helper_model.Demographics;
 import com.orioles.persistence.DemographicsRepository;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
