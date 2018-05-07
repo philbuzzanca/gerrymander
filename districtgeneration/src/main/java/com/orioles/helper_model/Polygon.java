@@ -7,8 +7,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class Polygon {
-	// edges.get(0) = bounding region; subsequent elements are holes
-	private List<List<Edge>> edges;
+	private List<List<Edge>> edges;		// edges.get(0) = bounding region; subsequent elements are holes
 
 	public Polygon(List<List<Edge>> edges) {
 		this.edges = edges;

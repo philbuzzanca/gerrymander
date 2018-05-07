@@ -52,7 +52,6 @@ public class StateManager {
 						.get("geometry")).get("coordinates")));
 			}
 			cds.add(cd);
-			break;
 		}
 
 		State s = new State(cds, stateName);
@@ -70,7 +69,7 @@ public class StateManager {
 
 	private List<Edge> obtainEdges(List<List<Double>> rawEdges) {
 		List<Edge> edges = new ArrayList<>();
-		List<Coordinate> coordList = rawEdges.stream()
+		final List<Coordinate> coordList = rawEdges.stream()
 				.map(pt -> new Coordinate(pt.get(0), pt.get(1))).collect(Collectors.toList());
 		for (int i = 0; i < coordList.size(); i++)
 			edges.add(new Edge(coordList.get(i), coordList.get((i + 1) % coordList.size())));
