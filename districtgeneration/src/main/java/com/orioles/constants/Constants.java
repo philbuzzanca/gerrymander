@@ -1,5 +1,9 @@
 package com.orioles.constants;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
+
 public class Constants {
 	// FRONT END DISPLAY TEXT
 	public static final String HELP = "<p>To begin using this tool, select a state either by clicking on the state " +
@@ -25,6 +29,11 @@ public class Constants {
 	public static final String VA = "VIRGINA";
 	public static final String NM = "NEW MEXICO";
 	public static final String UT = "UTAH";
+	public static final List<String> ALL_STATES= new ArrayList<String>() {{	add(VA); add(NM); add(UT);	}};
+
+	// ERROR MESSAGES
+	public static final String NO_MATCH = "orioles.state.nomatch";
+
 
 	// ALGORITHM
 	public static final int MAX_ITERATIONS = 100;

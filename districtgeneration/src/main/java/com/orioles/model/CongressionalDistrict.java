@@ -103,9 +103,6 @@ public class CongressionalDistrict implements Cloneable {
 	}
 
 	public double getArea() {
-		if (!isDirty)
-			return this.area;
-		isDirty = false;
 		return this.area = precincts.stream().mapToDouble(Precinct::getArea).sum();
 	}
 
@@ -153,5 +150,16 @@ public class CongressionalDistrict implements Cloneable {
 			return false;
 		CongressionalDistrict otherDistrict = (CongressionalDistrict) o;
 		return this.ID == otherDistrict.ID ;
+	}
+
+	@Override
+	public String toString() {
+		return "CongressionalDistrict{" +
+				"ID=" + ID +
+				", precincts=" + precincts +
+//				", pBorders=" + pBorders +
+				", stat=" + summarize() +
+				", area=" + getArea() +
+				'}';
 	}
 }

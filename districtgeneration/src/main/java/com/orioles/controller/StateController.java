@@ -14,7 +14,6 @@ import com.orioles.persistence.PDemoRepository;
 import com.orioles.persistence.PrecinctRepository;
 import java.util.*;
 import java.util.stream.Collectors;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,22 +36,19 @@ public class StateController {
 
     @GetMapping("/state/{name}")
     public State getState(@PathVariable("name") String stateName) {
-        List<State> states = Collections.emptyList();   // stateRepository.findByName(stateName.toLowerCase());
-        if (states.isEmpty() || states.size() > 1) {
-            throw new NoSuchStateException(environment.getProperty("orioles.state.nomatch"));
-        }
-        return (State) (states.get(0).clone());
+    	if (!Constants.ALL_STATES.contains(stateName.toLowerCase()))
+    		throw new NoSuchStateException(environment.getProperty(Constants.NO_MATCH));
+        return getStateByName(stateName.toLowerCase());
     }
     
     private FeatureCollection getFromCache(String stateName){
-        if (stateCache == null) {
+        if (stateCache == null)
             stateCache = new HashMap<>();
-        }
         return stateCache.getOrDefault(stateName, null);
     }
 
     @GetMapping("/precincts/{state}")
-    public FeatureCollection getPrecincts(@PathVariable("state") String stateName) {
+    public FeatureCollection getPrecincts(@PathVariable(Constants.STATE) String stateName) {
         stateName = stateName.toLowerCase();
         FeatureCollection result = getFromCache(stateName);
         if (result != null){
@@ -62,7 +58,7 @@ public class StateController {
         result = new FeatureCollection();
         List<Map> features = new ArrayList<>();
         if (precincts.isEmpty())
-            throw new NoSuchStateException(environment.getProperty("orioles.state.nomatch"));
+            throw new NoSuchStateException(environment.getProperty(Constants.NO_MATCH));
         for (Precinct precinct : precincts) {
             Map feature = gson.fromJson(precinct.getGeojson(), Map.class);
             features.add(feature);
@@ -74,12 +70,22 @@ public class StateController {
 
 	@GetMapping("/getVa")
 	public State getVa() {
+		System.out.println(getStateByName("va"));
 		return getStateByName("va");
 	}
 
+	private State checkCache(String stateName) {
+    	if (states == null)
+    		states = new HashMap<>();
+    	if (allPrecincts == null)
+    		allPrecincts = new HashMap<>();
+    	return states.containsKey(stateName) ? (State) states.get(stateName).clone() : null;
+	}
+
 	private State getStateByName(String stateName) {
-		if (states.containsKey(stateName))
-			return (State) states.get(stateName).clone();
+		State fromCache = checkCache(stateName.toLowerCase());
+    	if (fromCache != null)
+			return fromCache;
 		List<Precinct> precinctList = precinctRepository.findByIdState(stateName);
 		List<CongressionalDistrict> cds = new ArrayList<>();
 		for(int distID : precinctList.stream().mapToInt(Precinct::getCD).distinct().toArray()) {
@@ -128,7 +134,7 @@ public class StateController {
 
 	@SuppressWarnings("unchecked")
 	private List<Precinct> parseAdjacent(Object adj) {
-		if (adj == null)
+		if (adj == null)		// ie: islands
 			return Collections.emptyList();
 		return Arrays.stream(((String) adj).split(","))
 				.map(e -> allPrecincts.get(Integer.parseInt(e))).collect(Collectors.toList());
