@@ -8,10 +8,10 @@ import java.util.OptionalDouble;
 public interface Measure {
     default double calculateGoodness(State state) {
 		List<CongressionalDistrict> districts = state.getCongressionalDistricts();
-		OptionalDouble avgGoodness = districts.stream().mapToDouble(this::calculateGoodness).average();
+		OptionalDouble avgGoodness = districts.stream().mapToDouble(cd -> this.calculateGoodness(cd, state)).average();
 		return avgGoodness.isPresent() ? avgGoodness.getAsDouble() : -1;
     }
 
-    double calculateGoodness(CongressionalDistrict district);
+    double calculateGoodness(CongressionalDistrict district, State state);
     double normalize(double measure);
 }

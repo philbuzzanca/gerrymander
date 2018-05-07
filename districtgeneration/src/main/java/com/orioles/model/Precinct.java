@@ -33,7 +33,7 @@ public class Precinct implements Cloneable, Serializable {
     @Transient
 	@JsonIgnore
     private boolean locked;
-	@JsonIgnore
+    @JsonIgnore
     private double area;
     @EmbeddedId
 	@JsonIgnore
@@ -138,5 +138,21 @@ public class Precinct implements Cloneable, Serializable {
 
     public double getArea() {
         return this.area;
+    }
+    
+    public void setBorder(){		// ?
+        this.border = 0;
+        for (Precinct adjacentPrecinct : adjacentPrecincts) {
+            if(adjacentPrecinct.getDistrict().getID() != this.district.getID()){
+                this.border = 1;
+                break;
+            }
+        }
+    }
+    
+    public void updateAdjacentBorders(){
+        for (Precinct adjacentPrecinct : adjacentPrecincts) {
+            adjacentPrecinct.setBorder();
+        }
     }
 }

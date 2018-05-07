@@ -108,6 +108,7 @@ public class CongressionalDistrict implements Cloneable {
 	Precinct getMovingPrecinct() {
 		Precinct movingPrecinct;
 		boolean isBorderPrecinct = false;
+		boolean locked = false;
 		do {
 			movingPrecinct = getRandomPrecinct();
 			List<Precinct> adjacentPrecincts = movingPrecinct.getAdjacentPrecincts();
@@ -116,7 +117,11 @@ public class CongressionalDistrict implements Cloneable {
 					isBorderPrecinct = true;
 				}
 			}
-		} while (isBorderPrecinct);
+
+			// ?????????????????? TBD
+//			isBorderPrecinct = movingPrecinct.setBorder();		// ?
+			locked = movingPrecinct.isLocked();
+		} while (isBorderPrecinct || locked);		// FIXME: end condition
 		return movingPrecinct;
 	}
 

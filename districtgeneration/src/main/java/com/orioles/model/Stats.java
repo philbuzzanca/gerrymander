@@ -27,7 +27,7 @@ public class Stats {
 		this.population = population;
 	}
 
-	Map<Race, Long> getRaces() {
+    public Map<Race, Long> getRaces() {
         return races;
     }
     
