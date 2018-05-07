@@ -12,7 +12,8 @@ public class Algorithm {
 	private State state;
 	private Map<Measure, Double> measures;
 	private List<Constraint> constraints;
-	private ArrayList<Move> moves;
+	private ArrayList<Move> allMoves;
+        private ArrayList<Move> movesSinceUpdate;
 	private int iterations;
 	private boolean paused;
 
@@ -22,7 +23,8 @@ public class Algorithm {
 		iterations = 0;
 		constraints = new ArrayList<>();
 		paused = false;
-		moves = new ArrayList<>();
+		allMoves = new ArrayList<>();           //will be used to save the redistricting to a user
+                movesSinceUpdate = new ArrayList<>();   //will be used to update the map while the algorithm is running, gets cleared after updating
 	}
 
 	public State getState() {
@@ -57,13 +59,25 @@ public class Algorithm {
 		this.iterations = iterations;
 	}
 
-	public ArrayList<Move> getMoves() {
-		return this.moves;
+	public ArrayList<Move> getAllMoves() {
+		return this.allMoves;
 	}
 
-	public void setMoves(ArrayList<Move> moves) {
-		this.moves = moves;
+	public void setAllMoves(ArrayList<Move> moves) {
+		this.allMoves = moves;
 	}
+        
+        public ArrayList<Move> getMovesSinceUpdate(){
+                return this.movesSinceUpdate;
+        }
+        
+        public void setMovesSinceUpdate(ArrayList<Move> moves){
+            this.movesSinceUpdate = moves;
+        }
+        
+        public void clearMoves(){
+            this.movesSinceUpdate.clear();
+        }
 
 	public boolean getPaused() {
 		return this.paused;
@@ -135,7 +149,8 @@ public class Algorithm {
 
 		Move newMove = new Move(movingPrecinct.getIdentifier(), sourceDistrict.getID(),
 				destDistrict.getID());
-		moves.add(newMove);
+		allMoves.add(newMove);
+                movesSinceUpdate.add(newMove);
 		movingPrecinct.setDistrict(destDistrict);
 	}
 
@@ -151,11 +166,43 @@ public class Algorithm {
             
             Move newMove = new Move(movingPrecinct.getIdentifier(), sourceDistrict.getID(),
 				destDistrict.getID());
-            moves.add(newMove);
+            allMoves.add(newMove);
+            movesSinceUpdate.add(newMove);
             sourceDistrict.removeFromDistrict(movingPrecinct);
             destDistrict.addToDistrict(movingPrecinct);
             movingPrecinct.setDistrict(destDistrict);
             movingPrecinct.setLocked(true);
             
+        }
+        
+        public void loadOldRedistricting(ArrayList<Move> moves){
+            for(Move move: moves){
+                int sourceDistrictID = move.getSourceDistrict();
+                int destinationDistrictID = move.getDestDistrict();
+                int precinctID = move.getPrecinct();
+                CongressionalDistrict sourceDistrict = new CongressionalDistrict();
+                CongressionalDistrict destinationDistrict = new CongressionalDistrict();
+                Precinct movingPrecinct = new Precinct();
+        
+                for(CongressionalDistrict district: state.getCongressionalDistricts()){
+                    if(district.getID()==sourceDistrictID){
+                        sourceDistrict = district;
+                        for(Precinct precinct: sourceDistrict.getPrecincts()){
+                            if(precinct.getIdentifier()==precinctID){
+                                movingPrecinct = precinct;
+                                break;
+                            }
+                        }
+                        break;
+                    }
+                }
+                for(CongressionalDistrict district: state.getCongressionalDistricts()){
+                    if(district.getID()==destinationDistrictID){
+                        sourceDistrict = district;
+                        break;
+                    }
+                }
+                makeMove(sourceDistrict, destinationDistrict, movingPrecinct);
+            }
         }
 }

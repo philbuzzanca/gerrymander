@@ -119,12 +119,11 @@ public class CongressionalDistrict implements Cloneable {
 			movingPrecinct = getRandomPrecinct();
                         isBorderPrecinct = movingPrecinct.getBorder();
                         locked = movingPrecinct.isLocked();
-		} while (isBorderPrecinct && !locked);
+		} while (!isBorderPrecinct || locked);
 		return movingPrecinct;
 	}
 
 	public double calculatePerimeter() {
-		//return 50;
 		double perimeter = 0;
 		ArrayList<Edge> edges1 = new ArrayList<>();
 		ArrayList<Edge> edges2 = new ArrayList<>();
@@ -182,4 +181,5 @@ public class CongressionalDistrict implements Cloneable {
         public Stats getStats(){
             return this.stat;
         }
+        
 }
