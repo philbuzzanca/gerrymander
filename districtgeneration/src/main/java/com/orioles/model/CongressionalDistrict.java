@@ -3,8 +3,11 @@ package com.orioles.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.orioles.districtgeneration.Coordinate;
 import com.orioles.districtgeneration.Edge;
+import com.orioles.helper_model.Polygon;
+
 import javax.persistence.Transient;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class CongressionalDistrict implements Cloneable {
 	private int ID;
@@ -119,19 +122,15 @@ public class CongressionalDistrict implements Cloneable {
 
 	@JsonIgnore
 	public double getPerimeter() {
-		List<Edge> allEdges = new ArrayList<>();
-		List<Edge> repeatedEdges = new ArrayList<>();
+		Set<Edge> allEdges = new HashSet<>();
+		Set<Edge> repeatedEdges = new HashSet<>();
 		for (Precinct currentPrecinct : precincts) {
-			List<Coordinate> coordinates = new ArrayList<>();		// currentPrecinct.getCoordinates();
-			for (int j = 0; j < coordinates.size() - 1; j++) {
-				Edge edge = new Edge(coordinates.get(j), coordinates.get(j + 1));
-				if (allEdges.contains(edge)) {
-					if (!repeatedEdges.contains(edge))
-						repeatedEdges.add(edge);
-				} else {
-					allEdges.add(edge);
-				}
-			}
+			List<Edge> edges = currentPrecinct.getCoordinates().stream()
+					.map(Polygon::getAllEdges).flatMap(Collection::stream).collect(Collectors.toList());
+			allEdges.addAll(edges.stream().distinct().collect(Collectors.toList()));
+
+			Set<Edge> uniques = new HashSet<>();
+			repeatedEdges.addAll(edges.stream().filter(e -> !uniques.add(e)).collect(Collectors.toList()));
 		}
 		allEdges.removeAll(repeatedEdges);
 		return allEdges.stream().mapToDouble(Edge::calculateDistance).sum();
