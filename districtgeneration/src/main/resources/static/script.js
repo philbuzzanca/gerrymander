@@ -17,16 +17,55 @@ L.tileLayer('https://api.tiles.mapbox.com/styles/v1/mapbox/{id}/tiles/{z}/{x}/{y
     id: 'dark-v9'
 }).addTo(mymap);
 
+function resetMap() {
+    mapFocus('va')
+}
+
 function onEachFeature(feature, layer) {
     let properties = [];
     const exclusions = {NEIGHBORS: 1};
+    feature.properties["LOCKED"] = false;
     for (let property of Object.keys(feature.properties)) {
         if (!(property in exclusions)){
             properties.push(`${property}: ${feature.properties[property]}`);
         }
     }
     layer.bindPopup(properties.join("<br />"));
+    layer.on({
+        click : whenClicked
+    });
 }
+
+var selectedState;
+
+function whenClicked(e) {
+    selectedState = e.target;
+    console.log(e.target.feature);
+    $("#precinctOptions").show();
+    $("#precinctLockedCheckbox").prop('checked', selectedState.feature.properties.LOCKED);
+    var i;
+    var $pds = $("#precinctDistrictSelect");
+    $($pds.empty());
+    for(i = 1; i <= stateDistricts[$("#stateSelect").val()]; i++){
+        $($pds.append('<option id=district' + i + ' value=' + i + '> District ' + i + '</option>'));
+    }
+    $($pds.val(selectedState.feature.properties.CD));
+}
+
+$(document).ready(function() {
+    $("#precinctDistrictSelect").change(function(){
+        selectedState.setStyle({
+           fillColor: getColor($("#precinctDistrictSelect").val()) 
+        });
+        selectedState.feature.properties['CD'] = parseInt($("#precinctDistrictSelect").val());
+    });
+});
+
+$(document).ready(function() {
+    $("#precinctLockedCheckbox").change(function(){
+        selectedState.feature.properties['LOCKED'] = this.checked;
+    }); 
+});
 
 function mapFocus(state) {
     if (!state){
@@ -40,6 +79,7 @@ function mapFocus(state) {
             style: precinctStyle,
         }).addTo(mymap);
     });
+    // $($("#precinctOptions").hide());
     mymap.flyTo(stateFocus[state], stateZoom[state]);
 }
 
