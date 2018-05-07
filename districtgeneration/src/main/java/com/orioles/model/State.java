@@ -48,6 +48,11 @@ public class State implements Cloneable, Serializable {
 
 	@JsonIgnore
 	public int getNumPrecincts() {
+		return congressionalDistricts.stream().mapToInt(CongressionalDistrict::getNumPrecincts).sum();
+	}
+
+	@JsonIgnore
+	public int getNumDistricts() {
 		return congressionalDistricts.size();
 	}
 
@@ -72,8 +77,7 @@ public class State implements Cloneable, Serializable {
 
     public CongressionalDistrict getDistrictByID (int districtID){
         return congressionalDistricts.stream()
-                .filter(district -> districtID == district.getID())
-                .findFirst().orElse(null);
+                .filter(district -> districtID == district.getID()).findFirst().orElse(null);
     }
 
     @JsonIgnore
@@ -94,7 +98,7 @@ public class State implements Cloneable, Serializable {
 		}
 	}
 
-    double calculateGoodness() {
+    private double calculateGoodness() {
 		OptionalDouble goodness = congressionalDistricts.stream()
 				.mapToDouble(CongressionalDistrict::getGoodness).average();
 		return goodness.isPresent() ? goodness.getAsDouble() : 0;
@@ -103,7 +107,7 @@ public class State implements Cloneable, Serializable {
 	CongressionalDistrict getStartingDistrict() {
 		return getRandomDistrict();
 	}
-    public double getGoodness(){
+    double getGoodness(){
         return this.goodness = calculateGoodness();
     }
     
@@ -149,9 +153,5 @@ public class State implements Cloneable, Serializable {
 				}
 			}
 		}
-    }
-    
-    public Stats getStats(){
-        return this.stat;
     }
 }

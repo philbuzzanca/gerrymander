@@ -45,6 +45,10 @@ public class CongressionalDistrict implements Cloneable {
 		this.precincts = precincts;
 	}
 
+	public int getNumPrecincts() {
+		return this.precincts.size();
+	}
+
 	public List<Precinct> getpBorders() {
 		return pBorders;
 	}

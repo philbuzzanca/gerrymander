@@ -123,28 +123,20 @@ public class Algorithm {
 		}
 	}
 
-	private void addMove(CongressionalDistrict source, CongressionalDistrict dest, Precinct movingPrecinct) {
-		currMoves.add(new Move(movingPrecinct.getIdentifier(), source.getID(), dest.getID()));
-		movingPrecinct.setDistrict(dest);
+	// FIXME: Weird Set of three below.
+	private void addMove(CongressionalDistrict srcDist, CongressionalDistrict destDist, Precinct movingPrecinct) {
+		currMoves.add(new Move(movingPrecinct.getIdentifier(), srcDist.getID(), destDist.getID()));
+		movingPrecinct.setDistrict(destDist);
 	}
 
-	private void makeMove(CongressionalDistrict sourceDistrict, CongressionalDistrict destDistrict,
-						  Precinct movingPrecinct) {
-
-		sourceDistrict.removeFromDistrict(movingPrecinct);
-		destDistrict.addToDistrict(movingPrecinct);
+	private void makeMove(CongressionalDistrict srcDist, CongressionalDistrict destDist, Precinct movingPrecinct) {
+		srcDist.removeFromDistrict(movingPrecinct);
+		destDist.addToDistrict(movingPrecinct);
 	}
         
-	public void makeSpecifiedMove(CongressionalDistrict sourceDistrict, CongressionalDistrict destDistrict,
-					Precinct movingPrecinct) {
-
-		Move newMove = new Move(movingPrecinct.getIdentifier(), sourceDistrict.getID(),
-			destDistrict.getID());
-		currMoves.add(newMove);
-		sourceDistrict.removeFromDistrict(movingPrecinct);
-		destDistrict.addToDistrict(movingPrecinct);
-		movingPrecinct.setDistrict(destDistrict);
-		movingPrecinct.setLocked(true);
-
+	public void makeSpecifiedMove(CongressionalDistrict srcDist, CongressionalDistrict destDist, Precinct movingPrecinct) {
+		currMoves.add(new Move(movingPrecinct.getIdentifier(), srcDist.getID(), destDist.getID()));
+		makeMove(srcDist, destDist, movingPrecinct);
+		movingPrecinct.setLocked(true);			// WHY?
 	}
 }
