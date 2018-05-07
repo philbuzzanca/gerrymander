@@ -21,12 +21,12 @@ public class TestController {
 	@RequestMapping("/compactness_score")
 	public Double compactness(){
 		CongressionalDistrict district = setup();
-		return AllMeasures.COMPACTNESS.calculateGoodness(district);
+		return AllMeasures.COMPACTNESS.calculateGoodness(district, null);
 	}
 
 	@RequestMapping("/eq_population")
 	public Double population(){
-		return AllMeasures.EQUAL_POPULATION.calculateGoodness(setup());
+		return AllMeasures.EQUAL_POPULATION.calculateGoodness(setup(), null);
 	}
 
 	@RequestMapping("/perimeter")

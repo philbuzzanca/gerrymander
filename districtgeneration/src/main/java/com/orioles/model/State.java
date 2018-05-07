@@ -89,19 +89,22 @@ public class State implements Cloneable, Serializable {
 	void calculateDistrictGoodness(Map<AllMeasures, Integer> measures){
 		for (CongressionalDistrict cd : congressionalDistricts) {
 			OptionalDouble goodness = measures.keySet().stream()
-					.mapToDouble(key -> key.calculateGoodness(cd) * measures.get(key)).average();
+					.mapToDouble(key -> key.calculateGoodness(cd, this) * measures.get(key)).average();
 			cd.setGoodness(goodness.isPresent() ? goodness.getAsDouble() : -1);
 		}
 	}
 
-    double getGoodness() {
+    double calculateGoodness() {
 		OptionalDouble goodness = congressionalDistricts.stream()
 				.mapToDouble(CongressionalDistrict::getGoodness).average();
 		return goodness.isPresent() ? goodness.getAsDouble() : 0;
 	}
 
-	CongressionalDistrict getStartingDistrict(){
-        return getRandomDistrict();
+	CongressionalDistrict getStartingDistrict() {
+		return getRandomDistrict();
+	}
+    public double getGoodness(){
+        return this.goodness = calculateGoodness();
     }
     
     private CongressionalDistrict getRandomDistrict() {
@@ -116,5 +119,39 @@ public class State implements Cloneable, Serializable {
         state.goodness = this.goodness;
         state.congressionalDistricts = this.congressionalDistricts;
         return state;
+    }
+    
+    public void setBorderStatus(){
+        for (CongressionalDistrict congressionalDistrict : congressionalDistricts) {
+            List<Precinct> precincts = congressionalDistrict.getPrecincts();
+            for (Precinct precinct : precincts) {
+                precinct.setBorder();
+            }
+        }
+    }
+    
+    public void setLockedPrecincts(ArrayList<Precinct> lockedPrecincts){
+        for (CongressionalDistrict congressionalDistrict : congressionalDistricts) {
+            List<Precinct> precincts = congressionalDistrict.getPrecincts();
+            for (Precinct precinct : precincts) {
+                if(lockedPrecincts.contains(precinct))
+                    precinct.setLocked(true);
+            }
+        }
+    }
+    
+    public void setLockedDistricts(ArrayList<CongressionalDistrict> lockedDistricts){
+		for (CongressionalDistrict congressionalDistrict : congressionalDistricts) {
+			if(lockedDistricts.contains(congressionalDistrict)){
+				List<Precinct> precincts = congressionalDistrict.getPrecincts();
+				for (Precinct precinct : precincts) {
+					precinct.setLocked(true);
+				}
+			}
+		}
+    }
+    
+    public Stats getStats(){
+        return this.stat;
     }
 }

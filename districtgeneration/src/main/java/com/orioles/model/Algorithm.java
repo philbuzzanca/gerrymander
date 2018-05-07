@@ -114,6 +114,8 @@ public class Algorithm {
 					makeMove(destDistrict, sourceDistrict, movingPrecinct);
 					state.calculateDistrictGoodness(measures);
 				} else {
+                                        movingPrecinct.setBorder();
+                                        movingPrecinct.updateAdjacentBorders();
 					addMove(sourceDistrict, destDistrict, movingPrecinct);
 					break;
 				}
@@ -131,5 +133,18 @@ public class Algorithm {
 
 		sourceDistrict.removeFromDistrict(movingPrecinct);
 		destDistrict.addToDistrict(movingPrecinct);
+	}
+        
+	public void makeSpecifiedMove(CongressionalDistrict sourceDistrict, CongressionalDistrict destDistrict,
+					Precinct movingPrecinct) {
+
+		Move newMove = new Move(movingPrecinct.getIdentifier(), sourceDistrict.getID(),
+			destDistrict.getID());
+		currMoves.add(newMove);
+		sourceDistrict.removeFromDistrict(movingPrecinct);
+		destDistrict.addToDistrict(movingPrecinct);
+		movingPrecinct.setDistrict(destDistrict);
+		movingPrecinct.setLocked(true);
+
 	}
 }
