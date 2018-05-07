@@ -11,6 +11,7 @@ public class User {
 	private String username;
 	private String password;
 	private Party party;
+        private boolean admin;
 
 	public User() {}
 
@@ -18,6 +19,7 @@ public class User {
 		this.username = username;
 		this.password = PasswordUtility.encode(password);
 		this.party = Party.OTHER;
+                this.admin = false;
 	}
 
 	public String getUsername() {
@@ -43,4 +45,12 @@ public class User {
 	public void setParty(Party party) {
 		this.party = party;
 	}
+        
+        public boolean getAdmin() {
+            return admin;
+        }
+        
+        public void setAdmin(boolean admin) {
+            this.admin = admin;
+        }
 }

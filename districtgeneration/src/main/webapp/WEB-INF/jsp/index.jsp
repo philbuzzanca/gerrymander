@@ -46,7 +46,7 @@
                 </ul>
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="" data-toggle="modal"
+                        <a class="nav-link" href="" data-toggle="modal" id="adminLink"
                            data-target="#adminModal" style="visibility: hidden">Administrator</a>
                     </li>
                     <li class="nav-item">
@@ -107,7 +107,26 @@
                                 </tr>
                             </tbody>
                         </table>
+                        <h5>Users</h5>
+                        <table class="table" id="userTable">
+                            <thead>
+                                <tr>
+                                    <th scope="col">User</th>
+                                    <th scope="col">Party</th>
+                                    <th scope="col">Admin</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
                     </div>
+                    <form class="form-inline">
+                        <div class="form-group">
+                            <label for="userToDeleteInput">Enter user to delete: </label>
+                            <input type="text" id="userToDeleteInput">
+                            <button class="btn btn-secondary">Delete</button>
+                        </div>
+                    </form>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     </div>
