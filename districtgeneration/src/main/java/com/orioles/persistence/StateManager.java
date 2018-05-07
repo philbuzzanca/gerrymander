@@ -1,6 +1,7 @@
 package com.orioles.persistence;
 
 import com.google.gson.Gson;
+import com.orioles.constants.Constants;
 import com.orioles.districtgeneration.Coordinate;
 import com.orioles.districtgeneration.Edge;
 import com.orioles.helper_model.Polygon;
@@ -13,11 +14,13 @@ public class StateManager {
 	private PrecinctRepository precinctRepository;
 	private PDemoRepository pDemoRepository;
 	private Map<String, State> states;
+	private Map<Integer, Precinct> allPrecincts;
 	private static StateManager instance;
 	private static boolean isSetup;
 
 	private StateManager() {
 		this.states  = new HashMap<>();
+		this.allPrecincts = new HashMap<>();
 	}
 
 	public static StateManager getStateManager() {
@@ -48,13 +51,20 @@ public class StateManager {
 			for (Precinct p : precinctInCD) {
 				p.setDistrict(cd);
 				p.setStats(pDemoRepository.findByPid(p.getIdentifier()).makeStat());
-				p.setCoordinates(parseCoordinates(((Map)gson.fromJson(p.getGeojson(), Map.class)
-						.get("geometry")).get("coordinates")));
+
+				Map json = gson.fromJson(p.getGeojson(), Map.class);
+				p.setCoordinates(parseCoordinates(((Map)json.get(Constants.GEOMETRY)).get(Constants.COORDINATES)));
+				allPrecincts.put(p.getIdentifier(), p);
 			}
 			cds.add(cd);
 		}
 
 		State s = new State(cds, stateName);
+		for (Precinct p : s.getAllPrecincts()) {
+			Map json = gson.fromJson(p.getGeojson(), Map.class);
+			p.setAdjacentPrecincts(parseAdjacent(((Map)json.get(Constants.PROPERTIES)).get(Constants.NEIGHBORS)));
+		}
+
 		states.put(stateName, s);
 		return s;
 	}
@@ -74,5 +84,13 @@ public class StateManager {
 		for (int i = 0; i < coordList.size(); i++)
 			edges.add(new Edge(coordList.get(i), coordList.get((i + 1) % coordList.size())));
 		return edges;
+	}
+
+	@SuppressWarnings("unchecked")
+	private List<Precinct> parseAdjacent(Object adj) {
+		if (adj == null)
+			return Collections.emptyList();
+		return Arrays.stream(((String) adj).split(","))
+				.map(e -> allPrecincts.get(Integer.parseInt(e))).collect(Collectors.toList());
 	}
 }

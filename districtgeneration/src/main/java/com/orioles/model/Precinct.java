@@ -96,7 +96,7 @@ public class Precinct implements Cloneable, Serializable {
         return adjacentPrecincts;
     }
 
-    public void setAdjacentPrecincts(ArrayList<Precinct> adjPrecincts) {
+    public void setAdjacentPrecincts(List<Precinct> adjPrecincts) {
         this.adjacentPrecincts = adjPrecincts;
     }
 

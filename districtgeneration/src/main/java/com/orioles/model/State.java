@@ -7,6 +7,7 @@ import com.orioles.helper_model.Pair;
 
 import java.io.Serializable;
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class State implements Cloneable, Serializable {
@@ -63,6 +64,11 @@ public class State implements Cloneable, Serializable {
     public void setGoodness(double newGoodness) {
         this.goodness = newGoodness;
     }
+
+    public List<Precinct> getAllPrecincts() {
+		return congressionalDistricts.stream().map(CongressionalDistrict::getPrecincts)
+				.flatMap(Collection::stream).collect(Collectors.toList());
+	}
 
     public Stats summarize() {
         if (!hasUpdated)
