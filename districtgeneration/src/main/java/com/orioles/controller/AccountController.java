@@ -9,6 +9,7 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -70,6 +71,11 @@ public class AccountController {
         }
         userRepository.save(user);
         return "OK";
+    }
+    
+    @GetMapping("/getUsers")
+    public Iterable<User> getUsers() {
+        return userRepository.findAll();
     }
     
     @RequestMapping("/logout")

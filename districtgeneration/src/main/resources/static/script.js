@@ -36,15 +36,14 @@ function onEachFeature(feature, layer) {
     }
     layer.bindPopup(properties.join("<br />"));
     layer.on({
-        click : whenClicked
+        click : selectTile
     });
 }
 
 var selectedState;
 
-function whenClicked(e) {
+function selectTile(e) {
     selectedState = e.target;
-    console.log(e.target.feature);
     $("#precinctOptions").show();
     $("#precinctLockedCheckbox").prop('checked', selectedState.feature.properties.LOCKED);
     var i;

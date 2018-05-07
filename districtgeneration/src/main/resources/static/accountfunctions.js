@@ -64,6 +64,17 @@ $(document).ready(function(){
 });
 
 $(document).ready(function(){
+    $.get("/getUsers", function(data){
+        if(data !== null){
+            for(var i = 0; i < data.length; i++){
+                $("#userTable").append("<tr><td>"+data[i].username+"</td><td>"
+                        +data[i].party+"</td><td>"+data[i].admin+"</td></tr>");
+            }
+        }
+    });
+});
+
+$(document).ready(function(){
     $("#logoutLink").click((event) => {
         event.preventDefault();
         logout();
