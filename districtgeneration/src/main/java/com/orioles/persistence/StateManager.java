@@ -1,9 +1,10 @@
 package com.orioles.persistence;
 
 import com.google.gson.Gson;
-import com.orioles.constants.Constants;
+import com.orioles.districtgeneration.Coordinate;
+import com.orioles.districtgeneration.Edge;
+import com.orioles.helper_model.Polygon;
 import com.orioles.model.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -33,31 +34,22 @@ public class StateManager {
 		isSetup = true;
 	}
 
-	@SuppressWarnings("unchecked")
 	public State getStateByName(String stateName) {
 		if (states.containsKey(stateName))
 			return (State) states.get(stateName).clone();
 		List<Precinct> precinctList = precinctRepository.findByIdState(stateName);
 		List<CongressionalDistrict> cds = new ArrayList<>();
-		for(int distID : precinctList.stream().mapToInt(p -> p.getId().getCd()).distinct().toArray()) {
-			CongressionalDistrict cd = new CongressionalDistrict();
-			cd.setID(distID);
+		for(int distID : precinctList.stream().mapToInt(Precinct::getCD).distinct().toArray()) {
+			CongressionalDistrict cd = new CongressionalDistrict(distID);
 			List<Precinct> precinctInCD = precinctList.stream()
-					.filter(p -> p.getId().getCd() == distID).collect(Collectors.toList());
+					.filter(p -> p.getCD() == distID).collect(Collectors.toList());
 
 			cd.setPrecincts(precinctInCD);
 			for (Precinct p : precinctInCD) {
 				p.setDistrict(cd);
 				p.setStats(pDemoRepository.findByPid(p.getIdentifier()).makeStat());
-
-				List<List<List<List<Double>>>> coordinates = (List<List<List<List<Double>>>>)
-						((Map)gson.fromJson(p.getGeojson(), Map.class).get("geometry")).get("coordinates");
-				if (coordinates.get(0).size() > 1)
-					System.out.printf("L1:%d; L2:%d; L3:%d; L4:%f%n", coordinates.size(), coordinates.get(0).size(),
-							coordinates.get(0).get(0).size(), coordinates.get(0).get(0).get(0).get(0));
-
-				// TBD: fill in precinct coordinates
-//				break;
+				p.setCoordinates(parseCoordinates(((Map)gson.fromJson(p.getGeojson(), Map.class)
+						.get("geometry")).get("coordinates")));
 			}
 			cds.add(cd);
 			break;
@@ -68,8 +60,20 @@ public class StateManager {
 		return s;
 	}
 
-	private List<List<List<List<Double>>>> parseCoordinates(List<List<List<List<Double>>>> coordinates) {
+	@SuppressWarnings("unchecked")
+	private List<Polygon> parseCoordinates(Object coords) {		// Assumes coords is a multi-polygon
+		List<List<List<List<Double>>>> coordinates = (List<List<List<List<Double>>>>) coords;
+		return coordinates.stream().map(poly ->
+				new Polygon(poly.stream().map(this::obtainEdges).collect(Collectors.toList())))
+				.collect(Collectors.toList());
+	}
 
-		return null;
+	private List<Edge> obtainEdges(List<List<Double>> rawEdges) {
+		List<Edge> edges = new ArrayList<>();
+		List<Coordinate> coordList = rawEdges.stream()
+				.map(pt -> new Coordinate(pt.get(0), pt.get(1))).collect(Collectors.toList());
+		for (int i = 0; i < coordList.size(); i++)
+			edges.add(new Edge(coordList.get(i), coordList.get((i + 1) % coordList.size())));
+		return edges;
 	}
 }

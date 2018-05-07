@@ -2,6 +2,8 @@ package com.orioles.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.orioles.districtgeneration.Coordinate;
+import com.orioles.helper_model.Polygon;
+
 import java.io.Serializable;
 
 import javax.persistence.Transient;
@@ -24,7 +26,7 @@ public class Precinct implements Cloneable, Serializable {
     private List<Precinct> adjacentPrecincts;
     @Transient
 	@JsonIgnore
-    private List<Coordinate> coordinates;
+    private List<Polygon> coordinates;
     @Transient
 	@JsonIgnore
     private Stats stats;
@@ -46,7 +48,7 @@ public class Precinct implements Cloneable, Serializable {
         area = 0;
     }
 
-    public Precinct(List<Coordinate> coordinates) {
+    public Precinct(List<Polygon> coordinates) {
         this.coordinates = coordinates;
     }
 
@@ -73,6 +75,10 @@ public class Precinct implements Cloneable, Serializable {
     public void setId(PrecinctId id) {
         this.id = id;
     }
+
+    public int getCD() {
+    	return id.getCd();
+	}
 
     public int getIdentifier() {
         return id.getId();
@@ -118,11 +124,11 @@ public class Precinct implements Cloneable, Serializable {
         return border != 0;
     }
 
-    public void setCoordinates(ArrayList<Coordinate> coordinates) {
+    public void setCoordinates(List<Polygon> coordinates) {
         this.coordinates = coordinates;
     }
 
-    public List<Coordinate> getCoordinates() {
+    public List<Polygon> getCoordinates() {
         return coordinates;
     }
 

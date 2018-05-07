@@ -22,12 +22,16 @@ public class CongressionalDistrict implements Cloneable {
 
 	public CongressionalDistrict() {}
 
-	public CongressionalDistrict(List<Precinct> precincts, int ID) {
+	public CongressionalDistrict(int ID) {
 		this.ID = ID;
-		this.precincts = precincts;
 		this.goodness = -1;
 		this.area = 0;
 		this.isDirty = true;
+	}
+
+	public CongressionalDistrict(List<Precinct> ps, int ID) {
+		this(ID);
+		this.precincts = ps;
 	}
 
 	public List<Precinct> getPrecincts() {
@@ -67,9 +71,7 @@ public class CongressionalDistrict implements Cloneable {
 			return stat;
 
 		stat = new Stats();
-		precincts.stream().map(Precinct::getStats)
-				.forEach(precinctStat -> Stats.summarize(precinctStat, stat));
-
+		precincts.stream().map(Precinct::getStats).forEach(precinctStat -> Stats.summarize(precinctStat, stat));
 		isDirty = false;
 		return stat;
 	}
@@ -79,14 +81,13 @@ public class CongressionalDistrict implements Cloneable {
 		precincts.remove(precinct);
 	}
 
-	public void addToDistrict(Precinct precinct) {
+	void addToDistrict(Precinct precinct) {
 		isDirty = true;
 		precincts.add(precinct);
 	}
 
 	public Precinct getPrecinctById(int precinctId) {
-		return precincts.stream()
-				.filter(precinct -> precinct.getIdentifier() == precinctId)
+		return precincts.stream().filter(precinct -> precinct.getIdentifier() == precinctId)
 				.findAny().orElse(null);
 	}
 
@@ -121,7 +122,7 @@ public class CongressionalDistrict implements Cloneable {
 		List<Edge> allEdges = new ArrayList<>();
 		List<Edge> repeatedEdges = new ArrayList<>();
 		for (Precinct currentPrecinct : precincts) {
-			List<Coordinate> coordinates = currentPrecinct.getCoordinates();
+			List<Coordinate> coordinates = new ArrayList<>();		// currentPrecinct.getCoordinates();
 			for (int j = 0; j < coordinates.size() - 1; j++) {
 				Edge edge = new Edge(coordinates.get(j), coordinates.get(j + 1));
 				if (allEdges.contains(edge)) {

@@ -60,13 +60,11 @@ public class State implements Cloneable, Serializable {
     }
 
     public Stats summarize() {
-        if (!hasUpdated) {
+        if (!hasUpdated)
             return stat;
-        }
 
 		stat = new Stats();
-        congressionalDistricts.stream()
-                .map(CongressionalDistrict::summarize)
+        congressionalDistricts.stream().map(CongressionalDistrict::summarize)
                 .forEach(cdStat -> Stats.summarize(cdStat, stat));
 		hasUpdated = true;
 		return stat;

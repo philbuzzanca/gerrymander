@@ -2,7 +2,7 @@ package com.orioles.districtgeneration;
 
 import com.orioles.helper_model.Pair;
 
-public class Coordinate extends Pair<Double, Double> {
+public final class Coordinate extends Pair<Double, Double> {
 	public Coordinate(double xVal, double yVal) {
 		super(xVal, yVal);
 	}
@@ -13,14 +13,6 @@ public class Coordinate extends Pair<Double, Double> {
 
 	double getY() {
 		return getValue();
-	}
-
-	void setX(double xValue) {
-		setKey(xValue);
-	}
-
-	void setY(double yValue) {
-		setValue(yValue);
 	}
 
 	@Override

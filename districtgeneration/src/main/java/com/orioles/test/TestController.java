@@ -33,8 +33,8 @@ public class TestController {
 	public Double perimeterTest(){
 		List<Coordinate> coordinates1 = setTestValues1();
 		List<Coordinate> coordinates2 = setTestValues1();
-		Precinct precinct1 = new Precinct(coordinates1);
-		Precinct precinct2 = new Precinct(coordinates2);
+		Precinct precinct1 = new Precinct();
+		Precinct precinct2 = new Precinct();
 
 		List<Precinct> ps = new ArrayList<>();
 		ps.add(precinct1);
@@ -63,7 +63,7 @@ public class TestController {
 		for (Party p : Party.values())
 			conDistParty.put(p, 1000 * i++);
 
-		Precinct p1 = new Precinct(coord);
+		Precinct p1 = new Precinct();
 		p1.setStats(new Stats(conDistRace, conDistParty, 10000 * i));
 		return p1;
 	}
