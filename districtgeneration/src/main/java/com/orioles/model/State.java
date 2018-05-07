@@ -160,4 +160,11 @@ public class State implements Cloneable, Serializable {
 			}
 		}
     }
+
+	@Override
+	public String toString() {
+		return "State{name=" + name +
+				"congressionalDistricts=" + congressionalDistricts +
+				'}';
+	}
 }

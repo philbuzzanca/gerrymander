@@ -155,4 +155,13 @@ public class Precinct implements Cloneable, Serializable {
             adjacentPrecinct.setBorder();
         }
     }
+
+	@Override
+	public String toString() {
+		return "Precinct{" +
+				"name='" + name + '\'' +
+				", area=" + area +
+				", id=" + id.getId() +
+				'}';
+	}
 }
