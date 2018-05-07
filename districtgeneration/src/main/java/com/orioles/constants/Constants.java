@@ -38,20 +38,9 @@ public class Constants {
 	public static final int CONSTRAINT_LENGTH = CONSTRIANT.length();
 	public static final String STATE = "state";
 
-	// StateManager / StateController
+	// StateController
 	public static final String GEOMETRY = "geometry";
 	public static final String NEIGHBORS = "NEIGHBORS";
 	public static final String COORDINATES = "coordinates";
 	public static final String PROPERTIES = "properties";
-
-	// COLOR
-	public static final String ANSI_RESET = "\u001B[0m";
-	public static final String ANSI_BLACK = "\u001B[30m";
-	public static final String ANSI_RED = "\u001B[31m";
-	public static final String ANSI_GREEN = "\u001B[32m";
-	public static final String ANSI_YELLOW = "\u001B[33m";
-	public static final String ANSI_BLUE = "\u001B[34m";
-	public static final String ANSI_PURPLE = "\u001B[35m";
-	public static final String ANSI_CYAN = "\u001B[36m";
-	public static final String ANSI_WHITE = "\u001B[37m";
 }
