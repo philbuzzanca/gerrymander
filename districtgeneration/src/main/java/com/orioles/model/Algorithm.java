@@ -57,8 +57,8 @@ public class Algorithm {
 		this.iterations = iterations;
 	}
 
-	public Precinct getMoves() {
-		return null;
+	public ArrayList<Move> getMoves() {
+		return this.moves;
 	}
 
 	public void setMoves(ArrayList<Move> moves) {
