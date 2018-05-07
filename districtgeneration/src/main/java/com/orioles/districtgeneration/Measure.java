@@ -13,5 +13,4 @@ public interface Measure {
     }
 
     double calculateGoodness(CongressionalDistrict district, State state);
-    double normalize(double measure);
 }

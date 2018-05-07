@@ -6,6 +6,7 @@ import com.orioles.districtgeneration.AllMeasures;
 import com.orioles.districtgeneration.Coordinate;
 import com.orioles.model.CongressionalDistrict;
 import com.orioles.model.Precinct;
+import com.orioles.model.State;
 import com.orioles.model.Stats;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,12 +22,12 @@ public class TestController {
 	@RequestMapping("/compactness_score")
 	public Double compactness(){
 		CongressionalDistrict district = setup();
-		return AllMeasures.COMPACTNESS.calculateGoodness(district, null);
+		return AllMeasures.COMPACTNESS.calculateGoodness(district, new State());
 	}
 
 	@RequestMapping("/eq_population")
 	public Double population(){
-		return AllMeasures.EQUAL_POPULATION.calculateGoodness(setup(), null);
+		return AllMeasures.EQUAL_POPULATION.calculateGoodness(setup(), new State());
 	}
 
 	@RequestMapping("/perimeter")

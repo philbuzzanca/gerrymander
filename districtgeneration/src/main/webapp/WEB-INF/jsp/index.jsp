@@ -1,7 +1,6 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
-<<<<<<< HEAD
 <head>
 	<title>CSE 308</title>
 	<meta charset="utf-8"/>
