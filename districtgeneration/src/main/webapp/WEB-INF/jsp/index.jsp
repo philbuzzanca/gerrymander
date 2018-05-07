@@ -1,6 +1,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
+<<<<<<< HEAD
 <head>
 	<title>CSE 308</title>
 	<meta charset="utf-8"/>
@@ -415,6 +416,36 @@
 							</script>
 						</div>
 					</div>
+
+					<div class="dropdown">
+						<button type="button" class="btn btn-primary dropdown-toggle" id="toolsButton" data-toggle="dropdown" style="width:100%">Tools</button>
+						<div class="dropdown-menu" style="width:100%">
+							<button class="dropdown-item" type="button">Run algorithm</button>
+							<button class="dropdown-item" type="button" data-toggle="modal" data-target="#compareDistrictsModal">Compare districts</button>
+							<button class="dropdown-item" type="button">Reset map</button>
+						</div>
+					</div>
+					<hr>
+					<div class="form-group" style="margin: auto">
+						<button type="button" class="btn btn-secondary" id="saveMapButton" style="margin-left: 10%">Load map</button>
+						<button type="button" class="btn btn-secondary" id="loadMapButton" style="margin-left: 10%">Save map</button>
+					</div>
+					<hr>
+					<div id="precinctOptions">
+						<h4>Precinct Options</h4>
+						<form>
+							<div class="form-group">
+								<label for="precinctDistrictSelect" id="precinctLabel">District</label>
+								<select class="form-control" id="precinctDistrictSelect">
+								</select>
+							</div>
+							<div class="form-group">
+								<label for="precinctLockedCheckbox"><span>Locked: </span></label>
+								<input class="checkbox pull-right" type="checkbox" id="precinctLockedCheckbox">
+							</div>
+						</form>
+					</div>
+
 					<button id="startAlgoBtn" type="submit" class="btn btn-primary" style="width:100%">Build</button>
 				</form>
 				<div id="runningAlgo" style="width:100%">
