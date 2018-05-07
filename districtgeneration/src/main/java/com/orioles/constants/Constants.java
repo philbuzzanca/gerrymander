@@ -38,6 +38,12 @@ public class Constants {
 	public static final int CONSTRAINT_LENGTH = CONSTRIANT.length();
 	public static final String STATE = "state";
 
+	// StateManager / StateController
+	public static final String GEOMETRY = "geometry";
+	public static final String NEIGHBORS = "NEIGHBORS";
+	public static final String COORDINATES = "coordinates";
+	public static final String PROPERTIES = "properties";
+
 	// COLOR
 	public static final String ANSI_RESET = "\u001B[0m";
 	public static final String ANSI_BLACK = "\u001B[30m";
