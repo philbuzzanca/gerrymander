@@ -155,10 +155,6 @@ public class Precinct implements Cloneable, Serializable {
 
 	@Override
 	public String toString() {
-		return "Precinct{" +
-				"name='" + name + '\'' +
-				", area=" + area +
-				", id=" + id.getId() +
-				'}';
+    	return String.format("Precinct(%s (%d), area=%f)", name, id.getId(), area);
 	}
 }

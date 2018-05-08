@@ -134,6 +134,21 @@ public class CongressionalDistrict implements Cloneable {
 		return allEdges.stream().mapToDouble(Edge::calculateDistance).sum();
 	}
 
+	public boolean isContigious() {
+		Queue<Precinct> pQueue = new LinkedList<>();
+		Set<Precinct> pSet = new HashSet<>();
+		pQueue.add(precincts.get(0));
+
+		for (Precinct p = pQueue.poll(); pQueue.isEmpty(); p = pQueue.poll())
+			if (p != null && pSet.add(p)) {
+				Precinct finalP = p;
+				pQueue.addAll(p.getAdjacentPrecincts().stream()
+						.filter(adj -> !pSet.contains(adj) && adj.getCD() == finalP.getCD())
+						.collect(Collectors.toList()));
+			}
+		return pSet.size() == precincts.size();
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o)
@@ -146,16 +161,6 @@ public class CongressionalDistrict implements Cloneable {
 
 	@Override
 	public String toString() {
-		return "CongressionalDistrict{" +
-				"ID=" + ID +
-				", precincts=" + precincts +
-//				", pBorders=" + pBorders +
-				", stat=" + summarize() +
-				", area=" + getArea() +
-				'}';
+		return String.format("CD(%d -> <%f, %s>, %s)", ID, getArea(), summarize(), precincts);
 	}
-        
-        public Stats getStats(){
-            return this.stat;
-        }
 }
