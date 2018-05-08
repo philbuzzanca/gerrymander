@@ -18,6 +18,11 @@ public enum AllMeasures implements Measure {
 			double equalAreaPerimeter = 2 * Math.PI * r;
 			return equalAreaPerimeter / district.getPerimeter();
 		}
+	},COMPACTNESS2 {    // PolsbyPopper
+		@Override
+		public double calculateGoodness(CongressionalDistrict district, State state) {
+			return (4 * Math.PI * district.getArea()) / Math.pow(district.getPerimeter(), 2);
+		}
 	}, EQUAL_POPULATION {
 		@Override
 		public double calculateGoodness(CongressionalDistrict district, State state) {
