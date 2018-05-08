@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpSession;
+
 @RestController
 public class StateController {
     private Map<String, FeatureCollection> stateCache;
@@ -31,6 +33,8 @@ public class StateController {
 	private PDemoRepository pDemoRepository;
     @Autowired
     private Environment environment;
+	@Autowired
+	private HttpSession httpSession;
     private Map<String, State> states;
     private Map<Integer, Precinct> allPrecincts;
 
@@ -51,26 +55,21 @@ public class StateController {
     public FeatureCollection getPrecincts(@PathVariable(Constants.STATE) String stateName) {
         stateName = stateName.toLowerCase();
         FeatureCollection result = getFromCache(stateName);
-        if (result != null){
+        if (result != null)
             return result;
-        }
+
         List<Precinct> precincts = precinctRepository.findByIdState(stateName);
-        result = new FeatureCollection();
-        List<Map> features = new ArrayList<>();
-        if (precincts.isEmpty())
-            throw new NoSuchStateException(environment.getProperty(Constants.NO_MATCH));
-        for (Precinct precinct : precincts) {
-            Map feature = gson.fromJson(precinct.getGeojson(), Map.class);
-            features.add(feature);
-        }
-        result.setFeatures(features);
+		if (precincts.isEmpty())
+			throw new NoSuchStateException(environment.getProperty(Constants.NO_MATCH));
+
+        result = new FeatureCollection(precincts.stream()
+				.map(p -> gson.fromJson(p.getGeojson(), Map.class)).collect(Collectors.toList()));
         stateCache.put(stateName, result);
         return result;
     }
 
 	@GetMapping("/getVa")
 	public State getVa() {
-		System.out.println(getStateByName("va"));
 		return getStateByName("va");
 	}
 
@@ -84,9 +83,13 @@ public class StateController {
 
 	private State getStateByName(String stateName) {
 		State fromCache = checkCache(stateName.toLowerCase());
-    	if (fromCache != null)
+    	if (fromCache != null) {
+			httpSession.setAttribute(Constants.STATE, fromCache);
 			return fromCache;
+		}
+
 		List<Precinct> precinctList = precinctRepository.findByIdState(stateName);
+
 		List<CongressionalDistrict> cds = new ArrayList<>();
 		for(int distID : precinctList.stream().mapToInt(Precinct::getCD).distinct().toArray()) {
 			CongressionalDistrict cd = new CongressionalDistrict(distID);
@@ -94,24 +97,15 @@ public class StateController {
 					.filter(p -> p.getCD() == distID).collect(Collectors.toList());
 
 			cd.setPrecincts(precinctInCD);
-			for (Precinct p : precinctInCD) {
-				p.setDistrict(cd);
-				p.setStats(pDemoRepository.findByPid(p.getIdentifier()).makeStat());
-
-				Map json = gson.fromJson(p.getGeojson(), Map.class);
-				p.setCoordinates(parseCoordinates(((Map)json.get(Constants.GEOMETRY)).get(Constants.COORDINATES)));
-				allPrecincts.put(p.getIdentifier(), p);
-			}
+			precinctInCD.forEach(p -> setupPrecinct(p, cd));
 			cds.add(cd);
 		}
 
 		State s = new State(cds, stateName);
-		for (Precinct p : s.getAllPrecincts()) {
-			Map json = gson.fromJson(p.getGeojson(), Map.class);
-			p.setAdjacentPrecincts(parseAdjacent(((Map)json.get(Constants.PROPERTIES)).get(Constants.NEIGHBORS)));
-		}
+		processAdj(s);
 
 		states.put(stateName, s);
+		httpSession.setAttribute(Constants.STATE, s);
 		return s;
 	}
 
@@ -130,6 +124,22 @@ public class StateController {
 		for (int i = 0; i < coordList.size(); i++)
 			edges.add(new Edge(coordList.get(i), coordList.get((i + 1) % coordList.size())));
 		return edges;
+	}
+
+	private void setupPrecinct(Precinct p, CongressionalDistrict cd) {
+		p.setDistrict(cd);
+		p.setStats(pDemoRepository.findByPid(p.getIdentifier()).makeStat());
+
+		Map json = gson.fromJson(p.getGeojson(), Map.class);
+		p.setCoordinates(parseCoordinates(((Map)json.get(Constants.GEOMETRY)).get(Constants.COORDINATES)));
+		allPrecincts.put(p.getIdentifier(), p);
+	}
+
+	private void processAdj(State s) {
+		for (Precinct p : s.getAllPrecincts()) {
+			Map json = gson.fromJson(p.getGeojson(), Map.class);
+			p.setAdjacentPrecincts(parseAdjacent(((Map)json.get(Constants.PROPERTIES)).get(Constants.NEIGHBORS)));
+		}
 	}
 
 	@SuppressWarnings("unchecked")
