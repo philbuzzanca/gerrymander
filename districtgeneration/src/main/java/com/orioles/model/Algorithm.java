@@ -1,5 +1,6 @@
 package com.orioles.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -10,25 +11,25 @@ import com.orioles.districtgeneration.Constraint;
 import com.orioles.districtgeneration.AllMeasures;
 import javax.persistence.Transient;
 
-public class Algorithm {
+public class Algorithm implements Serializable {
 	private State state;
 	private Map<AllMeasures, Integer> measures;
-	private List<Constraint> constraints;
+	private Map<Constraint, Boolean> constraints;
 
 	@Transient
-	private ArrayList<Move> masterMoves;
+	private List<Move> masterMoves;
 
 	@Transient
-	private ArrayList<Move> currMoves;
+	private List<Move> currMoves;
 
 	public Algorithm() {
 		measures = new HashMap<>();
 		state = new State();
-		constraints = new ArrayList<>();
+		constraints = new HashMap<>();
 		masterMoves = new ArrayList<>();
 	}
 
-	public Algorithm(State state, Map<AllMeasures, Integer> measures, List<Constraint> constraints) {
+	public Algorithm(State state, Map<AllMeasures, Integer> measures, Map<Constraint, Boolean> constraints) {
 		this.state = state;
 		this.measures = measures;
 		this.constraints = constraints;
@@ -50,11 +51,11 @@ public class Algorithm {
 		this.measures = measures;
 	}
 
-	public List<Constraint> getConstraints() {
+	public Map<Constraint, Boolean> getConstraints() {
 		return constraints;
 	}
 
-	public void setConstraints(List<Constraint> constraints) {
+	public void setConstraints(Map<Constraint, Boolean> constraints) {
 		this.constraints = constraints;
 	}
 
@@ -79,7 +80,7 @@ public class Algorithm {
 	}
 
 	public void addConstraint(Constraint constraint) {
-		constraints.add(constraint);
+		constraints.put(constraint, true);
 	}
 
 	public void removeConstraint(Constraint constraint) {
@@ -98,10 +99,11 @@ public class Algorithm {
 		state.calculateDistrictGoodness(measures);
 	}
 
-	public void runAlgorithm() {
+	public List<Move> runAlgorithm() {
 		currMoves = new ArrayList<>();
 		IntStream.range(0, Constants.MAX_ITERATIONS).forEach(iteration -> step());
 		masterMoves.addAll(currMoves);
+		return currMoves;
 	}
 
 	private void step() {
@@ -118,8 +120,8 @@ public class Algorithm {
 					makeMove(destDistrict, sourceDistrict, movingPrecinct);
 					state.calculateDistrictGoodness(measures);
 				} else {
-                                        movingPrecinct.setBorder();
-                                        movingPrecinct.updateAdjacentBorders();
+					movingPrecinct.setBorder();
+					movingPrecinct.updateAdjacentBorders();
 					addMove(sourceDistrict, destDistrict, movingPrecinct);
 					break;
 				}
