@@ -2,29 +2,36 @@ package com.orioles.model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import com.orioles.constants.Constants;
-import com.orioles.constants.Constraint;
 import java.util.List;
 import java.util.Map;
-
+import java.util.stream.IntStream;
+import com.orioles.constants.Constants;
+import com.orioles.districtgeneration.Constraint;
+import com.orioles.districtgeneration.AllMeasures;
+import javax.persistence.Transient;
 
 public class Algorithm {
 	private State state;
-	private Map<Measure, Double> measures;
+	private Map<AllMeasures, Integer> measures;
 	private List<Constraint> constraints;
-	private ArrayList<Move> allMoves;
-        private ArrayList<Move> movesSinceUpdate;
-	private int iterations;
-	private boolean paused;
+
+	@Transient
+	private ArrayList<Move> masterMoves;
+
+	@Transient
+	private ArrayList<Move> currMoves;
 
 	public Algorithm() {
 		measures = new HashMap<>();
 		state = new State();
-		iterations = 0;
 		constraints = new ArrayList<>();
-		paused = false;
-		allMoves = new ArrayList<>();           //will be used to save the redistricting to a user
-                movesSinceUpdate = new ArrayList<>();   //will be used to update the map while the algorithm is running, gets cleared after updating
+		masterMoves = new ArrayList<>();
+	}
+
+	public Algorithm(State state, Map<AllMeasures, Integer> measures, List<Constraint> constraints) {
+		this.state = state;
+		this.measures = measures;
+		this.constraints = constraints;
 	}
 
 	public State getState() {
@@ -35,11 +42,11 @@ public class Algorithm {
 		this.state = state;
 	}
 
-	public Map<Measure, Double> getMeasures() {
+	public Map<AllMeasures, Integer> getMeasures() {
 		return measures;
 	}
 
-	public void setMeasures(Map<Measure, Double> measures) {
+	public void setMeasures(Map<AllMeasures, Integer> measures) {
 		this.measures = measures;
 	}
 
@@ -51,40 +58,20 @@ public class Algorithm {
 		this.constraints = constraints;
 	}
 
-	public int getIterations() {
-		return iterations;
+	public List<Move> getMasterMoves() {
+		return masterMoves;
 	}
 
-	public void setIterations(int iterations) {
-		this.iterations = iterations;
+	public void setMasterMoves(ArrayList<Move> masterMoves) {
+		this.masterMoves = masterMoves;
 	}
 
-	public ArrayList<Move> getAllMoves() {
-		return this.allMoves;
+	public List<Move> getCurrMoves() {
+		return currMoves;
 	}
 
-	public void setAllMoves(ArrayList<Move> moves) {
-		this.allMoves = moves;
-	}
-        
-        public ArrayList<Move> getMovesSinceUpdate(){
-                return this.movesSinceUpdate;
-        }
-        
-        public void setMovesSinceUpdate(ArrayList<Move> moves){
-            this.movesSinceUpdate = moves;
-        }
-        
-        public void clearMoves(){
-            this.movesSinceUpdate.clear();
-        }
-
-	public boolean getPaused() {
-		return this.paused;
-	}
-
-	public void setPaused(boolean pause) {
-		this.paused = pause;
+	public void setCurrMoves(ArrayList<Move> currMoves) {
+		this.currMoves = currMoves;
 	}
 
 	public void addConstraint(Constraint constraint) {
@@ -95,45 +82,37 @@ public class Algorithm {
 		constraints.remove(constraint);
 	}
 
-	public boolean isImprovement(int goodness, int oldGoodness) {
-		return goodness > oldGoodness;
-	}
-
 	public ArrayList<Precinct> getCandidates(ArrayList<Precinct> precincts) {
 		return null;
 	}
 
-	public double calculateImprovement(double goodness, double oldGoodness) {
-		return goodness - oldGoodness;
-	}
-
-	public boolean checkIterations() {
-		return false;
+	public List<Precinct> getValidMoves() {
+		return null;
 	}
 
 	public void startAlgorithm() {
-		state.setDistrictGoodness(measures);
-                state.setBorderStatus();
-		while (this.iterations < Constants.MAX_ITERATIONS) {
-			step();
-		}
+		state.calculateDistrictGoodness(measures);
 	}
 
-	public void step() {
+	public void runAlgorithm() {
+		currMoves = new ArrayList<>();
+		IntStream.range(0, Constants.MAX_ITERATIONS).forEach(iteration -> step());
+		masterMoves.addAll(currMoves);
+	}
+
+	private void step() {
 		double oldGoodness = state.getGoodness();
 		CongressionalDistrict sourceDistrict = state.getStartingDistrict();
 		Precinct movingPrecinct = sourceDistrict.getMovingPrecinct();
-		ArrayList<Precinct> adjacentPrecincts = movingPrecinct.getAdjacentPrecincts();
 
-		for (Precinct adjacentPrecinct : adjacentPrecincts) {
+		for (Precinct adjacentPrecinct : movingPrecinct.getAdjacentPrecincts()) {
 			CongressionalDistrict destDistrict = adjacentPrecinct.getDistrict();
-			if (sourceDistrict.getID() != destDistrict.getID()) {
+			if (!sourceDistrict.equals(destDistrict)) {
 				makeMove(sourceDistrict, destDistrict, movingPrecinct);
-				state.setDistrictGoodness(measures);
-				double newGoodness = state.getGoodness();
-				if (oldGoodness >= newGoodness) {
+				state.calculateDistrictGoodness(measures);
+				if (oldGoodness >= state.getGoodness()) {
 					makeMove(destDistrict, sourceDistrict, movingPrecinct);
-					state.setDistrictGoodness(measures);
+					state.calculateDistrictGoodness(measures);
 				} else {
                                         movingPrecinct.setBorder();
                                         movingPrecinct.updateAdjacentBorders();
@@ -144,36 +123,22 @@ public class Algorithm {
 		}
 	}
 
-	public void addMove(CongressionalDistrict sourceDistrict, CongressionalDistrict destDistrict,
-						Precinct movingPrecinct) {
-
-		Move newMove = new Move(movingPrecinct.getIdentifier(), sourceDistrict.getID(),
-				destDistrict.getID());
-		allMoves.add(newMove);
-                movesSinceUpdate.add(newMove);
-		movingPrecinct.setDistrict(destDistrict);
+	// FIXME: Weird Set of three below.
+	private void addMove(CongressionalDistrict srcDist, CongressionalDistrict destDist, Precinct movingPrecinct) {
+		currMoves.add(new Move(movingPrecinct.getIdentifier(), srcDist.getID(), destDist.getID()));
+		movingPrecinct.setDistrict(destDist);
 	}
 
-	public void makeMove(CongressionalDistrict sourceDistrict, CongressionalDistrict destDistrict,
-						 Precinct movingPrecinct) {
-
-		sourceDistrict.removeFromDistrict(movingPrecinct);
-		destDistrict.addToDistrict(movingPrecinct);
+	private void makeMove(CongressionalDistrict srcDist, CongressionalDistrict destDist, Precinct movingPrecinct) {
+		srcDist.removeFromDistrict(movingPrecinct);
+		destDist.addToDistrict(movingPrecinct);
 	}
         
-        public void makeSpecifiedMove(CongressionalDistrict sourceDistrict, CongressionalDistrict destDistrict,
-						Precinct movingPrecinct) {
-            
-            Move newMove = new Move(movingPrecinct.getIdentifier(), sourceDistrict.getID(),
-				destDistrict.getID());
-            allMoves.add(newMove);
-            movesSinceUpdate.add(newMove);
-            sourceDistrict.removeFromDistrict(movingPrecinct);
-            destDistrict.addToDistrict(movingPrecinct);
-            movingPrecinct.setDistrict(destDistrict);
-            movingPrecinct.setLocked(true);
-            
-        }
+        public void makeSpecifiedMove(CongressionalDistrict srcDist, CongressionalDistrict destDist, Precinct movingPrecinct) {
+		currMoves.add(new Move(movingPrecinct.getIdentifier(), srcDist.getID(), destDist.getID()));
+		makeMove(srcDist, destDist, movingPrecinct);
+		movingPrecinct.setLocked(true);			// WHY?
+	}
         
         public void loadOldRedistricting(ArrayList<Move> moves){
             for(Move move: moves){
