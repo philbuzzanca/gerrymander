@@ -9,6 +9,7 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -70,6 +71,21 @@ public class AccountController {
         }
         userRepository.save(user);
         return "OK";
+    }
+    
+    @PostMapping("/deleteUser")
+    public String deleteUser(@RequestParam String username) {
+        List<User> users = userRepository.findByUsername(username);
+        if(users.size() == 1){
+            userRepository.delete(users.get(0));
+            return environment.getProperty("orioles.statuscode.success");
+        }
+        throw new NoSuchUserException(environment.getProperty("orioles.login.invalid"));
+    }
+    
+    @GetMapping("/getUsers")
+    public Iterable<User> getUsers() {
+        return userRepository.findAll();
     }
     
     @RequestMapping("/logout")
