@@ -99,11 +99,10 @@ public class Algorithm implements Serializable {
 		state.calculateDistrictGoodness(measures);
 	}
 
-	public List<Move> runAlgorithm() {
+	public void runAlgorithm() {
 		currMoves = new ArrayList<>();
 		IntStream.range(0, Constants.MAX_ITERATIONS).forEach(iteration -> step());
 		masterMoves.addAll(currMoves);
-		return currMoves;
 	}
 
 	private void step() {
@@ -141,41 +140,19 @@ public class Algorithm implements Serializable {
 		destDist.addToDistrict(movingPrecinct);
 	}
         
-        public void makeSpecifiedMove(CongressionalDistrict srcDist, CongressionalDistrict destDist, Precinct movingPrecinct) {
+	public void makeSpecifiedMove(CongressionalDistrict srcDist, CongressionalDistrict destDist, Precinct movingPrecinct) {
 		currMoves.add(new Move(movingPrecinct.getIdentifier(), srcDist.getID(), destDist.getID()));
                 masterMoves.add(new Move(movingPrecinct.getIdentifier(), srcDist.getID(), destDist.getID()));
 		makeMove(srcDist, destDist, movingPrecinct);
 		movingPrecinct.setLocked(true);			// WHY?
 	}
-        
-        public void loadOldRedistricting(ArrayList<Move> moves){
-            for(Move move: moves){
-                int sourceDistrictID = move.getSourceDistrict();
-                int destinationDistrictID = move.getDestDistrict();
-                int precinctID = move.getPrecinct();
-                CongressionalDistrict sourceDistrict = new CongressionalDistrict();
-                CongressionalDistrict destinationDistrict = new CongressionalDistrict();
-                Precinct movingPrecinct = new Precinct();
-        
-                for(CongressionalDistrict district: state.getCongressionalDistricts()){
-                    if(district.getID()==sourceDistrictID){
-                        sourceDistrict = district;
-                        for(Precinct precinct: sourceDistrict.getPrecincts()){
-                            if(precinct.getIdentifier()==precinctID){
-                                movingPrecinct = precinct;
-                                break;
-                            }
-                        }
-                        break;
-                    }
-                }
-                for(CongressionalDistrict district: state.getCongressionalDistricts()){
-                    if(district.getID()==destinationDistrictID){
-                        sourceDistrict = district;
-                        break;
-                    }
-                }
-                makeMove(sourceDistrict, destinationDistrict, movingPrecinct);
-            }
-        }
+
+	public void loadOldRedistricting(State newState, List<Move> moves){
+		this.state = newState;
+		moves.forEach(move -> {
+			CongressionalDistrict srcDest = newState.getDistrictByID(move.getSourceDistrict());
+			makeMove(srcDest, newState.getDistrictByID(move.getDestDistrict()),
+					srcDest.getPrecinctById(move.getPrecinct()));
+		});
+	}
 }
