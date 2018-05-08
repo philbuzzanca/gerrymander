@@ -6,6 +6,7 @@ public class PrecinctId implements Serializable {
     private int id; // Precinct's code (internal to state)
     private String state;
     private int cd;
+
     public PrecinctId(){}
     
     public PrecinctId(int id, String state, int cd){

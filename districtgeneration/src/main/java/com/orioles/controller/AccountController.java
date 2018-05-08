@@ -1,6 +1,7 @@
 package com.orioles.controller;
 
 import com.orioles.exceptions.NoSuchUserException;
+import com.orioles.persistence.UsermovesRepository;
 import com.orioles.security.PasswordUtility;
 import com.orioles.constants.Party;
 import com.orioles.model.User;
@@ -19,6 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class AccountController {
     @Autowired
     private UserRepository userRepository;
+	@Autowired
+	private UsermovesRepository usermovesRepository;
     @Autowired
     private HttpSession httpSession;
 	@Autowired
