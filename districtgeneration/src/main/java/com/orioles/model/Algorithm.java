@@ -130,7 +130,6 @@ public class Algorithm {
 	// FIXME: Weird Set of three below.
 	private void addMove(CongressionalDistrict srcDist, CongressionalDistrict destDist, Precinct movingPrecinct) {
 		currMoves.add(new Move(movingPrecinct.getIdentifier(), srcDist.getID(), destDist.getID()));
-                masterMoves.add(new Move(movingPrecinct.getIdentifier(), srcDist.getID(), destDist.getID()));
 		movingPrecinct.setDistrict(destDist);
 	}
 
@@ -141,7 +140,6 @@ public class Algorithm {
         
         public void makeSpecifiedMove(CongressionalDistrict srcDist, CongressionalDistrict destDist, Precinct movingPrecinct) {
 		currMoves.add(new Move(movingPrecinct.getIdentifier(), srcDist.getID(), destDist.getID()));
-                masterMoves.add(new Move(movingPrecinct.getIdentifier(), srcDist.getID(), destDist.getID()));
 		makeMove(srcDist, destDist, movingPrecinct);
 		movingPrecinct.setLocked(true);			// WHY?
 	}
