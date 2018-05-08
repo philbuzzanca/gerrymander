@@ -3,10 +3,12 @@ package com.orioles.controller;
 import com.orioles.constants.Constants;
 import com.orioles.districtgeneration.AllMeasures;
 import com.orioles.districtgeneration.Constraint;
+import com.orioles.exceptions.NoSuchStateException;
 import com.orioles.helper_model.Pair;
 import com.orioles.model.*;
 import com.orioles.persistence.PrecinctRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,6 +21,8 @@ public class AlgoController {
 	private PrecinctRepository precinctRepository;
 	@Autowired
 	private HttpSession httpSession;
+	@Autowired
+	private Environment environment;
 
 	@PostMapping("/startAlgo")
 	public List<Pair<Integer, Double>> startAlgo (@RequestParam Map<String, String> settings) {
@@ -37,12 +41,13 @@ public class AlgoController {
 					constraints.put(Constraint.valueOf(label.toUpperCase()), settings.get(key).equals("on"));
 					break;
 				default:
+					System.out.printf("Invalid arg: %s%n", line[0]);
+					throw new NoSuchStateException(environment.getProperty(Constants.NO_MATCH));
 			}
 		}
 
 		State geoState = (State) httpSession.getAttribute("state");
-//		State geoState = new State();	//stateRepository.findByName("state").get(0);
-		Algorithm algo = new Algorithm(geoState, measures, Collections.emptyList());
+		Algorithm algo = new Algorithm(geoState, measures, constraints);
 		httpSession.setAttribute("algo", algo);
 		return geoState.getGerrymanderedDistricts();
 	}
@@ -50,13 +55,6 @@ public class AlgoController {
 	@PostMapping("/runIteration")
 	public List<Move> nextIteration () {
 		Algorithm algo = (Algorithm) httpSession.getAttribute("algo");
-		algo.runAlgorithm();
-		return algo.getCurrMoves();
-	}
-
-	@PostMapping("/precinct2")
-	public List<Precinct> getPrecinct(){
-		System.out.println("Precinct Requested");
-		return precinctRepository.findByIdState("va");
+		return algo.runAlgorithm();
 	}
 }
