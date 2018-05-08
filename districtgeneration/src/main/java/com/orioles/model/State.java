@@ -1,30 +1,42 @@
 package com.orioles.model;
 
-import com.orioles.constants.Party;
-import com.orioles.constants.Race;
-import java.util.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.orioles.constants.Constants;
+import com.orioles.districtgeneration.AllMeasures;
+import com.orioles.helper_model.Pair;
 
-public class State implements Cloneable {
+import java.io.Serializable;
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
+public class State implements Cloneable, Serializable {
     private List<CongressionalDistrict> congressionalDistricts;
     private String name;
-	private double goodness;
 	private boolean hasUpdated;
 	private Stats stat;
-        
-        public State(){
-            congressionalDistricts = new ArrayList<>();
-            name = "";
-            goodness = 0;
-            hasUpdated = false;
-            stat = new Stats();
-        }
+	private double goodness;
+
+	public State() {
+		congressionalDistricts = new ArrayList<>();
+		name = "";
+		goodness = 0;
+		hasUpdated = false;
+		stat = new Stats();
+	}
+
+	public State(List<CongressionalDistrict> cdList, String name) {
+		this();
+		this.congressionalDistricts = cdList;
+		this.name = name;
+	}
 
 	public List<CongressionalDistrict> getCongressionalDistricts() {
 		return congressionalDistricts;
 	}
 
-	public void setCongressionalDistricts(List<CongressionalDistrict> congressionalDistricts) {
-		this.congressionalDistricts = congressionalDistricts;
+	public void setCongressionalDistricts(List<CongressionalDistrict> cds) {
+		this.congressionalDistricts = cds;
 	}
 
 	public String getName() {
@@ -35,7 +47,13 @@ public class State implements Cloneable {
 		this.name = name;
 	}
 
+	@JsonIgnore
 	public int getNumPrecincts() {
+		return congressionalDistricts.stream().mapToInt(CongressionalDistrict::getNumPrecincts).sum();
+	}
+
+	@JsonIgnore
+	public int getNumDistricts() {
 		return congressionalDistricts.size();
 	}
 
@@ -43,72 +61,79 @@ public class State implements Cloneable {
 		congressionalDistricts.add(cd);
 	}
     
-    public Stats summarize() {
-		if (!hasUpdated)
-			return stat;
-
-        Map<Race, Long> conDistRace = new HashMap<>();
-        Map<Party, Long> conDistParty = new HashMap<>();
-		stat = new Stats(conDistRace, conDistParty, 0);
-
-        congressionalDistricts.stream()
-                .map(CongressionalDistrict::summarize)
-                .forEach(cdStat -> Stats.summarize(conDistRace, conDistParty, cdStat, stat));
-
-        hasUpdated = true;
-		return stat;
-    }
-    
-    public CongressionalDistrict getDistrictByID (int districtID){
-        return congressionalDistricts.stream()
-                .filter(district -> districtID == district.getID())
-                .findFirst().orElse(null);
-    }
-
-//    public CongressionalDistrict getDistrictByNumber(int districtNumber){
-//		return congressionalDistricts.stream()
-//				.filter(precinct -> precinct.getIdentifier() == districtNumber)
-//				.findFirst().orElse(null);
-//    }
-    
-    public List<CongressionalDistrict> getGerrymanderedDistricts(){
-        return null;
-    }
-
-    void setDistrictGoodness(Map<Measure, Double> measures){
-            for (CongressionalDistrict cd : congressionalDistricts) {
-                    List<Double> goodnessVals = new ArrayList<>();
-                    measures.keySet().forEach(key -> goodnessVals.add(key.calculateGoodness(cd, this) * measures.get(key)));
-                    OptionalDouble goodness = goodnessVals.stream().mapToDouble(num -> num).average();
-                    if (goodness.isPresent())
-                            cd.setGoodness(goodness.getAsDouble());
-            }
-    }
-
-    double calculateGoodness() {
-		OptionalDouble goodness = congressionalDistricts.stream()
-				.mapToDouble(CongressionalDistrict::getGoodness).average();
-		if (goodness.isPresent())
-			return goodness.getAsDouble();
-		else return 0;
-	}
-
-    public double getGoodness(){
-        this.goodness = calculateGoodness();
-        return this.goodness;
-    }
-    
-    public void setGoodness(double newGoodness){
+    public void setGoodness(double newGoodness) {
         this.goodness = newGoodness;
     }
+
+    public List<Precinct> getAllPrecincts() {
+		return congressionalDistricts.stream().map(CongressionalDistrict::getPrecincts)
+				.flatMap(Collection::stream).collect(Collectors.toList());
+	}
+
+    public Stats summarize() {
+        if (!hasUpdated)
+            return stat;
+
+		stat = new Stats();
+        congressionalDistricts.stream().map(CongressionalDistrict::summarize)
+                .forEach(cdStat -> Stats.summarize(cdStat, stat));
+		hasUpdated = true;
+		return stat;
+	}
+
+    public CongressionalDistrict getDistrictByID (int districtID){
+        return congressionalDistricts.stream()
+                .filter(district -> districtID == district.getID()).findFirst().orElse(null);
+    }
+
+    @JsonIgnore
+    @SuppressWarnings("unchecked")
+    public List<Pair<Integer, Double>> getGerrymanderedDistricts(){
+		return congressionalDistricts.stream()
+				.filter(district -> district.getGoodness() < Constants.GERRYMANDERING_THRESHOLD)
+				.sorted(Comparator.comparingDouble(CongressionalDistrict::getGoodness))
+				.map(cd -> new Pair<>(cd.getID(), cd.getGoodness()))
+				.collect(Collectors.toList());
+    }
+
+	void calculateDistrictGoodness(Map<AllMeasures, Integer> measures){
+		for (CongressionalDistrict cd : congressionalDistricts) {
+			OptionalDouble goodness = measures.keySet().stream()
+					.mapToDouble(key -> key.calculateGoodness(cd, this) * measures.get(key)).average();
+			cd.setGoodness(goodness.isPresent() ? goodness.getAsDouble() : -1);
+		}
+	}
+
+    private double calculateGoodness() {
+		OptionalDouble goodness = congressionalDistricts.stream()
+				.mapToDouble(CongressionalDistrict::getGoodness).average();
+		return goodness.isPresent() ? goodness.getAsDouble() : 0;
+	}
+
+	CongressionalDistrict getStartingDistrict() {
+		return getRandomDistrict();
+	}
+    double getGoodness(){
+        return this.goodness = calculateGoodness();
+    }
     
-    public CongressionalDistrict getStartingDistrict(){
-        return congressionalDistricts.get((int)(Math.random()*congressionalDistricts.size()));
+    private CongressionalDistrict getRandomDistrict() {
+        return congressionalDistricts.get((int) (Math.random() * congressionalDistricts.size()));
+    }
+
+    @Override
+    public Object clone() {
+        State state = new State();
+        state.name = this.name;
+        state.stat = this.stat;
+        state.goodness = this.goodness;
+        state.congressionalDistricts = this.congressionalDistricts;
+        return state;
     }
     
     public void setBorderStatus(){
         for (CongressionalDistrict congressionalDistrict : congressionalDistricts) {
-            ArrayList<Precinct> precincts = (ArrayList)congressionalDistrict.getPrecincts();
+            List<Precinct> precincts = congressionalDistrict.getPrecincts();
             for (Precinct precinct : precincts) {
                 precinct.setBorder();
             }
@@ -117,7 +142,7 @@ public class State implements Cloneable {
     
     public void setLockedPrecincts(ArrayList<Precinct> lockedPrecincts){
         for (CongressionalDistrict congressionalDistrict : congressionalDistricts) {
-            ArrayList<Precinct> precincts = (ArrayList)congressionalDistrict.getPrecincts();
+            List<Precinct> precincts = congressionalDistrict.getPrecincts();
             for (Precinct precinct : precincts) {
                 if(lockedPrecincts.contains(precinct))
                     precinct.setLocked(true);
@@ -126,17 +151,20 @@ public class State implements Cloneable {
     }
     
     public void setLockedDistricts(ArrayList<CongressionalDistrict> lockedDistricts){
-            for (CongressionalDistrict congressionalDistrict : congressionalDistricts) {
-                if(lockedDistricts.contains(congressionalDistrict)){
-                    ArrayList<Precinct> precincts = (ArrayList)congressionalDistrict.getPrecincts();
-                    for (Precinct precinct : precincts) {
-                        precinct.setLocked(true);
-                    }
-                }                  
-            }
+		for (CongressionalDistrict congressionalDistrict : congressionalDistricts) {
+			if(lockedDistricts.contains(congressionalDistrict)){
+				List<Precinct> precincts = congressionalDistrict.getPrecincts();
+				for (Precinct precinct : precincts) {
+					precinct.setLocked(true);
+				}
+			}
+		}
     }
-    
-    public Stats getStats(){
-        return this.stat;
-    }
+
+	@Override
+	public String toString() {
+		return "State{name=" + name +
+				"congressionalDistricts=" + congressionalDistricts +
+				'}';
+	}
 }

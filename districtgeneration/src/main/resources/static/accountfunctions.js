@@ -1,34 +1,110 @@
-function register(username, email, password){
-  var xhttp = new XMLHttpRequest();
-  var fd = new FormData();
-  fd.append("username", username);
-  fd.append("email", email);
-  fd.append("password", password);
-  xhttp.open("POST", "/register", false);
-  xhttp.send(fd);
+'use strict';
+function register(username, password){
+    let formData = {username: username, password: password};
+    $.post("/register", formData, function (data, status) {
+        if (status === 'success'){
+            $('#registerSuccess').text("Success!");
+            $('#invalidLogin').hide();
+            $('#registerSuccess').show();
+
+        }
+        if (status === 'error'){
+            $('#registerSuccess').hide();
+            $('#invalidLogin').text(data.message);
+            $('#invalidLogin').show();
+        }
+    });
 }
 
-function login(email, password){
-  var xhttp = new XMLHttpRequest();
-  var fd = new FormData();
-  fd.append("email", email);
-  fd.append("password", password);
-  xhttp.open("POST", "/login", false);
-  xhttp.send(fd);
+function login(username, password){
+    let formData = {username: username, password: password};
+    $.post("/login", formData, function (data, status) {
+        if (status === "success"){
+            $("#invalidLogin").hide();
+            $("#registerLink").hide();
+            $("#logoutLink").show();
+            $("#registerLoginModal").modal("toggle");
+            $('#registerSuccess').hide();
+        }
+    }).fail(function(){
+        $('#invalidLogin').show();
+        $('#invalidLogin').text("Invalid login.");
+    });
 }
 
-function logout(){
-  var xhttp = new XMLHttpRequest();
-  xhttp.open("POST", "/logout", false);
-  xhttp.send();
+function logout() {
+    $.post("/logout", function (data) {
+        $("#logoutLink").hide();
+        $("#registerLink").show();
+    });
 }
 
-function updateAccount(newUsername, newPassword, newParty){
-  var fd = new FormData();
-  fd.append("newUsername", newUsername);
-  fd.append("newPassword", newPassword);
-  fd.append("newParty", newParty);
-  var xhttp = new XMLHttpRequest();
-  xhttp.open("POST", "/update", false);
-  xhttp.send(fd);
+function updateAccount(newUsername, newPassword, newParty) {
+    let formData = {newUsername: newUsername, newPassword: newPassword, newParty: newParty};
+    $.post("/update", formData);
 }
+
+$(document).ready(function(){
+    $('#invalidLogin').hide();
+    $('#registerSuccess').hide();
+    $("#logoutLink").hide();
+    $("#loginForm").submit((event) => {
+        event.preventDefault();
+        let username = $('#loginUsername').val();
+        let password = $('#loginPassword').val();
+        login(username, password);
+    });
+
+    $("#registerForm").submit((event) => {
+        event.preventDefault();
+        let username = $('#registerUsername').val();
+        let password = $('#registerPassword').val();
+        register(username, password);
+    });
+
+    $("#logoutLink").click((event) => {
+        event.preventDefault();
+        logout();
+    });
+
+    $("#logoutButton").click((event) => {
+        event.preventDefault();
+        logout();
+    });
+});
+
+$(document).ready(function() {
+    $("#compareDistrictsTable").hide();
+    $("#compareDistrictsButton").click(function(){
+        let formData = {d1: $("#compareCdOne").val(), d2: $("#compareCdTwo").val()};
+        $.post("/compareDistricts", formData, function(data) {
+            if(data[0] !== null && data[1] !== null){
+                $("#compareDistrictsTable").show();
+                $("#comparisonDistrictOne").text(data[0].cdID);
+                $("#hispanicOne").text(data[0].hispanic);
+                $("#whiteOne").text(data[0].white);
+                $("#blackOne").text(data[0].black);
+                $("#nativeOne").text(data[0].nativeAmerican);
+                $("#asianOne").text(data[0].asian);
+                $("#pacificOne").text(data[0].pacificIslander);
+                $("#multipleOne").text(data[0].multiple);
+                $("#otherOne").text(data[0].other);
+                $("#populationOne").text(data[0].population);
+                $("#comparisonDistrictTwo").text(data[1].cdID);
+                $("#hispanicTwo").text(data[1].hispanic);
+                $("#whiteTwo").text(data[1].white);
+                $("#blackTwo").text(data[1].black);
+                $("#nativeTwo").text(data[1].nativeAmerican);
+                $("#asianTwo").text(data[1].asian);
+                $("#pacificTwo").text(data[1].pacificIslander);
+                $("#multipleTwo").text(data[1].multiple);
+                $("#otherTwo").text(data[1].other);
+                $("#populationTwo").text(data[1].population);
+            }
+        }, "json");
+    }); 
+});
+
+$(function(){
+    $('#precinctOptions').hide();
+});
