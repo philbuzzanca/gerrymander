@@ -74,9 +74,9 @@ public class Algorithm {
 		this.currMoves = currMoves;
 	}
         
-        public void clearCurrMoves(){
-            this.currMoves.clear();
-        }
+	public void clearCurrMoves(){
+		this.currMoves.clear();
+	}
 
 	public void addConstraint(Constraint constraint) {
 		constraints.add(constraint);
@@ -86,7 +86,7 @@ public class Algorithm {
 		constraints.remove(constraint);
 	}
 
-	public ArrayList<Precinct> getCandidates(ArrayList<Precinct> precincts) {
+	public List<Precinct> getCandidates(List<Precinct> precincts) {
 		return null;
 	}
 
