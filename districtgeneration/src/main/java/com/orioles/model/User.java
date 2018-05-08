@@ -13,7 +13,10 @@ public class User {
 	private String username;
 	private String password;
 	private Party party;
-        private ArrayList<ArrayList<Move>> previousRedistrictings;
+	@Transient
+	private List<List<Move>> previousRedistrictings;
+	@Transient
+	private boolean admin;
 
 	public User() {}
 
@@ -21,7 +24,8 @@ public class User {
 		this.username = username;
 		this.password = PasswordUtility.encode(password);
 		this.party = Party.OTHER;
-                this.previousRedistrictings = new ArrayList();
+		this.previousRedistrictings = new ArrayList<>();
+		this.admin = false;
 	}
 
 	public String getUsername() {
@@ -48,19 +52,27 @@ public class User {
 		this.party = party;
 	}
         
-        public void setAllRedistrictings(ArrayList<ArrayList<Move>> redistrictingList){
-            this.previousRedistrictings = redistrictingList;
-        }
-        
-        public ArrayList<ArrayList<Move>> getAllRedistrictings(){
-            return this.previousRedistrictings;
-        }
-        
-        public void addRedistricting(ArrayList<Move> moveSet){
-            previousRedistrictings.add(moveSet);
-        }
-        
-        public ArrayList<Move> getRedistricting(int index){
-            return previousRedistrictings.get(index);
-        }
+	public void setAllRedistrictings(List<List<Move>> redistrictingList){
+		this.previousRedistrictings = redistrictingList;
+	}
+
+	public List<List<Move>> getAllRedistrictings(){
+		return this.previousRedistrictings;
+	}
+
+	public void addRedistricting(List<Move> moveSet){
+		previousRedistrictings.add(moveSet);
+	}
+
+	public List<Move> getRedistricting(int index) {
+		return previousRedistrictings.get(index);
+	}
+
+	public boolean getAdmin() {
+		return admin;
+	}
+
+	public void setAdmin(boolean admin) {
+		this.admin = admin;
+	}
 }
