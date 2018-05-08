@@ -1,143 +1,165 @@
 package com.orioles.model;
 
-import com.orioles.constants.Party;
-import com.orioles.constants.Race;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.orioles.districtgeneration.Coordinate;
 import com.orioles.districtgeneration.Edge;
+import com.orioles.helper_model.Polygon;
 
+import javax.persistence.Transient;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class CongressionalDistrict implements Cloneable {
-    private int ID;
-    private List<Precinct> precincts;
-    private double goodness;
-    private boolean isDirty;
-    private Stats stat;
-    private double area;
-    
-    public CongressionalDistrict() {
-    }
-    
-    public CongressionalDistrict(List<Precinct> precincts, int ID) {
-        this.ID = ID;
-        this.precincts = precincts;
-        this.goodness = -1;
-        this.area = 0;
-        this.isDirty = false;
-    }
-    
-    public List<Precinct> getPrecincts() {
-        return precincts;
-    }
-    
-    public void setPrecincts(List<Precinct> precincts) {
-        this.precincts = precincts;
-    }
-    
-    public int getID() {
-        return ID;
-    }
-    
-    public void setID(int ID) {
-        this.ID = ID;
-    }
-    
-    public double getGoodness() {
-        return goodness;
-    }
-    
-    public void setGoodness(double goodness) {
-        this.goodness = goodness;
-    }
-    
-    public Stats summarize() {
-        if (!isDirty)
-            return stat;
-        
-        Map<Race, Long> conDistRace = new HashMap<>();
-        Map<Party, Long> conDistParty = new HashMap<>();
-        stat = new Stats(conDistRace, conDistParty, 0);
-        
-        precincts.stream().map(Precinct::getStats)
-                .forEach(precinctStat -> Stats.summarize(conDistRace, conDistParty, precinctStat, stat));
-        
-        isDirty = false;
-        return stat;
-    }
-    
-    public Precinct getStartingPrecinct() {
-        return null;
-    }
-    
-    public Precinct choosePrecinct() {
-        return null;
-    }
-    
-    public void removeFromDistrict(Precinct precinct) {
-        isDirty = true;
-        precincts.remove(precinct);
-    }
-    
-    public void addToDistrict(Precinct precinct) {
-        isDirty = true;
-        precincts.add(precinct);
-    }
-    
-    public Precinct getPrecinctById(int precinctId) {
-        return precincts.stream()
-                .filter(precinct -> precinct.getIdentifier() == precinctId)
-                .findFirst().orElse(null);
-    }
-    
-    public Precinct getRandomPrecinct() {
-        return precincts.get((int) (Math.random() * precincts.size()));
-    }
-    
-    public double getArea() {
-        return this.area = precincts.stream().mapToDouble(Precinct::getArea).sum();
-    }
-    
-    public Precinct getMovingPrecinct() {
-        Precinct movingPrecinct;
-        boolean isBorderPrecinct = false;
-        do {
-            movingPrecinct = getRandomPrecinct();
-            List<Precinct> adjacentPrecincts = movingPrecinct.getAdjacentPrecincts();
-            for (Precinct adjacentPrecinct : adjacentPrecincts) {
-                if (movingPrecinct.getDistrict().getID() != adjacentPrecinct.getDistrict().getID()) {
-                    isBorderPrecinct = true;
-                }
-            }
-        } while (isBorderPrecinct);
-        return movingPrecinct;
-    }
-    
-    public double getPerimeter() {
-        List<Edge> allEdges = new ArrayList<>();
-        List<Edge> repeatedEdges = new ArrayList<>();
-        for (Precinct currentPrecinct : precincts) {
-            List<Coordinate> coordinates = currentPrecinct.getCoordinates();
-            for (int j = 0; j < coordinates.size() - 1; j++) {
-                Edge edge = new Edge(coordinates.get(j), coordinates.get(j + 1));
-                if (allEdges.contains(edge)) {
-                    if (repeatedEdges.contains(edge))
-                        repeatedEdges.add(edge);
-                } else {
-                    allEdges.add(edge);
-                }
-            }
-        }
-        allEdges.removeAll(repeatedEdges);
-        return allEdges.stream().mapToDouble(Edge::calculateDistance).sum();
-    }
-    
-    @Override
-    public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (o == null || getClass() != o.getClass())
-            return false;
-        CongressionalDistrict otherDistrict = (CongressionalDistrict) o;
-        return this.ID == otherDistrict.ID ;
-    }
+	private int ID;
+	private List<Precinct> precincts;
+	@JsonIgnore
+	private List<Precinct> pBorders;
+	@JsonIgnore
+	private double goodness;
+	@JsonIgnore
+	private boolean isDirty;
+	@JsonIgnore
+	private Stats stat;
+	@JsonIgnore
+	private double area;
+
+	public CongressionalDistrict() {}
+
+	public CongressionalDistrict(int ID) {
+		this.ID = ID;
+		this.goodness = -1;
+		this.area = 0;
+		this.isDirty = true;
+	}
+
+	public CongressionalDistrict(List<Precinct> ps, int ID) {
+		this(ID);
+		this.precincts = ps;
+	}
+
+	public List<Precinct> getPrecincts() {
+		return precincts;
+	}
+
+	public void setPrecincts(List<Precinct> precincts) {
+		this.precincts = precincts;
+	}
+
+	public int getNumPrecincts() {
+		return this.precincts.size();
+	}
+
+	public List<Precinct> getpBorders() {
+		return pBorders;
+	}
+
+	public void setpBorders(List<Precinct> pBorders) {
+		this.pBorders = pBorders;
+	}
+
+	int getID() {
+		return ID;
+	}
+
+	public void setID(int ID) {
+		this.ID = ID;
+	}
+
+	double getGoodness() {
+		return goodness;
+	}
+
+	void setGoodness(double goodness) {
+		this.goodness = goodness;
+	}
+
+	public Stats summarize() {
+		if (!isDirty)
+			return stat;
+
+		stat = new Stats();
+		precincts.stream().map(Precinct::getStats).forEach(precinctStat -> Stats.summarize(precinctStat, stat));
+		isDirty = false;
+		return stat;
+	}
+
+	void removeFromDistrict(Precinct precinct) {
+		isDirty = true;
+		precincts.remove(precinct);
+	}
+
+	void addToDistrict(Precinct precinct) {
+		isDirty = true;
+		precincts.add(precinct);
+	}
+
+	public Precinct getPrecinctById(int precinctId) {
+		return precincts.stream().filter(precinct -> precinct.getIdentifier() == precinctId)
+				.findAny().orElse(null);
+	}
+
+	private Precinct getRandomPrecinct() {
+		return precincts.get((int) (Math.random() * precincts.size()));
+	}
+
+	public double getArea() {
+		return this.area = precincts.stream().mapToDouble(Precinct::getArea).sum();
+	}
+
+	Precinct getMovingPrecinct() {
+		Precinct movingPrecinct;
+		boolean isBorderPrecinct = false;
+		boolean locked = false;
+		do {
+			movingPrecinct = getRandomPrecinct();
+			List<Precinct> adjacentPrecincts = movingPrecinct.getAdjacentPrecincts();
+			for (Precinct adjacentPrecinct : adjacentPrecincts) {
+				if (movingPrecinct.getDistrict().getID() != adjacentPrecinct.getDistrict().getID()) {
+					isBorderPrecinct = true;
+				}
+			}
+
+			// ?????????????????? TBD
+//			isBorderPrecinct = movingPrecinct.setBorder();		// ?
+			locked = movingPrecinct.isLocked();
+		} while (isBorderPrecinct || locked);		// FIXME: end condition
+		return movingPrecinct;
+	}
+
+	@JsonIgnore
+	public double getPerimeter() {
+		Set<Edge> allEdges = new HashSet<>();
+		Set<Edge> repeatedEdges = new HashSet<>();
+		for (Precinct currentPrecinct : precincts) {
+			List<Edge> edges = currentPrecinct.getCoordinates().stream()
+					.map(Polygon::getAllEdges).flatMap(Collection::stream).collect(Collectors.toList());
+			allEdges.addAll(edges.stream().distinct().collect(Collectors.toList()));
+
+			Set<Edge> uniques = new HashSet<>();
+			repeatedEdges.addAll(edges.stream().filter(e -> !uniques.add(e)).collect(Collectors.toList()));
+		}
+		allEdges.removeAll(repeatedEdges);
+		return allEdges.stream().mapToDouble(Edge::calculateDistance).sum();
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
+		CongressionalDistrict otherDistrict = (CongressionalDistrict) o;
+		return this.ID == otherDistrict.ID ;
+	}
+
+	@Override
+	public String toString() {
+		return "CongressionalDistrict{" +
+				"ID=" + ID +
+				", precincts=" + precincts +
+//				", pBorders=" + pBorders +
+				", stat=" + summarize() +
+				", area=" + getArea() +
+				'}';
+	}
 }

@@ -1,4 +1,4 @@
-package com.orioles.constants;
+package com.orioles.districtgeneration;
 
 public enum Constraint {
     NATURAL_BOUNDARIES,

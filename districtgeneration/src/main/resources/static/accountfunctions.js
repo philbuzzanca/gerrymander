@@ -67,6 +67,7 @@ $(document).ready(function(){
     });
 });
 
+
 $(document).ready(function(){
     $.get("/getUsers", function(data){
         if(data !== null){

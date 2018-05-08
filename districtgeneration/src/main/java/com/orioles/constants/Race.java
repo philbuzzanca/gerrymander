@@ -1,9 +1,12 @@
 package com.orioles.constants;
 
 public enum Race {
+    HISPANIC,
     WHITE,
-    HISPANIC_LATINO,
     BLACK,
+	NATIVE,
     ASIAN,
-    OTHER
+	PACIFIC,
+    OTHER,
+	MULTIPLE
 }
