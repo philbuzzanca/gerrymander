@@ -8,4 +8,5 @@ import java.util.List;
 @Component
 public interface UsermovesRepository extends CrudRepository<Usermoves, Long> {
 	List<Usermoves> findByUsername(String username);
+	Usermoves findByUselessid(int id);
 }

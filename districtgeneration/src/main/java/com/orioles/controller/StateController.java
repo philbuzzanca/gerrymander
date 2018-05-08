@@ -6,18 +6,18 @@ import com.orioles.districtgeneration.Coordinate;
 import com.orioles.districtgeneration.Edge;
 import com.orioles.exceptions.NoSuchStateException;
 import com.orioles.helper_model.Polygon;
-import com.orioles.model.CongressionalDistrict;
-import com.orioles.model.FeatureCollection;
-import com.orioles.model.Precinct;
-import com.orioles.model.State;
+import com.orioles.model.*;
 import com.orioles.persistence.PDemoRepository;
 import com.orioles.persistence.PrecinctRepository;
 import java.util.*;
 import java.util.stream.Collectors;
+
+import com.orioles.persistence.UsermovesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
@@ -29,6 +29,8 @@ public class StateController {
     private Gson gson;
     @Autowired
     private PrecinctRepository precinctRepository;
+	@Autowired
+	private UsermovesRepository userMovesRepository;
 	@Autowired
 	private PDemoRepository pDemoRepository;
     @Autowired
@@ -67,6 +69,21 @@ public class StateController {
         stateCache.put(stateName, result);
         return result;
     }
+
+	@PostMapping("/getMaps")
+	public int getMaps (String user) {
+    	return userMovesRepository.findByUsername(user).size();
+	}
+
+    @SuppressWarnings("unchecked")
+	@PostMapping("/loadMap")
+	public List<Move> loadMap (String currState, int mapID) {
+		Algorithm algo = (Algorithm) httpSession.getAttribute("algo");
+		algo.loadOldRedistricting(getStateByName(currState.toLowerCase()),
+				(List<Move>) gson.fromJson(userMovesRepository.findByUselessid(mapID).getMoves(), List.class));
+		httpSession.setAttribute("algo", algo);
+		return algo.getCurrMoves();
+	}
 
 	@GetMapping("/getVa")
 	public State getVa() {

@@ -55,6 +55,8 @@ public class AlgoController {
 	@PostMapping("/runIteration")
 	public List<Move> nextIteration () {
 		Algorithm algo = (Algorithm) httpSession.getAttribute("algo");
-		return algo.runAlgorithm();
+		algo.runAlgorithm();
+		httpSession.setAttribute("algo", algo);
+		return algo.getCurrMoves();
 	}
 }
