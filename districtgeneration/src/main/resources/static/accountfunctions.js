@@ -25,6 +25,9 @@ function login(username, password){
             $("#logoutLink").show();
             $("#registerLoginModal").modal("toggle");
             $('#registerSuccess').hide();
+            if(data.admin){
+                $("#adminLink").show();
+            }
         }
     }).fail(function(){
         $('#invalidLogin').show();
@@ -44,7 +47,8 @@ function updateAccount(newUsername, newPassword, newParty) {
     $.post("/update", formData);
 }
 
-$(document).ready(function(){
+$(document).ready(function() {
+    $('#adminLink').hide();
     $('#invalidLogin').hide();
     $('#registerSuccess').hide();
     $("#logoutLink").hide();
@@ -61,7 +65,21 @@ $(document).ready(function(){
         let password = $('#registerPassword').val();
         register(username, password);
     });
+});
 
+
+$(document).ready(function(){
+    $.get("/getUsers", function(data){
+        if(data !== null){
+            for(let i = 0; i < data.length; i++){
+                $("#userTable").append("<tr><td>"+data[i].username+"</td><td>"
+                        +data[i].party+"</td><td>"+data[i].admin+"</td></tr>");
+            }
+        }
+    });
+});
+
+$(document).ready(function(){
     $("#logoutLink").click((event) => {
         event.preventDefault();
         logout();
@@ -70,6 +88,22 @@ $(document).ready(function(){
     $("#logoutButton").click((event) => {
         event.preventDefault();
         logout();
+    });
+    
+    $("#deleteNotifactionLabel").hide();
+    
+    $("#deleteUserButton").click((event) => {
+        let formData = {username: $("#userToDeleteInput").val()};
+       $.post("/deleteUser", formData, function(data, status){
+           if(status === 'success'){
+               $("#deleteNotificationLabel").show();
+               $("#deleteNotificationLabel").text("Success!");
+           }
+           else {
+               $("#deleteNotificationLabel").show();
+               $("#deleteNotificationLabel").text("error: user not found");
+           }
+       });
     });
 });
 

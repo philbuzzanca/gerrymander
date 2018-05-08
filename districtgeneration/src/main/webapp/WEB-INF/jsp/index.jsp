@@ -42,6 +42,10 @@
 		</ul>
 		<ul class="navbar-nav ml-auto">
 			<li class="nav-item">
+				<a class="nav-link" href="" data-toggle="modal" id="adminLink"
+					 data-target="#adminModal">Administrator</a>
+			</li>
+			<li class="nav-item">
 				<a class="nav-link" href="" data-toggle="modal"
 					 data-target="#accountModal">${sessionScope.user.getUsername()}</a>
 			</li>
@@ -99,7 +103,25 @@
 					</tr>
 					</tbody>
 				</table>
+				<h5>Users</h5>
+				<table class="table" id="userTable">
+					<thead>
+					<tr>
+						<th scope="col">User</th>
+						<th scope="col">Party</th>
+						<th scope="col">Admin</th>
+					</tr>
+					</thead>
+					<tbody>
+					</tbody>
+				</table>
 			</div>
+			<form class="form-inline">
+				<label class="ml-2" for="userToDeleteInput">Enter user to delete: </label>
+				<input type="text" class="form-control ml-2" id="userToDeleteInput">
+				<button type="button" class="btn btn-secondary ml-2" id="deleteUserButton">Delete</button>
+				<label class="ml-2" id="deleteNotificationLabel"></label>
+			</form>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 			</div>
@@ -413,15 +435,6 @@
                       racialOut.innerHTML = this.value;
                   };
 							</script>
-						</div>
-					</div>
-
-					<div class="dropdown">
-						<button type="button" class="btn btn-primary dropdown-toggle" id="toolsButton" data-toggle="dropdown" style="width:100%">Tools</button>
-						<div class="dropdown-menu" style="width:100%">
-							<button class="dropdown-item" type="button">Run algorithm</button>
-							<button class="dropdown-item" type="button" data-toggle="modal" data-target="#compareDistrictsModal">Compare districts</button>
-							<button class="dropdown-item" type="button">Reset map</button>
 						</div>
 					</div>
 					<hr>
