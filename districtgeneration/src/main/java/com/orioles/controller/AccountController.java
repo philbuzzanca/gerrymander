@@ -73,6 +73,16 @@ public class AccountController {
         return "OK";
     }
     
+    @PostMapping("/deleteUser")
+    public String deleteUser(@RequestParam String username) {
+        List<User> users = userRepository.findByUsername(username);
+        if(users.size() == 1){
+            userRepository.delete(users.get(0));
+            return environment.getProperty("orioles.statuscode.success");
+        }
+        throw new NoSuchUserException(environment.getProperty("orioles.login.invalid"));
+    }
+    
     @GetMapping("/getUsers")
     public Iterable<User> getUsers() {
         return userRepository.findAll();
