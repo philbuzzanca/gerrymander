@@ -1,63 +1,71 @@
 package com.orioles.districtgeneration;
 
+import com.orioles.constants.Race;
 import com.orioles.model.CongressionalDistrict;
 import com.orioles.model.State;
-import java.util.List;
-import java.util.OptionalDouble;
+import com.orioles.model.Stats;
 
-public enum AllMeasures implements Measure{
-	COMPACTNESS {	// Schwartzberg
+import java.util.Map;
+import java.util.Set;
+
+import static com.orioles.constants.Race.WHITE;
+
+public enum AllMeasures implements Measure {
+	COMPACTNESS {    // Schwartzberg
 		@Override
-		public double calculateGoodness(State state) {
-			List<CongressionalDistrict> districts = state.getCongressionalDistricts();
-			OptionalDouble avgGoodness = districts.stream().mapToDouble(this::calculateGoodness).average();
-			return avgGoodness.isPresent() ? avgGoodness.getAsDouble() : -1;
-		}
-
-		@Override
-		public double calculateGoodness(CongressionalDistrict district) {
-			double area = district.getArea();
-			double perimeter = district.getPerimeter();
-
-			double r = Math.sqrt(area/Math.PI);
+		public double calculateGoodness(CongressionalDistrict district, State state) {
+			double r = Math.sqrt(district.getArea() / Math.PI);
 			double equalAreaPerimeter = 2 * Math.PI * r;
-			return equalAreaPerimeter / perimeter;
+			return equalAreaPerimeter / district.getPerimeter();
 		}
+	}, EQUAL_POPULATION {
+		@Override
+		public double calculateGoodness(CongressionalDistrict district, State state) {
+			Stats stateStat = state.summarize();
+			long expPopulation = (long)(stateStat.getPopulation() *
+					((double) district.getNumPrecincts() / state.getNumPrecincts()));
+			long population = district.summarize().getPopulation();
+			return population < expPopulation ? population / expPopulation : expPopulation / population;
+		}
+	}, RACIAL_FAIRNESS {
+		@Override
+		public double calculateGoodness(CongressionalDistrict district, State state) {
+			// TODO: Fill in an approach considering all races
+			Map<Race, Long> cdRaces = district.summarize().getRaces();
+			Map<Race, Long> stateRaces = state.summarize().getRaces();
 
-		@Override
-		public double normalize(double measure) {
-			return 0;
-		}
-	},
-	EQUAL_POPULATION {
-		@Override
-		public double calculateGoodness(State state) {
-			return 0;
-		}
+			double cdWhitePop = 0;
+			double cdOtherPop = 0;
+			Set<Race> keyset= cdRaces.keySet();
+			for(Race dem : keyset){
+				if(dem==WHITE){
+					cdWhitePop+=cdRaces.get(dem);
+				}
+				else
+					cdOtherPop+=cdRaces.get(dem);
+			}
 
-		@Override
-		public double calculateGoodness(CongressionalDistrict district) {
-			return 0;
-		}
+			double stateWhitePop = 0;
+			double stateOtherPop = 0;
+			for(Race dem : keyset){
+				if(dem==WHITE){
+					stateWhitePop+=stateRaces.get(dem);
+				}
+				else
+					stateOtherPop+=stateRaces.get(dem);
+			}
 
-		@Override
-		public double normalize(double measure) {
-			return 0;
-		}
-	},
-	PARTISAN_FAIRNESS {
-		@Override
-		public double calculateGoodness(State state) {
-			return 0;
-		}
+			double stateRatio = stateOtherPop/stateWhitePop;
+			double cdRatio = cdOtherPop/cdWhitePop;
 
-		@Override
-		public double calculateGoodness(CongressionalDistrict district) {
-			return 0;
+			if(cdRatio<stateRatio)
+				return cdRatio/stateRatio;
+			else
+				return stateRatio/cdRatio;
 		}
-
+	}, PARTISAN_FAIRNESS {
 		@Override
-		public double normalize(double measure) {
+		public double calculateGoodness(CongressionalDistrict district, State state) {
 			return 0;
 		}
 	}

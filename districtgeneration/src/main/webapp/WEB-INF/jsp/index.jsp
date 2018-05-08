@@ -27,10 +27,6 @@
                 integrity="sha384-feJI7QwhOS+hwpX2zkaeJQjeiwlhOP+SdQDqhgvvo1DsjtiSQByFdThsxO669S2D"
         crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.0.0/bootstrap-slider.js"></script>
-        
-        <!--State data-->
-        <script src="vaprecincts2013.js"></script>
-        <script src="nm.js"></script>
     </head>
     <body>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -346,14 +342,23 @@
             <div class="row no-gutters">
                 <div class="col-sm-2 col-lg-2">
                     <div class="sidebar">
-                        <form>
+                        <div class="dropdown">
+                            <button type="button" class="btn btn-primary dropdown-toggle" id="toolsButton" data-toggle="dropdown" style="width:100%">Tools</button>
+                            <div class="dropdown-menu" style="width:100%">
+                                <button class="dropdown-item" type="button">Run algorithm</button>
+                                <button class="dropdown-item" type="button" data-toggle="modal" data-target="#compareDistrictsModal">Compare districts</button>
+                                <button id="resetMap" class="dropdown-item" type="button">Reset map</button>
+                            </div>
+                        </div>
+                        <br>
+                        <form id="startAlgo">
                             <div class="form-group">
                                 <h4 for="stateSelect">Target state</h4>
-                                <select id="stateSelect" class="form-control"
-                                        onchange="mapFocus(this.value)">
-                                    <option value="Virginia">Virginia</option>
-                                    <option value="New Mexico">New Mexico</option>
-                                    <option value="Utah">Utah</option>
+                                <select id="stateSelect" class="form-control" onchange="mapFocus(this.value)">
+                                    <option selected="selected">Select a state...</option>
+                                    <option value="va">Virginia</option>
+                                    <option value="nm">New Mexico</option>
+                                    <option value="ut">Utah</option>
                                 </select>
                             </div>
                             <div class="form-group">
@@ -362,12 +367,16 @@
                                     <input class="form-check-input" type="checkbox"
                                            id="preserveExistingCommunitiesCheck">
                                     <label class="form-check-label"
-                                           for="preserveExistingCommunitiesCheck">Preserve existing
-                                        communities</label>
+                                           for="preserveExistingCommunitiesCheck">Preserve Communities</label>
+                                    <br>
+                                    <input class="form-check-input" type="checkbox"
+                                           id="contiguityCheck">
+                                    <label class="form-check-label"
+                                           for="contiguityCheck">Contiguity</label>
                                 </div>
                                 <h4>Measures</h4>
                                 <label class="form-check-label"
-                                       for="compactnessCheck">Compactness</label>
+                                       for="compactOut">Compactness</label>
                                 <span id="compactOut" class="measuresOut"></span>
                                 <div class="slidecontainer">
                                     <input type="range" min="0" max="100" value="0" class="slider"
@@ -381,22 +390,7 @@
                                         };
                                     </script>
                                 </div>
-                                <label class="form-check-label"
-                                       for="contiguityCheck">Contiguity</label>
-                                <span id="contiguityOut" class="measuresOut"></span>
-                                <div class="slidecontainer">
-                                    <input type="range" min="0" max="100" value="0" class="slider"
-                                           id="contiguitySlider">
-                                    <script>
-                                        var contigSlider = document.getElementById("contiguitySlider");
-                                        var contiguityOut = document.getElementById("contiguityOut");
-                                        contiguityOut.innerHTML = contigSlider.value;
-                                        contigSlider.oninput = function () {
-                                            contiguityOut.innerHTML = this.value;
-                                        };
-                                    </script>
-                                </div>
-                                <label class="form-check-label" for="equalPopulationCheck">Equal
+                                <label class="form-check-label" for="equalOut">Equal
                                     population</label>
                                 <span id="equalOut" class="measuresOut"></span>
                                 <div class="slidecontainer">
@@ -411,28 +405,28 @@
                                         };
                                     </script>
                                 </div>
-                                <label class="form-check-label" for="partisanFairnessCheck">Partisan
-                                    fairness</label>
-                                <span id="partisanOut" class="measuresOut"></span>
-                                <div class="slidecontainer">
-                                    <input type="range" min="0" max="100" value="0" class="slider"
-                                           id="partisanSlider">
-                                    <script>
-                                        var partisanSlider = document.getElementById("partisanSlider");
-                                        var partisanOut = document.getElementById("partisanOut");
-                                        partisanOut.innerHTML = partisanSlider.value;
-                                        partisanSlider.oninput = function () {
-                                            partisanOut.innerHTML = this.value;
-                                        };
-                                    </script>
-                                </div>
-                                <label class="form-check-label" for="racialFairnessCheck">Racial
+                                <%--<label class="form-check-label" for="partisanFairnessCheck">Partisan--%>
+                                <%--fairness</label>--%>
+                                <%--<span id="partisanOut" class="measuresOut"></span>--%>
+                                <%--<div class="slidecontainer">--%>
+                                <%--<input type="range" min="0" max="100" value="0" class="slider"--%>
+                                <%--id="partisanSlider">--%>
+                                <%--<script>--%>
+                                <%--var partisanSlider = document.getElementById("partisanSlider");--%>
+                                <%--var partisanOut = document.getElementById("partisanOut");--%>
+                                <%--partisanOut.innerHTML = partisanSlider.value;--%>
+                                <%--partisanSlider.oninput = function () {--%>
+                                <%--partisanOut.innerHTML = this.value;--%>
+                                <%--};--%>
+                                <%--</script>--%>
+                                <%--</div>--%>
+                                <label class="form-check-label" for="racialOut">Racial
                                     fairness</label>
                                 <span id="racialOut" class="measuresOut"></span>
                                 <div class="slidecontainer">
                                     <input type="range" min="0" max="100" value="0" class="slider"
                                            id="racialSlider">
-                                    <span id="racialOut"></span>
+                                    <span id="emptyOut"></span>
                                     <script>
                                         var racialSlider = document.getElementById("racialSlider");
                                         var racialOut = document.getElementById("racialOut");
@@ -443,6 +437,7 @@
                                     </script>
                                 </div>
                             </div>
+                            
                             <div class="dropdown">
                                 <button type="button" class="btn btn-primary dropdown-toggle" id="toolsButton" data-toggle="dropdown" style="width:100%">Tools</button>
                                 <div class="dropdown-menu" style="width:100%">
@@ -471,13 +466,22 @@
                                     </div>
                                 </form>
                             </div>
+                            
+                            <button id="startAlgoBtn" type="submit" class="btn btn-primary" style="width:100%">Build</button>
                         </form>
+                        <div id="runningAlgo" style="width:100%">
+                            <button id="play"><i class="fas fa-play"></i></button>
+                            <button id="pause"><i class="fas fa-pause"></i></button>
+                            <button id="stop"><i class="fas fa-stop"></i></button>
+                        </div>
+                        
                     </div>
                 </div>
                 <div class="col-sm-10 col-lg-10">
                     <div id="mapid">
                         <script src="script.js"></script>
                         <script src="accountfunctions.js"></script>
+                        <script src="algo.js"></script>
                     </div>
                 </div>
             </div>

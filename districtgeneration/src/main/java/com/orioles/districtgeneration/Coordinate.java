@@ -1,33 +1,18 @@
 package com.orioles.districtgeneration;
 
-public class Coordinate {
-	private double x;
-	private double y;
+import com.orioles.helper_model.Pair;
 
-	public Coordinate() {
-		x = 0;
-		y = 0;
-	}
-
+public final class Coordinate extends Pair<Double, Double> {
 	public Coordinate(double xVal, double yVal) {
-		this.x = xVal;
-		this.y = yVal;
+		super(xVal, yVal);
 	}
 
 	double getX() {
-		return this.x;
+		return getKey();
 	}
 
 	double getY() {
-		return this.y;
-	}
-
-	void setX(double xValue) {
-		this.x = xValue;
-	}
-
-	void setY(double yValue) {
-		this.y = yValue;
+		return getValue();
 	}
 
 	@Override
@@ -37,6 +22,6 @@ public class Coordinate {
 		if (o == null || getClass() != o.getClass())
 			return false;
 		Coordinate otherCoordinate = (Coordinate) o;
-		return otherCoordinate.x == this.x && otherCoordinate.y == this.y;
+		return otherCoordinate.getX() == this.getY() && otherCoordinate.getY() == this.getY();
 	}
 }

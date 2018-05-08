@@ -1,49 +1,87 @@
 package com.orioles.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.orioles.districtgeneration.Coordinate;
+import com.orioles.helper_model.Polygon;
 
+import java.io.Serializable;
+
+import javax.persistence.Transient;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
 
-public class Precinct implements Cloneable {
-    private String name;
-    private int identifier;
-    private CongressionalDistrict district;
+@Entity
+public class Precinct implements Cloneable, Serializable {
+	private String name;
+    @Column(name = "geojson", columnDefinition = "LONGTEXT")
+    private String geojson;
+    @Transient
+    @JsonIgnore
+    private CongressionalDistrict district; // contained within the embedded ID.
+    @Transient
+	@JsonIgnore
     private List<Precinct> adjacentPrecincts;
-    private List<Coordinate> coordinates;
+    @Transient
+	@JsonIgnore
+    private List<Polygon> coordinates;
+    @Transient
+	@JsonIgnore
     private Stats stats;
+    @Transient
+	@JsonIgnore
     private boolean locked;
+    @JsonIgnore
     private double area;
+    @EmbeddedId
+	@JsonIgnore
+    private PrecinctId id;
+    @JsonIgnore
+	private int border;
 
-    public Precinct(){
-        name = "";
-        identifier = -1;
-        district = null;
+    public Precinct() {
+    	name = "";
         adjacentPrecincts = new ArrayList<>();
         coordinates = new ArrayList<>();
-        stats = null;
-        locked = false;
         area = 0;
     }
 
-    public Precinct(List<Coordinate> coordinates){
+    public Precinct(List<Polygon> coordinates) {
         this.coordinates = coordinates;
     }
 
 	public String getName() {
-        return name;
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getGeojson() {
+        return geojson;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setGeojson(String geojson) {
+        this.geojson = geojson;
     }
+
+    public PrecinctId getId() {
+        return id;
+    }
+
+    public void setId(PrecinctId id) {
+        this.id = id;
+    }
+
+    public int getCD() {
+    	return id.getCd();
+	}
 
     public int getIdentifier() {
-        return identifier;
-    }
-
-    public void setIdentifier(int identifier) {
-        this.identifier = identifier;
+        return id.getId();
     }
 
     public CongressionalDistrict getDistrict() {
@@ -58,8 +96,8 @@ public class Precinct implements Cloneable {
         return adjacentPrecincts;
     }
 
-    public void setAdjacentPrecincts(ArrayList<Precinct> adjacentPrecincts) {
-        this.adjacentPrecincts = adjacentPrecincts;
+    public void setAdjacentPrecincts(List<Precinct> adjPrecincts) {
+        this.adjacentPrecincts = adjPrecincts;
     }
 
     public Stats getStats() {
@@ -78,23 +116,52 @@ public class Precinct implements Cloneable {
         this.locked = locked;
     }
 
-    public boolean isOnBorder(){
-        return false;
+	public void setBorder(int border) {
+		this.border = border;
+	}
+
+	public boolean getBorder() {
+        return border != 0;
     }
 
-    public void setCoordinates(ArrayList<Coordinate> coordinates){
-            this.coordinates = coordinates;
+    public void setCoordinates(List<Polygon> coordinates) {
+        this.coordinates = coordinates;
     }
 
-    public List<Coordinate> getCoordinates(){
-            return coordinates;
+    public List<Polygon> getCoordinates() {
+        return coordinates;
     }
-    
-    public void setArea(double newArea){
+
+    public void setArea(double newArea) {
         this.area = newArea;
     }
-    
-    public double getArea(){
+
+    public double getArea() {
         return this.area;
     }
+    
+    public void setBorder(){		// ?
+        this.border = 0;
+        for (Precinct adjacentPrecinct : adjacentPrecincts) {
+            if(adjacentPrecinct.getDistrict().getID() != this.district.getID()){
+                this.border = 1;
+                break;
+            }
+        }
+    }
+    
+    public void updateAdjacentBorders(){
+        for (Precinct adjacentPrecinct : adjacentPrecincts) {
+            adjacentPrecinct.setBorder();
+        }
+    }
+
+	@Override
+	public String toString() {
+		return "Precinct{" +
+				"name='" + name + '\'' +
+				", area=" + area +
+				", id=" + id.getId() +
+				'}';
+	}
 }
