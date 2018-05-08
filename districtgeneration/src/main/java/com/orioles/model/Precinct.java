@@ -1,11 +1,8 @@
 package com.orioles.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.orioles.districtgeneration.Coordinate;
 import com.orioles.helper_model.Polygon;
-
 import java.io.Serializable;
-
 import javax.persistence.Transient;
 import java.util.ArrayList;
 import java.util.List;

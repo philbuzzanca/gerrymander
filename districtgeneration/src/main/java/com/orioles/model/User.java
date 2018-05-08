@@ -14,8 +14,7 @@ public class User {
 	private String password;
 	private Party party;
 	@Transient
-	private List<List<Move>> previousRedistrictings;
-	@Transient
+	private List<Usermoves> previousRedistrictings;
 	private boolean admin;
 
 	public User() {}
@@ -52,20 +51,21 @@ public class User {
 		this.party = party;
 	}
         
-	public void setAllRedistrictings(List<List<Move>> redistrictingList){
+	public void setAllRedistrictings(List<Usermoves> redistrictingList){
 		this.previousRedistrictings = redistrictingList;
 	}
 
-	public List<List<Move>> getAllRedistrictings(){
+	public List<Usermoves> getAllRedistrictings(){
 		return this.previousRedistrictings;
 	}
 
-	public void addRedistricting(List<Move> moveSet){
+	public void addRedistricting(Usermoves moveSet){
 		previousRedistrictings.add(moveSet);
 	}
 
 	public List<Move> getRedistricting(int index) {
-		return previousRedistrictings.get(index);
+		return null;
+//		return previousRedistrictings.get(index).getMoves();
 	}
 
 	public boolean getAdmin() {
