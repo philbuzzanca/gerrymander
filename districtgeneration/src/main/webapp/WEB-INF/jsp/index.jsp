@@ -47,7 +47,7 @@
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
                         <a class="nav-link" href="" data-toggle="modal" id="adminLink"
-                           data-target="#adminModal" style="visibility: hidden">Administrator</a>
+                           data-target="#adminModal">Administrator</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="" data-toggle="modal"
@@ -121,11 +121,10 @@
                         </table>
                     </div>
                     <form class="form-inline">
-                        <div class="form-group">
-                            <label for="userToDeleteInput">Enter user to delete: </label>
-                            <input type="text" id="userToDeleteInput">
-                            <button class="btn btn-secondary">Delete</button>
-                        </div>
+                        <label class="ml-2" for="userToDeleteInput">Enter user to delete: </label>
+                        <input type="text" class="form-control ml-2" id="userToDeleteInput">
+                        <button type="button" class="btn btn-secondary ml-2" id="deleteUserButton">Delete</button>
+                        <label class="ml-2" id="deleteNotificationLabel"></label>
                     </form>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
