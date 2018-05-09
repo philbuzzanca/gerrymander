@@ -47,7 +47,7 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="" data-toggle="modal"
-                           data-target="#accountModal">${sessionScope.user.getUsername()}</i></a>
+                           data-target="#accountModal" id="accountLink">${sessionScope.user.getUsername()}</i></a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="" id="registerLink" data-toggle="modal" data-target="#registerLoginModal">Register/Login
@@ -150,7 +150,7 @@
                                 <input type="password" name="updatePassword" id="updatePassword" style="width: 50%"></input>
                             </div>
                             <div class="form-group">
-                                <h6 for="partySelect">Party: ${sessionScope.user.getParty()}</h6>
+                                <h6 for="partySelect" id="userParty">Party: ${sessionScope.user.getParty()}</h6>
                                 <select name="partySelect" id="partySelect" class="form-control" style="width: 50%">
                                     <option selected disabled hidden value="">Change party</option>
                                     <option value="0">Republican</option>
@@ -165,7 +165,7 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                         <button type="button" class="btn btn-success"
-                                onclick="updateAccount(updateUsername.value, updatePassword.value, partySelect.value); window.location.reload(false);"
+                                onclick="updateAccount(updateUsername.value, updatePassword.value, partySelect.value);"
                                 data-dismiss="modal">Save & close
                         </button>
                         <button id="#logoutButton" type="button" class="btn btn-danger" style="display:none">Log out</button>

@@ -25,6 +25,9 @@ function login(username, password){
             $("#logoutLink").show();
             $("#registerLoginModal").modal("toggle");
             $('#registerSuccess').hide();
+            $('#accountLink').show();
+            $('#accountLink').text(data.username);
+            $('#userParty').text("Party: " + data.party);
             if(data.admin){
                 $("#adminLink").show();
             }
@@ -39,12 +42,17 @@ function logout() {
     $.post("/logout", function (data) {
         $("#logoutLink").hide();
         $("#registerLink").show();
+        $('#adminLink').hide();
+        $('#accountLink').hide();
     });
 }
 
 function updateAccount(newUsername, newPassword, newParty) {
     let formData = {newUsername: newUsername, newPassword: newPassword, newParty: newParty};
-    $.post("/update", formData);
+    $.post("/update", formData, function(data){
+        $('#accountLink').text(data.username);
+        $('#userParty').text("Party: " + data.party);
+    });
 }
 
 $(document).ready(function(){
