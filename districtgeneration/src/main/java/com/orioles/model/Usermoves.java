@@ -1,12 +1,14 @@
 package com.orioles.model;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.io.Serializable;
 
 @Entity
 public class Usermoves implements Serializable {
 	@Id
+	@GeneratedValue
 	private int uselessid;
 	private String username;
 	private String moves;
