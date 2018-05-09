@@ -2,7 +2,9 @@ package com.orioles.districtgeneration;
 
 import com.orioles.helper_model.Pair;
 
-public final class Coordinate extends Pair<Double, Double> {
+import java.io.Serializable;
+
+public final class Coordinate extends Pair<Double, Double> implements Serializable {
 	public Coordinate(double xVal, double yVal) {
 		super(xVal, yVal);
 	}

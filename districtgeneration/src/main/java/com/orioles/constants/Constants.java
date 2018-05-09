@@ -26,9 +26,9 @@ public class Constants {
 			" any political influence.\"</p>";
 
 	// STATES
-	public static final String VA = "VIRGINA";
-	public static final String NM = "NEW MEXICO";
-	public static final String UT = "UTAH";
+	public static final String VA = "va";
+	public static final String NM = "nm";
+	public static final String UT = "ut";
 	public static final List<String> ALL_STATES= new ArrayList<String>() {{	add(VA); add(NM); add(UT);	}};
 
 	// ERROR MESSAGES

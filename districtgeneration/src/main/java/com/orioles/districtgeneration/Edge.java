@@ -3,7 +3,9 @@ package com.orioles.districtgeneration;
 import com.orioles.constants.Constants;
 import com.orioles.helper_model.Pair;
 
-public final class Edge extends Pair<Coordinate, Coordinate> {
+import java.io.Serializable;
+
+public final class Edge extends Pair<Coordinate, Coordinate> implements Serializable {
 	private double distance;
 
     public Edge(Coordinate p1, Coordinate p2){

@@ -1,8 +1,9 @@
 package com.orioles.helper_model;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Pair<K, V> {
+public class Pair<K extends Serializable, V extends Serializable> implements Serializable {
 	private K key;
 	private V value;
 
