@@ -48,6 +48,7 @@ public class AlgoController {
 
 		State geoState = (State) httpSession.getAttribute("state");
 		Algorithm algo = new Algorithm(geoState, measures, constraints);
+		algo.setup();
 		httpSession.setAttribute("algo", algo);
 		return geoState.getGerrymanderedDistricts();
 	}
