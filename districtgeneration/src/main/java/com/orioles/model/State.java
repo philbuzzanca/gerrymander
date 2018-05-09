@@ -103,7 +103,6 @@ public class State implements Cloneable, Serializable {
             double goodness = measures.keySet().stream()
                     .mapToDouble(key -> key.calculateGoodness(cd, this) * measures.get(key)).sum();
             cd.setGoodness(goodness / measures.values().stream().filter(v -> v!= 0).count() / 100);
-            System.out.printf(">>>> Goodness of ID %d: %s\n", cd.getID(), goodness);
         }
     }
 
