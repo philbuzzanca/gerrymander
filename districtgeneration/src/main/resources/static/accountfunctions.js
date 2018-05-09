@@ -25,6 +25,9 @@ function login(username, password){
             $("#logoutLink").show();
             $("#registerLoginModal").modal("toggle");
             $('#registerSuccess').hide();
+            $('#accountLink').show();
+            $('#accountLink').text(data.username);
+            $('#userParty').text("Party: " + data.party);
             if(data.admin){
                 $("#adminLink").show();
             }
@@ -39,12 +42,17 @@ function logout() {
     $.post("/logout", function (data) {
         $("#logoutLink").hide();
         $("#registerLink").show();
+        $('#adminLink').hide();
+        $('#accountLink').hide();
     });
 }
 
-function updateAccount(newUsername, newPassword, newParty) {
-    let formData = {newUsername: newUsername, newPassword: newPassword, newParty: newParty};
-    $.post("/update", formData);
+function updateAccount(newPassword, newParty) {
+    $('#updatePassword').val('');
+    let formData = {newPassword: newPassword, newParty: newParty};
+    $.post("/update", formData, function(data){
+        $('#userParty').text("Party: " + data.party);
+    });
 }
 
 $(document).ready(function() {
@@ -68,19 +76,20 @@ $(document).ready(function() {
 });
 
 
-$(document).ready(function(){
+function updateUserList(){
     $.get("/getUsers", function(data){
         if(data !== null){
             let userParties = { "REPUBLICAN"    : 0,
                                 "DEMOCRAT"      : 0,
                                 "GREEN"         : 0,
                                 "LIBERTARIAN"   : 0,
-                                "OTHER"         : 0};
-
-            for(let i = 0; i < data.length; i++){
-            $("#userTable").append("<tr><td>"+data[i].username+"</td><td>"
-                    +data[i].party+"</td><td>"+data[i].admin+"</td></tr>");
-            userParties[data[i].party] += 1;
+                                "OTHER"         : 0
+                            };
+            $("#userTableBody > tr").remove();
+            for(var i = 0; i < data.length; i++){
+                $("#userTableBody").append("<tr><td>"+data[i].username+"</td><td>"
+                        +data[i].party+"</td><td>"+data[i].admin+"</td></tr>");
+                userParties[data[i].party] += 1;
             }
             $("#totalUsers").text(data.length);
             $("#republicanUsers").text(userParties["REPUBLICAN"]);
@@ -95,7 +104,7 @@ $(document).ready(function(){
             $("#otherPercent").text(Math.round((userParties["OTHER"] / data.length * 100) * 10)/10 + "%");
         }
     });
-});
+};
 
 $(document).ready(function(){
     $("#logoutLink").click((event) => {
