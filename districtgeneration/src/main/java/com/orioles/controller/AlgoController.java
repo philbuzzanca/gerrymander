@@ -26,7 +26,7 @@ public class AlgoController {
     private Environment environment;
 
     @PostMapping("/startAlgo")
-    public List<Pair<Integer, Double>> startAlgo(@RequestParam Map<String, String> settings) {
+    public Map<Integer, Double> startAlgo(@RequestParam Map<String, String> settings) {
         String state = "Select a state...";
         Map<AllMeasures, Integer> measures = new HashMap<>();
         Map<Constraint, Boolean> constraints = new HashMap<>();

@@ -90,24 +90,21 @@ public class State implements Cloneable, Serializable {
 
     @JsonIgnore
     @SuppressWarnings("unchecked")
-    public List<Pair<Integer, Double>> getGerrymanderedDistricts() {
-        return congressionalDistricts.stream()
+    public Map<Integer, Double> getGerrymanderedDistricts() {
+    	Map<Integer, Double> gerry = new HashMap<>();
+        congressionalDistricts.stream()
                 .filter(district -> district.getGoodness() < Constants.GERRYMANDERING_THRESHOLD)
                 .sorted(Comparator.comparingDouble(CongressionalDistrict::getGoodness))
-                .map(cd -> new Pair<>(cd.getID(), cd.getGoodness()))
-                .collect(Collectors.toList());
+				.forEach(cd -> gerry.put(cd.getID(), cd.getGoodness()));
+        return gerry;
     }
 
     void calculateDistrictGoodness(Map<AllMeasures, Integer> measures) {
         for (CongressionalDistrict cd : congressionalDistricts) {
-            OptionalDouble goodness = measures.keySet().stream()
-                    .mapToDouble(key -> {
-                        double g = key.calculateGoodness(cd, this) * measures.get(key);
-                        System.out.printf(">>>> ID %s (%s): %s, %d\n",cd.getID(), key, g, measures.get(key));
-                        return g;
-                            }).average();
-            cd.setGoodness(goodness.isPresent() ? goodness.getAsDouble() : -1);
-            System.out.printf(">>>> Goodness of ID %d: %s\n", cd.getID(), goodness.getAsDouble());
+            double goodness = measures.keySet().stream()
+                    .mapToDouble(key -> key.calculateGoodness(cd, this) * measures.get(key)).sum();
+            cd.setGoodness(goodness / measures.values().stream().filter(v -> v!= 0).count() / 100);
+            System.out.printf(">>>> Goodness of ID %d: %s\n", cd.getID(), goodness);
         }
     }
 
