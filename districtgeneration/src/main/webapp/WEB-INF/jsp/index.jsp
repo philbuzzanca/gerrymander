@@ -47,7 +47,7 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="" data-toggle="modal"
-                           data-target="#accountModal" id="accountLink">${sessionScope.user.getUsername()}</i></a>
+                           data-target="#accountModal" id="accountLink" onclick="$('#updatePassword').val('');">${sessionScope.user.getUsername()}</i></a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="" id="registerLink" data-toggle="modal" data-target="#registerLoginModal">Register/Login
@@ -142,10 +142,6 @@
                     <div class="modal-body">
                         <form>
                             <div class="form-group">
-                                <h6 for="updateUsername">Change username</h6>
-                                <input type="text" name="updateUsername" id="updateUsername" style="width: 50%"></input>
-                            </div>
-                            <div class="form-group">
                                 <h6 for="updatePassword">Change password</h6>
                                 <input type="password" name="updatePassword" id="updatePassword" style="width: 50%"></input>
                             </div>
@@ -165,7 +161,7 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                         <button type="button" class="btn btn-success"
-                                onclick="updateAccount(updateUsername.value, updatePassword.value, partySelect.value);"
+                                onclick="updateAccount(updatePassword.value, partySelect.value);"
                                 data-dismiss="modal">Save & close
                         </button>
                         <button id="#logoutButton" type="button" class="btn btn-danger" style="display:none">Log out</button>

@@ -53,13 +53,8 @@ public class AccountController {
 	}
 
     @PostMapping("/update")
-    public User update(@RequestParam String newUsername,
-            @RequestParam String newPassword,
-            @RequestParam String newParty) {
+    public User update(@RequestParam String newPassword, @RequestParam String newParty) {
         User user = (User) httpSession.getAttribute("user");
-        if (!(newUsername = newUsername.trim()).isEmpty()) {
-            user.setUsername(newUsername);
-        }
         if (!newPassword.isEmpty()) {
             user.setPassword(PasswordUtility.encode(newPassword));
         }

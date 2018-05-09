@@ -47,10 +47,10 @@ function logout() {
     });
 }
 
-function updateAccount(newUsername, newPassword, newParty) {
-    let formData = {newUsername: newUsername, newPassword: newPassword, newParty: newParty};
+function updateAccount(newPassword, newParty) {
+    $('#updatePassword').val('');
+    let formData = {newPassword: newPassword, newParty: newParty};
     $.post("/update", formData, function(data){
-        $('#accountLink').text(data.username);
         $('#userParty').text("Party: " + data.party);
     });
 }
@@ -76,7 +76,7 @@ $(document).ready(function(){
 });
 
 
-$(document).ready(function(){
+$(document).ready(function updateUserList(){
     $.get("/getUsers", function(data){
         if(data !== null){
             let userParties = { "REPUBLICAN"    : 0,
