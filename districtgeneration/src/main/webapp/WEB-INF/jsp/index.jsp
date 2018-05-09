@@ -43,11 +43,11 @@
 		<ul class="navbar-nav ml-auto">
 			<li class="nav-item">
 				<a class="nav-link" href="" data-toggle="modal" id="adminLink"
-					 data-target="#adminModal">Administrator</a>
+					 data-target="#adminModal" onclick="updateUserList();">Administrator</a>
 			</li>
 			<li class="nav-item">
 				<a class="nav-link" href="" data-toggle="modal"
-					 data-target="#accountModal">${sessionScope.user.getUsername()}</a>
+					 data-target="#accountModal" id="accountLink" onclick="$('#updatePassword').val('');">${sessionScope.user.getUsername()}</a>
 			</li>
 			<li class="nav-item">
 				<a class="nav-link" href="" id="registerLink" data-toggle="modal" data-target="#registerLoginModal">Register/Login
@@ -112,7 +112,7 @@
 						<th scope="col">Admin</th>
 					</tr>
 					</thead>
-					<tbody>
+					<tbody id="userTableBody">
 					</tbody>
 				</table>
 			</div>
@@ -142,15 +142,11 @@
 			<div class="modal-body">
 				<form>
 					<div class="form-group">
-						<h6 for="updateUsername">Change username</h6>
-						<input type="text" name="updateUsername" id="updateUsername" style="width: 50%"></input>
-					</div>
-					<div class="form-group">
 						<h6 for="updatePassword">Change password</h6>
 						<input type="password" name="updatePassword" id="updatePassword" style="width: 50%"></input>
 					</div>
 					<div class="form-group">
-						<h6 for="partySelect">Party: ${sessionScope.user.getParty()}</h6>
+						<h6 for="partySelect" id="userParty">Party: ${sessionScope.user.getParty()}</h6>
 						<select name="partySelect" id="partySelect" class="form-control" style="width: 50%">
 							<option selected disabled hidden value="">Change party</option>
 							<option value="0">Republican</option>
@@ -165,7 +161,7 @@
 			<div class="modal-footer">
 				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 				<button type="button" class="btn btn-success"
-								onclick="updateAccount(updateUsername.value, updatePassword.value, partySelect.value); window.location.reload(false);"
+								onclick="updateAccount(updatePassword.value, partySelect.value);"
 								data-dismiss="modal">Save & close
 				</button>
 				<button id="#logoutButton" type="button" class="btn btn-danger" style="display:none">Log out</button>
