@@ -29,27 +29,29 @@ public class StateController {
     private Gson gson;
     @Autowired
     private PrecinctRepository precinctRepository;
-	@Autowired
-	private UsermovesRepository userMovesRepository;
-	@Autowired
-	private PDemoRepository pDemoRepository;
+    @Autowired
+    private UsermovesRepository userMovesRepository;
+    @Autowired
+    private PDemoRepository pDemoRepository;
     @Autowired
     private Environment environment;
-	@Autowired
-	private HttpSession httpSession;
+    @Autowired
+    private HttpSession httpSession;
     private Map<String, State> states;
     private Map<Integer, Precinct> allPrecincts;
 
     @GetMapping("/state/{name}")
     public State getState(@PathVariable("name") String stateName) {
-    	if (!Constants.ALL_STATES.contains(stateName.toLowerCase()))
-    		throw new NoSuchStateException(environment.getProperty(Constants.NO_MATCH));
+        if (!Constants.ALL_STATES.contains(stateName.toLowerCase())) {
+            throw new NoSuchStateException(environment.getProperty(Constants.NO_MATCH));
+        }
         return getStateByName(stateName.toLowerCase());
     }
-    
-    private FeatureCollection getFromCache(String stateName){
-        if (stateCache == null)
+
+    private FeatureCollection getFromCache(String stateName) {
+        if (stateCache == null) {
             stateCache = new HashMap<>();
+        }
         return stateCache.getOrDefault(stateName, null);
     }
 
@@ -57,23 +59,25 @@ public class StateController {
     public FeatureCollection getPrecincts(@PathVariable(Constants.STATE) String stateName) {
         stateName = stateName.toLowerCase();
         FeatureCollection result = getFromCache(stateName);
-        if (result != null)
+        if (result != null) {
             return result;
+        }
 
         List<Precinct> precincts = precinctRepository.findByIdState(stateName);
-		if (precincts.isEmpty())
-			throw new NoSuchStateException(environment.getProperty(Constants.NO_MATCH));
+        if (precincts.isEmpty()) {
+            throw new NoSuchStateException(environment.getProperty(Constants.NO_MATCH));
+        }
 
         result = new FeatureCollection(precincts.stream()
-				.map(p -> gson.fromJson(p.getGeojson(), Map.class)).collect(Collectors.toList()));
+                .map(p -> gson.fromJson(p.getGeojson(), Map.class)).collect(Collectors.toList()));
         stateCache.put(stateName, result);
         return result;
     }
 
-	@PostMapping("/getMaps")
-	public int getMaps (String user) {
-    	return userMovesRepository.findByUsername(user).size();
-	}
+    @PostMapping("/getMaps")
+    public int getMaps(String user) {
+        return userMovesRepository.findByUsername(user).size();
+    }
 
     @SuppressWarnings("unchecked")
 	@PostMapping("/loadMap")
