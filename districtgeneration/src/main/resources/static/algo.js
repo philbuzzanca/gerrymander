@@ -35,8 +35,18 @@ $(document).ready(function(){
         build($('#stateSelect').val(), constraints, measures);
     });
     $("#play").click(() => {
-        $("#play").hide();
-        $("#pause").show();
+        // $("#play").hide();
+        // $("#pause").show();
+        $.post("/runIteration").then(function(res){
+            // res will contain the array of moves to make (array of Move objects)
+            /**
+             * Move contains:
+             * sourceDistrict(int)
+             * destDistrict(int)
+             * precinct(int)
+             */ 
+            console.log(res)
+        }).catch(() => console.log("ERR!"));
     });
     $("#pause").click(() => {
         $("#play").show();

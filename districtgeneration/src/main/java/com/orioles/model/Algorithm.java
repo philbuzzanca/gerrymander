@@ -33,6 +33,7 @@ public class Algorithm implements Serializable {
 		this.state = state;
 		this.measures = measures;
 		this.constraints = constraints;
+                this.masterMoves = new ArrayList<>();
 	}
 
 	public State getState() {
