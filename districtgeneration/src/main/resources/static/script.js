@@ -83,6 +83,8 @@ function mapFocus(state) {
             style: precinctStyle,
         }).addTo(mymap);
     });
+    // Need to initialize state on server side as well.
+    $.get(`/state/${state}`).then(() => console.log("OK!")).catch(() => console.log("ERR!"));
     // $($("#precinctOptions").hide());
     mymap.flyTo(stateFocus[state], stateZoom[state]);
 }
