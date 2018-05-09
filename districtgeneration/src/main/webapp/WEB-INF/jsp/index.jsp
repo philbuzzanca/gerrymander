@@ -43,7 +43,7 @@
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
                         <a class="nav-link" href="" data-toggle="modal" id="adminLink"
-                           data-target="#adminModal">Administrator</a>
+                           data-target="#adminModal" onclick="updateUserList();">Administrator</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="" data-toggle="modal"
@@ -112,7 +112,7 @@
                                     <th scope="col">Admin</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="userTableBody">
                             </tbody>
                         </table>
                     </div>

@@ -76,7 +76,7 @@ $(document).ready(function(){
 });
 
 
-$(document).ready(function updateUserList(){
+function updateUserList(){
     $.get("/getUsers", function(data){
         if(data !== null){
             let userParties = { "REPUBLICAN"    : 0,
@@ -85,9 +85,9 @@ $(document).ready(function updateUserList(){
                                 "LIBERTARIAN"   : 0,
                                 "OTHER"         : 0
                             };
-                  
+            $("#userTableBody > tr").remove();
             for(var i = 0; i < data.length; i++){
-                $("#userTable").append("<tr><td>"+data[i].username+"</td><td>"
+                $("#userTableBody").append("<tr><td>"+data[i].username+"</td><td>"
                         +data[i].party+"</td><td>"+data[i].admin+"</td></tr>");
                 userParties[data[i].party] += 1;
             }
@@ -104,7 +104,7 @@ $(document).ready(function updateUserList(){
             $("#otherPercent").text(Math.round((userParties["OTHER"] / data.length * 100) * 10)/10 + "%");
         }
     });
-});
+};
 
 $(document).ready(function(){
     $("#logoutLink").click((event) => {
