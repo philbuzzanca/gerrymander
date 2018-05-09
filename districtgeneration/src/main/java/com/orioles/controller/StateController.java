@@ -85,9 +85,9 @@ public class StateController {
 		return algo.getCurrMoves();
 	}
 
-	@GetMapping("/getVa")
-	public State getVa() {
-		return getStateByName("va");
+	@GetMapping("/getStateByName")
+	public State getStateName(String stateName) {
+		return getStateByName(stateName.toLowerCase());
 	}
 
 	private State checkCache(String stateName) {
