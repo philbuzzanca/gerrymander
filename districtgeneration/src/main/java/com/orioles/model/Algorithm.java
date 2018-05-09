@@ -140,10 +140,10 @@ public class Algorithm implements Serializable {
 		destDist.addToDistrict(movingPrecinct);
 	}
         
-	public void makeSpecifiedMove(CongressionalDistrict srcDist, CongressionalDistrict destDist, Precinct movingPrecinct) {
+	public void makeManualMove(CongressionalDistrict srcDist, CongressionalDistrict destDist, Precinct movingPrecinct) {
 		currMoves.add(new Move(movingPrecinct.getIdentifier(), srcDist.getID(), destDist.getID()));
 		makeMove(srcDist, destDist, movingPrecinct);
-		movingPrecinct.setLocked(true);			// WHY?
+		movingPrecinct.setLocked(true);
 	}
 
 	public void loadOldRedistricting(State newState, List<Move> moves){

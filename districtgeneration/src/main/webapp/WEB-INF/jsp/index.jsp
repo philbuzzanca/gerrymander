@@ -364,11 +364,11 @@
 					<div class="form-group">
 						<h4>Constraints</h4>
 						<div class="form-check">
-							<input class="form-check-input" type="checkbox"
-										 id="preserveExistingCommunitiesCheck">
-							<label class="form-check-label"
-										 for="preserveExistingCommunitiesCheck">Preserve Communities</label>
-							<br>
+							<%--<input class="form-check-input" type="checkbox"--%>
+										 <%--id="preserveExistingCommunitiesCheck">--%>
+							<%--<label class="form-check-label"--%>
+										 <%--for="preserveExistingCommunitiesCheck">Preserve Communities</label>--%>
+							<%--<br>--%>
 							<input class="form-check-input" type="checkbox"
 										 id="contiguityCheck">
 							<label class="form-check-label"
