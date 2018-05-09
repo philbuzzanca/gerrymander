@@ -81,7 +81,7 @@ public class State implements Cloneable, Serializable {
 		return stat;
 	}
 
-    public CongressionalDistrict getDistrictByID (int districtID){
+    public CongressionalDistrict getDistrictByID(int districtID){
         return congressionalDistricts.stream()
                 .filter(district -> districtID == district.getID()).findFirst().orElse(null);
     }
@@ -95,6 +95,13 @@ public class State implements Cloneable, Serializable {
 				.map(cd -> new Pair<>(cd.getID(), cd.getGoodness()))
 				.collect(Collectors.toList());
     }
+
+	@JsonIgnore
+	public List<Pair<Integer, Double>> getAllDistrictGoodness(){		// Goodness Panel
+		return congressionalDistricts.stream()
+				.map(cd -> new Pair<>(cd.getID(), cd.getGoodness()))
+				.collect(Collectors.toList());
+	}
 
 	void calculateDistrictGoodness(Map<AllMeasures, Integer> measures){
 		for (CongressionalDistrict cd : congressionalDistricts) {

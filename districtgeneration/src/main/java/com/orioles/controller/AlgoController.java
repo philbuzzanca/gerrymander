@@ -54,6 +54,8 @@ public class AlgoController {
 			throw new NoSuchStateException(environment.getProperty(Constants.NO_MATCH));
 
 		State geoState = (State) httpSession.getAttribute(Constants.STATE);
+		System.out.printf("%n%n%s%b%n", state, geoState == null);
+		System.out.println(geoState.getName());
 		Algorithm algo = new Algorithm(geoState, measures, constraints);
 		algo.setup();
 		httpSession.setAttribute("algo", algo);

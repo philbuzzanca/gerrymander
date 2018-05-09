@@ -106,7 +106,6 @@ public class StateController {
 		}
 
 		List<Precinct> precinctList = precinctRepository.findByIdState(stateName);
-
 		List<CongressionalDistrict> cds = new ArrayList<>();
 		for(int distID : precinctList.stream().mapToInt(Precinct::getCD).distinct().toArray()) {
 			CongressionalDistrict cd = new CongressionalDistrict(distID);
@@ -165,5 +164,10 @@ public class StateController {
 			return Collections.emptyList();
 		return Arrays.stream(((String) adj).split(","))
 				.map(e -> allPrecincts.get(Integer.parseInt(e))).collect(Collectors.toList());
+	}
+
+	@GetMapping("/getCDInfo")
+	public Stats getCDInfo(int cdID) {
+		return ((State) httpSession.getAttribute(Constants.STATE)).getDistrictByID(cdID).summarize();
 	}
 }
