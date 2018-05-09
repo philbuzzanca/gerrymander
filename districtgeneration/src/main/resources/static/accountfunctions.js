@@ -71,10 +71,29 @@ $(document).ready(function(){
 $(document).ready(function(){
     $.get("/getUsers", function(data){
         if(data !== null){
+            let userParties = { "REPUBLICAN"    : 0,
+                                "DEMOCRAT"      : 0,
+                                "GREEN"         : 0,
+                                "LIBERTARIAN"   : 0,
+                                "OTHER"         : 0
+                            };
+                  
             for(var i = 0; i < data.length; i++){
                 $("#userTable").append("<tr><td>"+data[i].username+"</td><td>"
                         +data[i].party+"</td><td>"+data[i].admin+"</td></tr>");
+                userParties[data[i].party] += 1;
             }
+            $("#totalUsers").text(data.length);
+            $("#republicanUsers").text(userParties["REPUBLICAN"]);
+            $("#democratUsers").text(userParties["DEMOCRAT"]);
+            $("#greenUsers").text(userParties["GREEN"]);
+            $("#libertarianUsers").text(userParties["LIBERTARIAN"]);
+            $("#otherUsers").text(userParties["OTHER"]);
+            $("#republicanPercent").text(Math.round((userParties["REPUBLICAN"] / data.length * 100) * 10)/10 + "%");
+            $("#democratPercent").text(Math.round((userParties["DEMOCRAT"] / data.length * 100) * 10)/10 + "%");
+            $("#greenPercent").text(Math.round((userParties["GREEN"] / data.length * 100) * 10)/10 + "%");
+            $("#libertarianPercent").text(Math.round((userParties["LIBERTARIAN"] / data.length * 100) * 10)/10 + "%");
+            $("#otherPercent").text(Math.round((userParties["OTHER"] / data.length * 100) * 10)/10 + "%");
         }
     });
 });

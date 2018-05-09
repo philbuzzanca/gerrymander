@@ -85,21 +85,21 @@
                             <tbody>
                                 <tr>
                                     <th scope="row">Number of users</th>
-                                    <td>10</td>
-                                    <td>0</td>
-                                    <td>1</td>
-                                    <td>2</td>
-                                    <td>3</td>
-                                    <td>4</td>
+                                    <td id="totalUsers"></td>
+                                    <td id="republicanUsers"></td>
+                                    <td id="democratUsers"></td>
+                                    <td id="greenUsers"></td>
+                                    <td id="libertarianUsers"></td>
+                                    <td id="otherUsers"></td>
                                 </tr>
                                 <tr>
                                     <th scope="row">Percent of total</th>
-                                    <td>100%</td>
-                                    <td>0%</td>
-                                    <td>10%</td>
-                                    <td>20%</td>
-                                    <td>30%</td>
-                                    <td>40%</td>
+                                    <td id="totalPercent">100%</td>
+                                    <td id="republicanPercent">%</td>
+                                    <td id="democratPercent">%</td>
+                                    <td id="greenPercent">%</td>
+                                    <td id="libertarianPercent">%</td>
+                                    <td id="otherPercent">%</td>
                                 </tr>
                             </tbody>
                         </table>
