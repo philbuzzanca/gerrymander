@@ -72,6 +72,7 @@ $(document).ready(function() {
 });
 
 function mapFocus(state) {
+    $("#startAlgoBtn").attr("disabled", "disabled");
     if (!state){
         return;
     }
@@ -84,8 +85,8 @@ function mapFocus(state) {
         }).addTo(mymap);
     });
     // Need to initialize state on server side as well.
-    $.get(`/state/${state}`).then(() => console.log("OK!")).catch(() => console.log("ERR!"));
-    // $($("#precinctOptions").hide());
+    $.get(`/state/${state}`).then(() => $('#startAlgoBtn').removeAttr("disabled"))
+            .catch(() => console.log("ERR!"));
     mymap.flyTo(stateFocus[state], stateZoom[state]);
 }
 
