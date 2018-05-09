@@ -94,8 +94,9 @@ public class Algorithm {
 		return null;
 	}
 
-	public void startAlgorithm() {
+	public void setup() {
 		state.calculateDistrictGoodness(measures);
+                state.setBorderStatus();
 	}
 
 	public void runAlgorithm() {
