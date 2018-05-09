@@ -72,6 +72,7 @@ $(document).ready(function() {
 });
 
 function mapFocus(state) {
+    firstPlay = true;
     if (!state){
         return;
     }
