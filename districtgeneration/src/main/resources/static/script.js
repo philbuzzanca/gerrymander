@@ -115,3 +115,9 @@ $(document).ready(function(){
         mapFocus($('#stateSelect').val());
     });
 });
+
+$(document).ready(function(){
+    $("#saveMapButton").click(() => {
+        $.get("/saveMoves").then(() => console.log("OK!")).catch(() => console.log("ERR!"));
+    });
+});
