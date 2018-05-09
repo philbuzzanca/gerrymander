@@ -35,12 +35,13 @@ public enum AllMeasures implements Measure {
 	}, RACIAL_FAIRNESS {
 		@Override
 		public double calculateGoodness(CongressionalDistrict district, State state) {
-			if (true)
-				return 0;
+			//if (true)
+			//	return 0;
 
 			// TODO: Fill in an approach considering all races
 			Map<Race, Long> cdRaces = district.summarize().getRaces();
 			Map<Race, Long> stateRaces = state.summarize().getRaces();
+                        
 
 			double cdWhitePop = 0;
 			double cdOtherPop = 0;
