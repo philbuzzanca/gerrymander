@@ -431,7 +431,7 @@
                                             racialOut.innerHTML = this.value;
                                         };
                                     </script>
-                                    <button id="startAlgoBtn" type="submit" class="btn btn-primary" style="width:100%">Build</button>   
+                                    <button id="startAlgoBtn" type="submit" class="btn btn-primary" style="width:100%" disabled="disabled">Build</button>   
                                 </div>
                             </div>
                             <hr>
