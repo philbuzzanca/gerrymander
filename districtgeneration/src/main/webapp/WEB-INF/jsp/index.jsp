@@ -341,7 +341,7 @@
                         <div class="dropdown">
                             <button type="button" class="btn btn-primary dropdown-toggle" id="toolsButton" data-toggle="dropdown" style="width:100%">Tools</button>
                             <div class="dropdown-menu" style="width:100%">
-                                <button class="dropdown-item" type="button">Run algorithm</button>
+                                <button class="dropdown-item" type="button" id="runalgobutton">Run algorithm</button>
                                 <button class="dropdown-item" type="button" data-toggle="modal" data-target="#compareDistrictsModal">Compare districts</button>
                                 <button id="resetMap" class="dropdown-item" type="button">Reset map</button>
                             </div>
