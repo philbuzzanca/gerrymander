@@ -27,6 +27,8 @@ function build(state, constraints, measures){
     });
 }
 
+var firstPlay = true;
+
 $(document).ready(function(){
     $('#runningAlgo').hide();
     $('#pause').hide();
@@ -48,6 +50,15 @@ $(document).ready(function(){
         build($('#stateSelect').val(), constraints, measures);
     });
     $("#play").click(() => {
+        if(firstPlay) {
+            firstPlay = false;
+            currentLayer.eachLayer(function(layer){
+            layer.setStyle({
+                fillColor : getColor(layer.feature.properties.CD),
+                fillOpacity : 0.3
+            });
+        });
+        }
         // $("#play").hide();
         // $("#pause").show();
         $.post("/runIteration").then(function(res){
@@ -58,7 +69,18 @@ $(document).ready(function(){
              * destDistrict(int)
              * precinct(int)
              */ 
-            console.log(res)
+            for(let i = 0; i < res.length; i++){
+                let src = res[i].sourceDistrict;
+                let dest = res[i].destDistrict;
+                let precinct = res[i].precinct;
+                currentLayer.eachLayer(function(layer){
+                    if (parseInt(layer.feature.properties.CODE) === precinct){
+                        layer.setStyle({
+                            fillColor : getColor(dest)
+                        });
+                    }
+                });
+            }
         }).catch(() => console.log("ERR!"));
     });
     $("#pause").click(() => {

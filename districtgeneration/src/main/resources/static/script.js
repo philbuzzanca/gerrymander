@@ -72,6 +72,7 @@ $(document).ready(function() {
 });
 
 function mapFocus(state) {
+    firstPlay = true;
     $("#startAlgoBtn").attr("disabled", "disabled");
     if (!state){
         return;
