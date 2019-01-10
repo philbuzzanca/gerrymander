@@ -18,6 +18,7 @@ function build(state, constraints, measures){
         currentLayer.eachLayer(function(layer){
             let relativeGoodness = 255 - Math.floor(data[layer.feature.properties.CD] / maxGoodness * 255);
             let heat = "#" + relativeGoodness.toString(16) + "0000";
+            console.log(heat);
             layer.setStyle({
                 fillColor : heat,
                 fillOpacity : 1
@@ -27,14 +28,6 @@ function build(state, constraints, measures){
 }
 
 $(document).ready(function(){
-    $('#runalgobutton').click((event) => {
-        currentLayer.eachLayer(function(layer){
-            layer.setStyle({
-                fillColor : getColor(layer.feature.properties.CD),
-                fillOpacity : 0.4
-            });
-        });
-    });
     $('#runningAlgo').hide();
     $('#pause').hide();
     $("#startAlgoBtn").click((event) => {
@@ -57,7 +50,6 @@ $(document).ready(function(){
     $("#play").click(() => {
         // $("#play").hide();
         // $("#pause").show();
-        
         $.post("/runIteration").then(function(res){
             // res will contain the array of moves to make (array of Move objects)
             /**
@@ -66,16 +58,7 @@ $(document).ready(function(){
              * destDistrict(int)
              * precinct(int)
              */ 
-            currentLayer.eachLayer(function(layer){
-                res.forEach(function(element){
-                    if (element.precinct === parseInt(layer.feature.properties.CODE, 10)){
-                        layer.setStyle({
-                            fillColor : getColor(element.destDistrict),
-                            fillOpacity : 1.0
-                        });
-                    }
-                });
-            });
+            console.log(res)
         }).catch(() => console.log("ERR!"));
     });
     $("#pause").click(() => {
