@@ -21,7 +21,7 @@ public class State implements Cloneable, Serializable {
         congressionalDistricts = new ArrayList<>();
         name = "";
         goodness = 0;
-        hasUpdated = false;
+        hasUpdated = true;
         stat = new Stats();
     }
 

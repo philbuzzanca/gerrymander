@@ -1,5 +1,6 @@
 package com.orioles.controller;
 
+import com.google.gson.Gson;
 import com.orioles.constants.Constants;
 import com.orioles.districtgeneration.AllMeasures;
 import com.orioles.districtgeneration.Constraint;
@@ -7,6 +8,7 @@ import com.orioles.exceptions.NoSuchStateException;
 import com.orioles.helper_model.Pair;
 import com.orioles.model.*;
 import com.orioles.persistence.PrecinctRepository;
+import com.orioles.persistence.UsermovesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpSession;
 import java.util.*;
+import org.springframework.web.bind.annotation.GetMapping;
 
 @RestController
 public class AlgoController {
@@ -23,6 +26,10 @@ public class AlgoController {
     private HttpSession httpSession;
     @Autowired
     private Environment environment;
+    @Autowired
+    private Gson gson;
+    @Autowired
+    private UsermovesRepository usermovesRepository;
 
     @PostMapping("/startAlgo")
     public Map<Integer, Double> startAlgo(@RequestParam Map<String, String> settings) {
@@ -69,5 +76,18 @@ public class AlgoController {
         algo.runAlgorithm();
         httpSession.setAttribute("algo", algo);
         return algo.getCurrMoves();
+    }
+    
+    @GetMapping("/saveMoves")
+    public String saveMoves() {
+        Usermoves moveList = new Usermoves();
+        final String userAttribute = environment.getProperty("orioles.session.user");
+        Algorithm algo = (Algorithm) httpSession.getAttribute("algo");
+        String moveListJson = gson.toJson(algo.getMasterMoves());
+        User user = (User) httpSession.getAttribute("user");
+        moveList.setMoves(moveListJson);
+        moveList.setUsername(user.getUsername());
+        usermovesRepository.save(moveList);
+        return environment.getProperty("orioles.statuscode.success");
     }
 }
